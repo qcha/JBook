@@ -79,3 +79,4 @@ final int[] i = {0};
  * Strategy (Стратегия);
  * Template method (Шаблонный метод);
  * Visitor (Посетитель).
+* Deflater
