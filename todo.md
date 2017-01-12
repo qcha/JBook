@@ -80,3 +80,4 @@ final int[] i = {0};
  * Template method (Шаблонный метод);
  * Visitor (Посетитель).
 * Deflater
+* Guava
