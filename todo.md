@@ -81,3 +81,4 @@ final int[] i = {0};
  * Visitor (Посетитель).
 * Deflater
 * Guava
+* org.apache.commons.pool2
