@@ -39,8 +39,6 @@ private static String buildStringByGuavaWithNull(List<String> stringList, String
 
 Здесь мы можем явно указать, что хотим видеть вместо `null`.
 
-
-
 Стоит отметить:
 * Результат работы `Joiner` получается благодаря вызову метода `toString()` у объекта.
 Это значит, что если мы явно не обговорим что делать с `null` значениями - будет выброшено `NPE`.
