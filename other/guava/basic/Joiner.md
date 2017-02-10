@@ -1,5 +1,5 @@
-## Основные утилиты
 ### Joiner
+#### Зачем нужно?
 Часто возникают ситуации, когда нам необходимо собрать строку из элементов, разделенных некоторым
 разделителем.
 Без использования посторонних стредств это можно сделать так:
@@ -23,6 +23,7 @@ public String buildString(List<String> stringList, String delimiter) {
 
 Поэтому и появился класс `Joiner`:
 
+#### Пример использования.
 То же самое, но через `Joiner`:
 ```java
 public String buildStringByGuava(List<String> stringList, String delimiter) {
