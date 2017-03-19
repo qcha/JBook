@@ -1,5 +1,5 @@
 ### Equals
-Метод `equals()` содержится в Object, а значит есть у всех классов в Java.
+Метод `equals()` содержится в `Object`, а значит есть у всех классов в `Java`.
 Он является важнейшей частью работы с объектами.
 
 Как выглядит по умолчанию:
@@ -9,13 +9,15 @@
     }
 ```
 
-Т.е по умолчанию он проверяет является ли объект obj тем же самым объектом, у которого вызвали equals.
+Т.е по умолчанию он проверяет является ли объект obj тем же самым объектом, у которого вызвали `equals`.
 Если сравнить два различных объекта с одними и теми же полями - получим `false`.
 
-Так как же правильно работать с equals?
+Так как же правильно работать с `equals`?
 
 ## Переопределяем equals
 Основные правила:
+* Проверяем на то, что obj является или нет `null`, чтобы обезопасить себя от `NPE`.
+Если да - то `false`, если нет - `true`.
 * Проверяем на то, что obj является или нет ссылкой на указанный объект.
 Если да - то `true`, если нет - `false`.
 * Проверяем на то, что объект имеет верный тип с помощью `instanceof`. Если нет - `false`.
@@ -37,9 +39,9 @@ field == null ? o.field == null : field.equals(o.field)
 ```java
 public boolean equals( MyClass obj){}
 ```
-Этот метод не переопределяет equals у Object.
+Этот метод не переопределяет `equals` у `Object`.
 
-Пример реализации equals:
+Пример реализации `equals`:
 ```java
 public class Person {
     private int age;
@@ -71,10 +73,51 @@ public class Person {
 
         if (tPerson.age != this.age ||
                 !tPerson.name.equals(this.name) ||
-                tPerson.number != this.number ||
+                tPerson.number != this.number ||  //need to check for NPE
                 (Double.compare(tPerson.salary, this.salary) != 0) ||
-                tPerson.carKey.equals(carKey)) {
+                tPerson.carKey.equals(carKey)) //need to check for NPE
+              {
             return false;
+        }
+
+        return true;
+    }
+  }
+```
+
+Все это можно записать проще, если мы используем `Java 7+` версии:
+```java
+public class Person {
+    private int age;
+    private int number;
+    private double salary;
+    private String name;
+    private CarKey carKey;
+
+    public Person(int age, int number, String name, double salary, CarKey carKey) {
+        this.age = age;
+        this.number = number;
+        this.name = name;
+        this.salary = salary;
+        this.carKey = carKey;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null)
+            return false;
+
+        if (obj == this)
+            return true;
+
+        if (!(obj instanceof Person))
+            return false;
+
+        Person tPerson = (Person) obj;
+
+        return Objects.equals(age, tPerson.age) && Objects.equals(number, tPerson.number) &&
+                Objects.equals(salary, tPerson.salary) && Objects.equals(name, tPerson.name) &&
+                Objects.equals(carKey, tPerson.carKey) && Objects.equals(carKey, tPerson.carKey);
         }
 
         return true;
