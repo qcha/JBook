@@ -69,13 +69,13 @@ public class Person {
         if (!(obj instanceof Person))
             return false;
 
-        Person tPerson = (Person) obj;
+        Person that = (Person) obj;
 
-        if (tPerson.age != this.age ||
-                !tPerson.name.equals(this.name) ||
-                tPerson.number != this.number ||  //need to check for NPE
-                (Double.compare(tPerson.salary, this.salary) != 0) ||
-                tPerson.carKey.equals(carKey)) //need to check for NPE
+        if (that.age != this.age ||
+                !that.name.equals(this.name) ||
+                that.number != this.number ||  //need to check for NPE
+                (Double.compare(that.salary, this.salary) != 0) ||
+                that.carKey.equals(carKey)) //need to check for NPE
               {
             return false;
         }
@@ -113,11 +113,11 @@ public class Person {
         if (!(obj instanceof Person))
             return false;
 
-        Person tPerson = (Person) obj;
+        Person that = (Person) obj;
 
-        return Objects.equals(age, tPerson.age) && Objects.equals(number, tPerson.number) &&
-                Objects.equals(salary, tPerson.salary) && Objects.equals(name, tPerson.name) &&
-                Objects.equals(carKey, tPerson.carKey) && Objects.equals(carKey, tPerson.carKey);
+        return Objects.equals(age, that.age) && Objects.equals(number, that.number) &&
+                Objects.equals(salary, that.salary) && Objects.equals(name, that.name) &&
+                Objects.equals(carKey, that.carKey) && Objects.equals(carKey, that.carKey);
         }
 
         return true;
