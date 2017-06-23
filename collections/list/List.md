@@ -12,9 +12,9 @@
 
 Разумеется `List` параметризован, но про параметризацию - //todo ссылка отдельно.
 
-Основные вещи, которые List добавляет это:
+Основные вещи, которые `List` добавляет это:
 * `get(int index)`
-* `set(int index, Object)`
+* `add(int index, E element)`
 * `indexOf(Object)`
 * `subList(int fromIndex, int toIndex)`
 * `listIterator()`
