@@ -1,6 +1,6 @@
 Попробую суммировать все, что знаю про ссылки в Java
 
-###Ссылки
+### Ссылки
 Прежде всего обратимся к Java-doc:
 >An object is a class instance or an array.
 >
