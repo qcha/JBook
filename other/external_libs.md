@@ -24,3 +24,5 @@
   ```java
   FileUtils.writeStringToFile(File file, String str, boolean append)
   ```
+
+### zip4j
