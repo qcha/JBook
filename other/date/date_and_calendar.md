@@ -1,4 +1,6 @@
-### `java.util.Date` и `java.util.Calendar`.
+## Java API
+### java.util.Date и java.util.Calendar.
+
 До `Java 8`, в стандартной библиотеке существовал(и существует) класс для задания точки на временной оси - и этот класс
 `java.util.Date`. Рассматривать мы его будем вместе с `java.util.Calendar` - классом использующимся для операций с временем.
 
