@@ -138,8 +138,8 @@ public static void main(String[] args) {
 Также очень часто статическое поле используется для создания констант:
 ```java
 final class FileUtils {
-public static final char SEPARATOR = ';';
-public static final int BATCH_SIZE = ';';
+  public static final char SEPARATOR = ';';
+  public static final int BATCH_SIZE = ';';
 }
 ```
 И тут, я думаю, все понятно - константа и есть константа.
