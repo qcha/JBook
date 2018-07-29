@@ -12,10 +12,10 @@
 
 ### Основные методы
 Основные методы, на момент `Java 8`:
-* [toString](./ToString.md)
-* [clone](./Clone.md)
-* [hashCode](./Hashcode.md)
-* [equals](./Equals.md)
+* [toString](./toString.md)
+* [clone](./clone.md)
+* [hashCode](./hashcode.md)
+* [equals](./equals.md)
 * [finalize](./finalize.md)
 * [getClass](./getClass.md)
 * `wait(long timeout)`

@@ -140,7 +140,7 @@ public static PersonToClone newInstance(PersonToClone personToClone) {
     return new PersonToClone(personToClone.getName(), personToClone.getAge(), new Hobby(personToClone.hobby.getName()));
 }
 ```
-### Заключение:
+### Заключение
 * Все методы, реализующие `Cloneable` должны переопределять `clone()` и делать его открытым.
 * В переопределенном методе необходимо сначала вызвать `super.clone()`, после чего начать работать с полями, значения которых могут изменяться, т.е надо заменять все ссылки на объекты соответствующими копиями.
 * Лучше всего - рассмотреть альтернативы использования метода `clone` в виде создания конструктора копирования.
