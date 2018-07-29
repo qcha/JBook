@@ -137,7 +137,11 @@ protected PersonToCloneBetter clone() throws CloneNotSupportedException {
 Пример:
 ```java
 public static PersonToClone newInstance(PersonToClone personToClone) {
-    return new PersonToClone(personToClone.getName(), personToClone.getAge(), new Hobby(personToClone.hobby.getName()));
+    return new PersonToClone(
+      personToClone.getName(),
+      personToClone.getAge(),
+      new Hobby(personToClone.hobby.getName())
+    );
 }
 ```
 ### Заключение

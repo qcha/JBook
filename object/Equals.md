@@ -150,10 +150,13 @@ public boolean equals(Object obj) {
 
 * Не забывайте, что метод принимает `java.lang.Object`, поэтому изменение сигнатуры метода - это не переопределение и о таком методе будете знать только вы.
 
-> Объявление equals в виде
->```java
-> public boolean equals(MyClass obj) {
->  // some logic
-> }
-> ```
-> Является ошибкой, так как этот метод не переопределяет `equals` у `java.lang.Object`.
+  Объявление `equals` в виде
+```java
+public boolean equals(MyClass obj) {
+   // some logic
+}
+```
+Является ошибкой, так как этот метод не переопределяет `equals` у `java.lang.Object`.
+
+
+> Помните, что большинство IDE сейчас легко сгенерируют вам `equals`, чтобы вы не писали его вручную, а при любви к аннотациям вы можете воспользоваться проектом [lombok](https://projectlombok.org/).
