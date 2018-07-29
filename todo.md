@@ -16,8 +16,8 @@
 * classpath
 * Objects.equals Objects.hash and Objects class from java 7.
 * System.exit(res ? 0 : 1);
-* order of class initializing
 * в блоке инициализации можно пользоваться не только публичным API, но и protected
+* SOLID GRASP
 ```
         Map<String, String> a = new HashMap<String, String>(){{
 
@@ -79,7 +79,6 @@ final int[] i = {0};
  * Template method (Шаблонный метод);
  * Visitor (Посетитель).
 * Deflater
-* Guava
 * org.apache.commons.pool2
 * Exceptions
 ```
