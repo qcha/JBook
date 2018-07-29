@@ -46,11 +46,13 @@
 * [Object в Java](object)
 
   `java.lang.Object` - корень иерархии классов в `Java`. Все о главном классе в `Java` и его методах.
-  1. [Введение](object/Intro.md)
-  2. [ToString](object/ToString.md)
-  3. [Equals](object/Equals.md)
-  4. [Hashcode](object/Hashcode.md)
-  5. [Clone](object/Clone.md)
+  1. [Введение](object/intro.md)
+  2. [ToString](object/toString.md)
+  3. [Equals](object/equals.md)
+  4. [Hashcode](object/hashcode.md)
+  5. [Clone](object/clone.md)
+  6. [Finalize](object/finalize.md)
+  7. [getClass](object/getClass.md)
 
 
 * [Исключения в Java](exceptions)
