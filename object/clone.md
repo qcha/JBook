@@ -14,7 +14,9 @@ protected native Object clone() throws CloneNotSupportedException;
 Клонировать можно только те объекты, которые реализуют интерфейс `java.lang.Cloneable`.
 Данный интерфейс является интерфейсом-марекром, как и `Serializable`.
 
-Если объект не реализует интерфейс-маркер `java.lang.Cloneable`, то выбросится исключение `CloneNotSupportedException`.
+Если объект не реализует интерфейс-маркер `java.lang.Cloneable`, то выбросится исключение `java.lang.CloneNotSupportedException`.
+
+> Подробнее про [интерфейсы](../oop/interface.md)
 
 По умолчанию `clone` определяет *поверхностное* копирование - копируются значения всех полей и **ссылок**.
 
