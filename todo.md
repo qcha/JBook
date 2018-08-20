@@ -1,4 +1,5 @@
 ### TODO List
+* Optional
 * JUnit4 and Rule, testing
 * Article about properties
 * Article about Collections
