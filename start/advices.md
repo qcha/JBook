@@ -67,7 +67,7 @@ StringBuilder s = new StringBuilder();
 
 При этом надо понимать, что всегда, когда вам **не** нужна синхронизация - использовать надо `StringBuilder`.
 В случае же, если вы из нескольких потоков делаете строку(т.е нужна синхронизация) - используйте `StringBuffer`.
-Его методы являются синхронизированными(`synchronized`).
+Его методы являются синхронизированными(`synchronized`), и в результате `StringBuffer` на порядок медленнее `StringBuilder`.
 
 
 #### instanceOf
@@ -101,5 +101,12 @@ Collections.emptyList();
 Collections.emptyMap();
 Collections.emptySet();
 ```
-
 Про пустые коллекции я писал [Empty in Collection](../collections/EmptyCollections.md).
+
+В java8 появился специальный тип для защиты от NPE: `Optional`:
+```java
+public Optional<Book> getBooksByAuthor(String authorName) {
+  //do some work
+  return Optional.empty();
+}
+```
