@@ -75,6 +75,16 @@
 
 Паттерны в `Java` и их использование.
 
+### Порождающие
+
+* [Builder](../patterns/builder.md)
+* [Factory](../patterns/factory.md)
+* [Singleton](../patterns/singleton.md)
+
+### Поведенческие
+
+### Структурные
+
 ## Дата и время в Java
 
 1. [Введение](../other/date/intro.md)
