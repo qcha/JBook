@@ -102,7 +102,10 @@
 
 Все что касается алгоритмов и их реализации на `Java`, с подробным описанием.
 
-1. [Алгоритмы поиска](../algorithms/search)
-    * [Бинарный поиск](../algorithms/search/binary.md)
-2. [Алгоритмы сортировки](../algorithms/sorting)
-    * [Сортировка пузырьком](../algorithms/sorting/bubble.md)
+### Алгоритмы поиска
+
+* [Бинарный поиск](../algorithms/search/binary.md)
+
+### Алгоритмы сортировки
+
+* [Сортировка пузырьком](../algorithms/sorting/bubble.md)
