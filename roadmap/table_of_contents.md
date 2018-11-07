@@ -43,7 +43,7 @@
 
 Исключения и все о работе с ними.
 
-1. [Исключения в Java](../exceptions/exceptions.md)
+1. [Исключения в Java](../exceptions/Exceptions.md)
 
 ## Коллекции в Java
 
