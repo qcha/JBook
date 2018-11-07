@@ -227,10 +227,10 @@ class Square extends Rectangle {
 
 Примеры кода по каждому принципу:
 
-* [SOLID Примеры](https://github.com/qcha/SOLID)
+[SOLID Примеры](https://github.com/qcha/SOLID)
 
 Принципы из дополнения:
 
-* [YAGNI](https://ru.wikipedia.org/wiki/YAGNI)
-* [KISS](https://ru.wikipedia.org/wiki/KISS_(%D0%BF%D1%80%D0%B8%D0%BD%D1%86%D0%B8%D0%BF))
-* [DRY](https://ru.wikipedia.org/wiki/Don%E2%80%99t_repeat_yourself)
+1. [YAGNI](https://ru.wikipedia.org/wiki/YAGNI)
+2. [KISS](https://ru.wikipedia.org/wiki/KISS_(%D0%BF%D1%80%D0%B8%D0%BD%D1%86%D0%B8%D0%BF))
+3. [DRY](https://ru.wikipedia.org/wiki/Don%E2%80%99t_repeat_yourself)

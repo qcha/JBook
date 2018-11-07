@@ -517,3 +517,5 @@ public class TestChild extends TestParent {
 2. [Разница между модификаторами доступа StackOverFlow](https://stackoverflow.com/questions/215497/in-java-difference-between-package-private-public-protected-and-private)
 3. [Модификатор доступа у конструктора StackOverFlow](https://stackoverflow.com/questions/13541386/default-access-modifier-for-a-java-constructor)
 4. [Официальная документация](https://docs.oracle.com/javase/tutorial/java/javaOO/accesscontrol.html)
+
+Также стоит познакомиться с [SOLID](./SOLID.md)
