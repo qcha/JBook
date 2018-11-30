@@ -49,7 +49,7 @@
 
 Все про коллекции в `Java`. `Generics`.
 
-1. [Введение](../collections/intro.md)
+1. [Введение](../collections/Intro.md)
 2. [List](../collections/list/List.md)
   * [ArrayList](../collections/list/ArrayList.md)
   * [LinkedList](../collections/list/LinkedList.md)
