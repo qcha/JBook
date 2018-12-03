@@ -49,12 +49,12 @@
 
 Все про коллекции в `Java`. `Generics`.
 
-1. [Введение](../collections/Intro.md)
-2. [List](../collections/list/List.md)
-  * [ArrayList](../collections/list/ArrayList.md)
-  * [LinkedList](../collections/list/LinkedList.md)
+1. [Введение](../collections/intro.md)
+2. [List](../collections/list/intro.md)
+  * [ArrayList](../collections/list/array_list.md)
+  * [LinkedList](../collections/list/linked_list.md)
 3. Общие советы.
-* [Что делать, когда вам нужна пустая коллекция](../collections/EmptyCollections.md)
+* [Что делать, когда вам нужна пустая коллекция](../collections/empty_collections.md)
 
 ## Сериализация
 
