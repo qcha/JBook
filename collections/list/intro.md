@@ -58,6 +58,18 @@ public interface List<E> extends Collection<E> {
 
 Поэтому типа `int` для значений индекса у списка вполне хватает, можно даже сказать, что с запасом. 
 
+Например, максимальный размер `java.util.ArrayList`:
+
+```java
+    /**
+     * The maximum size of array to allocate.
+     * Some VMs reserve some header words in an array.
+     * Attempts to allocate larger arrays may result in
+     * OutOfMemoryError: Requested array size exceeds VM limit
+     */
+    private static final int MAX_ARRAY_SIZE = Integer.MAX_VALUE - 8;
+```
+
 ---
 
 Еще одним интересным моментом является то, что `java.util.List` добавляет специальный итератор по списку.
