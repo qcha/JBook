@@ -111,8 +111,8 @@ public interface ListIterator<E> extends Iterator<E> {
 
 Поэтому сосредоточим свое внимание на первых двух:
 
-* Подробнее про [java.util.ArrayList](./ArrayList.md)
-* Подробнее про [java.util.LinkedList](./LinkedList.md)
+* Подробнее про [java.util.ArrayList](./array_list.md)
+* Подробнее про [java.util.LinkedList](./linked_list.md)
 
 ## Выбор реализации
 
