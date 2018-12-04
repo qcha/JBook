@@ -111,10 +111,36 @@ public interface ListIterator<E> extends Iterator<E> {
 
 Поэтому сосредоточим свое внимание на первых двух:
 
-* Подробнее про [ArrayList](./ArrayList.md)
-* Подробнее про [LinkedList](./LinkedList.md)
+* Подробнее про [java.util.ArrayList](./ArrayList.md)
+* Подробнее про [java.util.LinkedList](./LinkedList.md)
 
 ## Выбор реализации
+
+> Забегая вперед скажу, что сейчас с `Java 8+` советуют использовать только `java.util.ArrayList`.
+
+Основное техническое отличие `java.util.ArrayList` от `java.util.LinkedList` состоит в том, что `java.util.ArrayList` использует `native` методы для увеличения размера, в то время как `java.util.LinkedList` полностью написана на `Java`.
+
+Из-за этого реализация `java.util.ArrayList` сейчас более быстродейственна и рекомендуется использовать именно `java.util.ArrayList` при выборе реализации `java.util.List`.
+
+Также стоит отметить, что `java.util.ArrayList` предоставляет более низкие затраты по хранению объектов, в отличии от `java.util.LinkedList`.
+
+Связано это с тем, что `java.util.LinkedList` хранит объекты в классе-обертке `Node`, который помимо хранимого объекта имеет еще ссылки на следующий и предыдущий элемент:
+
+```java
+    private static class Node<E> {
+        E item;
+        Node<E> next;
+        Node<E> prev;
+
+        Node(Node<E> prev, E element, Node<E> next) {
+            this.item = element;
+            this.next = next;
+            this.prev = prev;
+        }
+    }
+```
+
+Это накладывает дополнительные расходы на хранение объектов.
 
 После ознакомления с реализациями списков в `Java` предлагаю разобрать классическую задачу с собеседований.
 
@@ -128,8 +154,6 @@ public interface ListIterator<E> extends Iterator<E> {
 
 **Ответ**:
 
-> Забегая вперед можно скзаать, что сейчас с `Java 8+` советуют использовать только `java.util.ArrayList`.
-
 В более ранних версиях `Java` действительно имел место выбор между реализациями.
 
 Главный вопрос, после которого можно выбрать реализацию: куда мы добавляем все элементы?
@@ -138,4 +162,89 @@ public interface ListIterator<E> extends Iterator<E> {
 
 Однако, как уже было скзаано выше, в настоящий момент предпочтительнее всегда выбирать `java.util.ArrayList`.
 
+---
+
+Еще одной интересной задачей является:
+
+---
+
+**Вопрос**:
+
+Посмотрите на следующий код:
+
+```java
+import java.util.ArrayList;
+import java.util.List;
+
+public class Test {
+    public static void main(String[] args) {
+        List<String> lst = new ArrayList<>();
+        lst.add("Hello");
+        lst.add("Hello2");
+        lst.add("Hello3");
+        lst.add("Hello4");
+        lst.add("World");
+        lst.add("World1");
+        lst.add("World12");
+
+        for (String line : lst) {
+            if (line.equals("World")) {
+                lst.remove(line);
+            }
+        }
+
+        System.out.println(lst);
+    }
+}
+```
+
+Будет ли он работать?
+
+**Ответ**:
+
+Нет! Не будет!
+
+При запуске нашего кода выбрасывается исключение:
+
+```java
+Exception in thread "main" java.util.ConcurrentModificationException
+	at java.util.ArrayList$Itr.checkForComodification(ArrayList.java:909)
+	at java.util.ArrayList$Itr.next(ArrayList.java:859)
+	at examples.Test.main(Test.java:18)
+```
+
+Дело в том, что список хранит переменную `modCount`, которая отвечает за количество раз, которое список был изменен.
+
+В момент, когда создается итератор на список это число присваивается переменной итератора `expectedModCount`.
+
+И если в момент итерирования список изменяется, то `modCount` также изменяется и становится не таким же, как у итератора.
+
+Отсюда и возникает исключение, так как итератор ничего не знает о том, что список был изменен.
+
+Как избежать этой проблемы?
+
+Существует несколько способов:
+
+1. Использование `for`-цикла:
+   ```java
+    String line;
+    for (int i = 0; i < lst.size() - 1; i++) {
+        line = lst.get(i);
+        if (line.equals("World")) {
+            lst.remove(line);
+        }
+    }
+   ``` 
+2. Удалять элемент явно с помощью итератора:
+    ```java
+    Iterator<String> iterator = lst.iterator();
+
+    String line;
+    while (iterator.hasNext()) {
+        line = iterator.next();
+        if (line.equals("World")) {
+            iterator.remove();
+        }
+    }
+    ```
 ---
