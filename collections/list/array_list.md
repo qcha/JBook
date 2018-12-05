@@ -140,6 +140,7 @@ int newCapacity = oldCapacity + (oldCapacity >> 1);
 ### Добавление в середину или начало
 
 Для добавления элемента в конкретную ячейку по индексу у `java.util.ArrayList` отвечает метод:
+
 ```java
     /**
      * Inserts the specified element at the specified position in this
@@ -240,7 +241,6 @@ size++;
 ```
 
 В начале идет привычная проверка на то, не выходит ли индекс за рамки списка.
-
 
 После чего идет смещение всех элементов **влево**:
 
