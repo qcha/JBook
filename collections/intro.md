@@ -9,7 +9,7 @@
 
 Иерархия существующих структр данных в `Java` выглядит следующим образом:
 
-![](../images/collections/collections.png)
+<img src="../images/collections/collections.png" width=4690 height=1853>
 
 > `Зеленым` шрифтом выделены абстрактные классы.
 >
