@@ -74,7 +74,7 @@ public interface List<E> extends Collection<E> {
 
 Еще одним интересным моментом является то, что `java.util.List` добавляет специальный итератор по списку.
 
-### ListIterator
+### Интерфейс java.util.ListIterator
 
 Интерфейс `java.util.ListIterator` предоставляет возможность вставлять и заменять элементы списка, а также производить перебор элементов в двух направлениях.
 
@@ -94,7 +94,7 @@ public interface ListIterator<E> extends Iterator<E> {
 
 Это расширенный итератор, который позволяет двигаться еще и в обратном порядке.
 
-## Реализации List
+## Реализации java.util.List
 
 В `Java` существует 4 стандартных реализации `java.util.List`:
 
