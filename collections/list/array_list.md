@@ -86,7 +86,7 @@ public ArrayList(int initialCapacity) {
 
 ### Добавление в конец
 
-Для добавления элемента в конец у `java.util.ArrayList` отвечает метод:
+За добавление элемента в конец у `java.util.ArrayList` отвечает метод:
 
 ```java
     /**
@@ -139,7 +139,7 @@ int newCapacity = oldCapacity + (oldCapacity >> 1);
 
 ### Добавление в середину или начало
 
-Для добавления элемента в конкретную ячейку по индексу у `java.util.ArrayList` отвечает метод:
+За добавление элемента в конкретную ячейку по индексу у `java.util.ArrayList` отвечает метод:
 
 ```java
     /**
@@ -213,7 +213,7 @@ size++;
 
 ### Удаление по индексу
 
-Для удаления по индексу у `java.util.ArrayList` отвечает метод:
+За удаление по индексу у `java.util.ArrayList` отвечает метод:
 
 ```java
     /**
@@ -268,7 +268,7 @@ elementData[--size] = null; // clear to let GC do its work
 
 ### Удаление по значению
 
-Для удаления по значению у `java.util.ArrayList` отвечает метод:
+За удаление по значению у `java.util.ArrayList` отвечает метод:
 
 ```java
     /**
