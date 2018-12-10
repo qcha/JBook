@@ -60,9 +60,9 @@ public interface Set<E> extends Collection<E> {
 
 Из рисунка видно, что в `Java` существует три наиболее популярных реализаций интерфейса `java.util.Set`:
 
-* [java.util.HashSet](./set/hash_set.md)
-* [java.util.TreeSet](./set/tree_set.md)
-* [java.util.LinkedHashSet](./set/linked_hash_set.md)
+* [java.util.HashSet](./hash_set.md)
+* [java.util.TreeSet](./tree_set.md)
+* [java.util.LinkedHashSet](./linked_hash_set.md)
 
 ### Выбор реализации
 
