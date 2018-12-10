@@ -47,14 +47,23 @@
 
 ## Коллекции в Java
 
-Все про коллекции в `Java`. `Generics`.
+Все про коллекции в `Java` и `Generics`.
 
 1. [Введение](../collections/intro.md)
-2. [List](../collections/list/intro.md)
-  * [ArrayList](../collections/list/array_list.md)
-  * [LinkedList](../collections/list/linked_list.md)
-3. Общие советы.
-* [Что делать, когда вам нужна пустая коллекция](../collections/empty_collections.md)
+2. [java.util.List](../collections/list/intro.md)
+    * [java.util.ArrayList](../collections/list/array_list.md)
+    * [java.util.LinkedList](../collections/list/linked_list.md)
+3. [java.util.Set](../collections/set/intro.md)
+    * [java.util.HashSet](../collections/set/hash_set.md)
+    * [java.util.LinkedHashSet](../collections/set/linked_hash_set.md)
+    * [java.util.TreeSet](../collections/set/tree_set.md)
+4. [java.util.Map](../collections/map/intro.md)
+    * [java.util.HashMap](../collections/map/hash_map.md)
+    * [java.util.LinkedHashMap](../collections/map/linked_hash_map.md)
+    * [java.util.TreeMap](../collections/map/tree_map.md)
+5. [Generics](../collections/generics/generics.md)
+5. Общие советы.
+    * [Что делать, когда вам нужна пустая коллекция](../collections/empty_collections.md)
 
 ## Сериализация
 
