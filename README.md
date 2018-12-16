@@ -28,4 +28,9 @@
 >
 > Не все статьи внесены в путеводитель.
 
+
 [Путеводитель](roadmap/table_of_contents.md)
+
+Copyright 2016-2018 Aleksandr Kuchuk.
+
+All Rights Reserved.

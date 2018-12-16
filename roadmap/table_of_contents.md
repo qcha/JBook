@@ -47,18 +47,33 @@
 
 ## Коллекции в Java
 
-Все про коллекции в `Java`. `Generics`.
+Все про коллекции в `Java` и `Generics`.
 
 1. [Введение](../collections/intro.md)
-2. [List](../collections/list/List.md)
-  * [ArrayList](../collections/list/ArrayList.md)
-  * [LinkedList](../collections/list/LinkedList.md)
-3. Общие советы.
-* [Что делать, когда вам нужна пустая коллекция](../collections/EmptyCollections.md)
+2. [java.util.List](../collections/list/intro.md)
+    * [java.util.ArrayList](../collections/list/array_list.md)
+    * [java.util.LinkedList](../collections/list/linked_list.md)
+3. [java.util.Set](../collections/set/intro.md)
+    * [java.util.HashSet](../collections/set/hash_set.md)
+    * [java.util.LinkedHashSet](../collections/set/linked_hash_set.md)
+    * [java.util.TreeSet](../collections/set/tree_set.md)
+4. [java.util.Map](../collections/map/intro.md)
+    * [java.util.HashMap](../collections/map/hash_map.md)
+    * [java.util.LinkedHashMap](../collections/map/linked_hash_map.md)
+    * [java.util.TreeMap](../collections/map/tree_map.md)
+5. [Generics](../collections/generics/generics.md)
+5. Общие советы.
+    * [Что делать, когда вам нужна пустая коллекция](../collections/empty_collections.md)
 
 ## Сериализация
 
   Сериализация в `Java`. Виды, использование, примеры.
+
+## Загрузка классов
+Все про загрузчики, порядок инициализации полей при загрузке и т.д.
+
+1.  [Загрузчики классов](../classes/class_loading.md)
+2.  [Порядок инициализации полей класса](../classes/order_of_loading.md)  
 
 ## Системы сборки проекта
 
