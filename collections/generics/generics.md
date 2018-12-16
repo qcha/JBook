@@ -32,7 +32,7 @@ List<Object> objects = strings; //wrong!
 Так как у нас тут `list` - это `producer` данных, то использовать надо `extends`.
 ```java
 List<String> strings = new ArrayList<>();
-List<? extends String> objects = strings; //wrong!
+List<? extends String> objects = strings; //right!
 ```
 
 Есть еще ограничения `super`. Если у нас коллекция - это `consumer`.
