@@ -73,9 +73,11 @@ bits
 
 Стандарт [Unicode](https://ru.wikipedia.org/wiki/%D0%AE%D0%BD%D0%B8%D0%BA%D0%BE%D0%B4) был предложен некоммерческой организацией 'Консорциум Юникода'(Unicode Consortium, Unicode Inc.) в 1991 году.
 
-В самом начале было предложено для кодирования одного символа предполагалось использовать аж 32 бита. И такая кодировка получила название [UTF-32](https://ru.wikipedia.org/wiki/UTF-32).
+Проще говоря, `Unicode` – это огромная таблица соответствия символов и чисел, а различные `UTF` кодировки определяют, как эти числа переводятся в биты.
 
 Аббревиатура `UTF` расшифровывается как Unicode Transformation Format.
+
+В самом начале было предложено для кодирования одного символа предполагалось использовать аж 32 бита. И такая кодировка получила название [UTF-32](https://ru.wikipedia.org/wiki/UTF-32).
 
 Ясно, что с помощью такой кодировки можно представить огромное количество символов, однако за такой размер необходимо платить тем, что каждый символ занимает 4 байта.
 
@@ -359,6 +361,7 @@ x ? y
 
 ## Полезные ссылки
 
-1. [Кодировки в Java](http://illegalargumentexception.blogspot.com/2009/05/java-rough-guide-to-character-encoding.html)
-2. [Таблица символов Unicode](https://unicode-table.com/ru/)
-3. [Unicode](https://ru.wikipedia.org/wiki/%D0%AE%D0%BD%D0%B8%D0%BA%D0%BE%D0%B4)
+1. [Статья 'Кодировки в Java'](http://illegalargumentexception.blogspot.com/2009/05/java-rough-guide-to-character-encoding.html)
+2. [Статья 'Все, что программист должен знать о кодировках'](http://kunststube.net/encoding/)
+3. [Таблица символов Unicode](https://unicode-table.com/ru/)
+4. [Unicode](https://ru.wikipedia.org/wiki/%D0%AE%D0%BD%D0%B8%D0%BA%D0%BE%D0%B4)
