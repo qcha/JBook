@@ -365,3 +365,4 @@ x ? y
 2. [Статья 'Все, что программист должен знать о кодировках'](http://kunststube.net/encoding/)
 3. [Таблица символов Unicode](https://unicode-table.com/ru/)
 4. [Unicode](https://ru.wikipedia.org/wiki/%D0%AE%D0%BD%D0%B8%D0%BA%D0%BE%D0%B4)
+5. [UTF-8](https://ru.wikipedia.org/wiki/UTF-8)
