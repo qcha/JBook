@@ -169,6 +169,25 @@ public static Class forName(String name, boolean initialize, ClassLoader loader)
 
 В качестве `name` передается полное имя класса, с указанием пакета, а в качестве `loader` необходимый загрузчик.
 
+Для примера приведем следующий код, где тем же самым загрузчиком, что загружал класс `Main`, мы загрузим класс `java.lang.Thread`:
+
+```java
+public class Main {
+
+  public static void main(String[] args) throws Exception {
+
+    Class cls = Class.forName("Main");
+
+    ClassLoader cLoader = cls.getClassLoader();
+
+    Class cls2 = Class.forName("java.lang.Thread", true, cLoader);
+
+    System.out.println("Class = " + cls.getName());
+    System.out.println("Class = " + cls2.getName());
+  }
+}
+```
+
 ## Ошибки
 
 Возникновение ошибки `java.lang.ClassNotFoundException` было объяснено при описании процесса загрузки класса.
