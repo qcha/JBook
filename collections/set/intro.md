@@ -52,7 +52,7 @@ public interface Set<E> extends Collection<E> {
 
 ---
 
-## Реализации
+## Реализации java.util.Set
 
 Иерархия классов выглядит следующим образом:
 
