@@ -43,3 +43,7 @@ public static void main(String[] args) {
     System.out.println(dataObjectFromJson);
 }
 ```
+
+## Полезные ссылки
+
+[Введение в JSON](https://www.json.org/json-ru.html)
