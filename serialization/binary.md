@@ -15,13 +15,67 @@
 
 Универсальный способ сделать объект сериализуемым - это реализовать интерфейс-маркер `java.io.Serializable`.
 
-Это наиболее часто встречаемый и используемый вариант.
+Это наиболее часто встречаемый и используемый вариант, можно сказать, что это стандартный способ сериализации.
 
-Данный вариант в `Java` работает через `Reflection API`: класс раскладывается на поля и  метаданные, после чего пишется в `output`-поток.
+В `Java` он работает через `Reflection`: класс раскладывается на поля и метаданные, после чего уже пишется в выходной поток.
 
-За эту универсальность, разумеется, надо платить и плата как раз и заключается в использовании `Reflection`, который не дает максимальную производительность.
+За эту универсальность, разумеется, надо платить и плата как раз заключается в использовании `Reflection`, который не дает максимальную производительность.
 
-И еще важное замечание - если мы используем Serializable, то при десериализации мы **не вызываем** конструктор класса. Это надо помнить.
+Продемонстрируем это, создав класс `ExampleSerializable` и попытавшись сериализовать и десериализовать его:
+
+```java
+public class Main {
+    public static void main(String[] args) throws IOException, ClassNotFoundException {
+        ExampleSerializable example = new ExampleSerializable(14, "Hello");
+
+        System.out.println("Before Serialization: " + example);
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        ObjectOutputStream oos = new ObjectOutputStream(baos);
+
+        oos.writeObject(example);
+
+        ByteArrayInputStream bais = new ByteArrayInputStream(baos.toByteArray());
+        ObjectInputStream ois = new ObjectInputStream(bais);
+
+        ExampleSerializable from = (ExampleSerializable) ois.readObject();
+
+        System.out.println("After Deserialization: " + from);
+    }
+}
+
+class ExampleSerializable implements Serializable {
+    private int a;
+    private String hello;
+
+    public ExampleSerializable(int a, String hello) {
+        System.out.println("Constructor with all parameters");
+        this.a = a;
+        this.hello = hello;
+    }
+
+    @Override
+    public String toString() {
+        return "ExampleSerializable{" +
+                "a=" + a +
+                ", hello='" + hello + '\'' +
+                '}';
+    }
+}
+```
+
+> Работа с ресурсами и их закрытие специально сделана наиболее просто(и не совсем верно), чтобы не пересоложнять пример.
+
+Выполнение кода даст нам:
+
+```java
+Constructor with all parameters
+Before Serialization: ExampleSerializable{a=14, hello='Hello'}
+After Deserialization: ExampleSerializable{a=14, hello='Hello'}
+```
+
+Т.е конструктор в этом коде вызвался только один раз - когда мы впервые создали объект, а при десериализации вызова конструктора не было.
+
+> При использовании `java.io.Serializable`, при десериализации объекта **не вызывается** конструктор класса!
 
 Теперь рассмотрим такой случай.
 
