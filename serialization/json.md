@@ -44,6 +44,8 @@ public static void main(String[] args) {
 }
 ```
 
+// todo https://www.json.org/json-ru.html
+
 ## Полезные ссылки
 
 [Введение в JSON](https://www.json.org/json-ru.html)
