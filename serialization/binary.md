@@ -83,41 +83,170 @@ After Deserialization: ExampleSerializable{a=14, hello='Hello'}
 
 **Вопрос**:
 
-Является ли родительский класс сериализуемым, если наследник реализует интерфейс `java.io.Serializable`, т.е:
-
-```java
-class Parent {
-    // some code
-}
-
-class Child extends Parent implements Serializable {
-    // some code
-}
-```
+Является ли сериализуемым `дочерний` класс, если `родительский` класс реализует `java.io.Serializable`?
 
 **Ответ**:
 
-Нет, не будет! Поля родителя в поток не попадут.
+Да! Является!
 
-// todo пример
+Поэтому, если у вас иерархия классов, то можно реализовать интерфейс-маркер у одного общего родителя и таким образом сделать всю иерархию сериализуемой.
 
 ---
 
-У нас есть класс у которого также есть супер-класс родитель. Наш класс - serializable, будет ли родитель serializable? 
-Тогда как будет работать при дессериализации?
-Когда мы попытаемся дессериализовать наш класс - Мы вызовем конструктор супер класса(родительского) без параметров!
-Сам же конструктор дессериализуемого класса не вызовется, ведь мы используем Serializable.
-При это если у супер класса нет такого конструктора - мы поймаем ошибку.
+**Вопрос**:
 
-Еще один интересный момент:
-Если мы реализуем Serializable интерфейс и в класс добавим методы:
+Является ли `родительский` класс сериализуемым, если `наследник` реализует интерфейс `java.io.Serializable`, т.е:
+
 ```java
- private void readObject(java.io.ObjectInputStream stream) throws IOException, ClassNotFoundException;
- private void writeObject(java.io.ObjectOutputStream stream) throws IOException;
+class Parent {
+    protected int a;
+
+    public Parent(int a) {
+        System.out.println("Calling parent constructor");
+        this.a = a;
+    }
+
+ 
+
+    @Override
+    public String toString() {
+        return "Parent: a= " + a;
+    }
+}
+
+class Child extends Parent implements Serializable {
+    private String test;
+
+    public Child(int a, String test) {
+        super(a);
+        this.test = test;
+    }
+
+    @Override
+    public String toString() {
+        return "Child: a= " + a + ", test= " + test;
+    }
+}
+```
+
+Пример записи будет ровно тот же, что выше был с `ExampleSerializable`.
+
+**Ответ**:
+
+Нет, не будет!
+
+При этом будет выброшено исключение: `java.io.InvalidClassException`.
+
+А вот если добавить конструктор без параметров в родительский класс, то исключения уже не возникнет.
+
+И вывод программы будет следующий:
+
+```java
+Calling parent constructor
+Before Serialization: Child: a= 14, test= Hello
+Calling parent default constructor
+After Deserialization: Child: a= 0, test= Hello
+```
+
+Внимательный читатель сразу должен заметить, что нечто странное произошло с полем, которое принадлежит родителю.
+
+А самый внимательный сразу поймет, что при дессериализации вызывается конструктор без параметров!
+
+Это значит, что если родительский класс не реализует `java.io.Serializable`, то данные, которые принадлежат ему не сериализуются, а при десериализации используется конструктор без параметров.
+
+При этом, если реализовать интерфейс `java.io.Serializable` у родительского класса, то вывод будет 'ожидаемым':
+
+```java
+Calling parent constructor
+Before Serialization: Child: a= 14, test= Hello
+After Deserialization: Child: a= 14, test= Hello
+```
+
+---
+
+И вот это поведение надо помнить.
+
+### java.io.Externalizable
+
+Второй способ сериализовать объект в `Java` - это реализация интерфейса `java.io.Externalizable`.
+
+Данный способ используется гораздо реже, но знать о нем нужно.
+
+Интерфейс `java.io.Externalizable`, в отличии от `java.io.Serializable`, не является интерфейсом-маркером, его объявление выглядит следующим образом:
+
+```java
+public interface Externalizable extends java.io.Serializable {
+
+    void writeExternal(ObjectOutput out) throws IOException;
+
+    void readExternal(ObjectInput in) throws IOException, ClassNotFoundException;
+}
+```
+
+Теперь, как видно из описания методов, то, как будет сериализоваться и десериализоваться объект - ответственность разработчика.
+
+Разберем как это выглядит:
+
+```java
+class ExampleExternalizable implements Externalizable {
+    private int a;
+    private String msg;
+
+    public ExampleExternalizable() {
+        System.out.println("Default Constructor called");
+    }
+
+    public ExampleExternalizable(int a, String message) {
+        System.out.println("Constructor called");
+        this.a = a;
+        this.msg = message;
+    }
+
+    @Override
+    public void writeExternal(ObjectOutput out) throws IOException {
+        out.writeInt(a);
+        out.writeUTF(msg);
+    }
+
+    @Override
+    public void readExternal(ObjectInput in) throws IOException {
+        a = in.readInt();
+        msg = in.readUTF();
+    }
+
+    @Override
+    public String toString() {
+        return "ExampleExternalizable a= " + a + ", msg= " + msg;
+    }
+}
+```
+
+Код проверки будет примерно тот же, что и в предыдущих примерах.
+
+Вывод результата:
+
+```java
+Constructor called
+Before Serialization: ExampleExternalizable a= 14, msg= Hello
+Default Constructor called
+After Deserialization: ExampleExternalizable a= 14, msg= Hello
+```
+
+Видим, что при десериализации вызывается конструктор без параметров, таким образом создается объект и далее происходит инициализация полей в `readExternal`.
+
+> При желании можно добавить в эти методы отладочную информацию и убедиться еще раз.
+
+При этом существует возможность кастомизировать даже стандартную сериализацию. Для этого в класс, реализующий  `java.io.Serializable` добавляются методы, отвечающие за сериализацию/десериализацияю класса:
+
+```java
+ private void writeObject(java.io.ObjectOutputStream out) throws IOException
+ private void readObject(java.io.ObjectInputStream in) throws IOException, ClassNotFoundException;
  private void readObjectNoData() throws ObjectStreamException;
 ```
 
-И когда мы попытаемся сериазовать объект - java вызовет эти методы! И будет писать/читать в поток уже с помощью них, поэтому использовать эти методы надо только в случае, если нам необходимо четко и гибко контроллировать весь процесс сериализации/дессериализации. При этом обязательно вызывайте default-методы, которые обеспечат стандартную сериализацию, а потом уже вносите какие-то свои изменения.
+Этим методы будут вызваны при сериализации/десериализации и в поток данные попадут уже с помощью них, поэтому использовать эти методы надо только в случае, если нам необходимо четко и гибко контроллировать весь процесс сериализации/дессериализации. 
+
+При этом обязательно вызывайте default-методы, которые обеспечат стандартную сериализацию, а потом уже вносите какие-то свои изменения.
 
 В writeObject, например:
 ```java
