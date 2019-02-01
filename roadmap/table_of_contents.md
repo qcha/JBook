@@ -18,9 +18,9 @@
 3. [Наследование](../oop/inheritance.md)
 4. [Полиморфизм](../oop/polymorphism.md)
 5. [Абстракция](../oop/abstraction.md)
-6. [Понятие интерфейса](./interface.md)
-7. [Понятие абстрактного класса](./abstract_class.md)
-8. [Абстрактные классы и интерфейсы](./abstract_vs_interface.md)
+6. [Понятие интерфейса](../oop/interface.md)
+7. [Понятие абстрактного класса](../oop/abstract_class.md)
+8. [Абстрактные классы и интерфейсы](../oop/abstract_vs_interface.md)
 9. [SOLID](../oop/SOLID.md)
 
 ## java.lang.Object
