@@ -166,6 +166,8 @@ Before Serialization: Child: a= 14, test= Hello
 After Deserialization: Child: a= 14, test= Hello
 ```
 
+> Конструктор по-умолчанию должен иметь модификатор доступа `public` либо `protected`.
+
 ---
 
 **Вопрос**:
@@ -388,9 +390,58 @@ private static final long serialVersionUID
 Значение этого поля может быть абсолютно любым, некоторые часто ставят значение `1L`.
 Можно воспользоваться утилитой `serialver`, и вычислить `serialVersionUID` стандартным способом.
 
+Вообще, с версии `Java 5+` рекомендуется это поле объявлять в явном виде, так как вычисление значения `serialVersionUID` крайне чувствительно к деталям структуры класса, что может вызвать `java.io.InvalidClassException` на разынх `JVM`.
+
+Модификатор доступа к такому полю не оговорен явно, но так как это поле принадлежит **только** классу, в котором объявлено, и больше никому, то, по признаку `мое и только мое`, можно ставить `private`.
+
+## Работа с Singleton
+
+Так как при десериализации мы получаем другой объект, но с тем же состоянием, что и сериализованный, то возникает некоторая проблема с [singleton](../patterns/singleton.md).
+
+Ведь поулчается, что создается еще один объект `singleton`.
+
+Для решения этой проблемы в классе объявляется следующий метод:
+
+```java
+private Object readResolve() throws ObjectStreamException
+```
+
+> Модификатор доступа может быть любой, но я использовал `private`, по той же причине, что и выще.
+
+Суть метода заключается в том, чтобы возвращать уже существующий экземпляр класса, соответствующий внутреннему состоянию десериализованного объекта.
+
+Пример я взял [отсюда](http://www.skipy.ru/technics/serialization.html#singleton).
+
+```java
+public class Answer implements Serializable{
+
+    private static final String STR_YES = "Yes";
+    private static final String STR_NO = "No";
+
+    public static final Answer YES = new Answer(STR_YES);
+    public static final Answer NO = new Answer(STR_NO);
+
+    private String answer = null;
+
+    private Answer(String answer){
+        this.answer = answer;
+    }
+
+    private Object readResolve() throws ObjectStreamException{
+        if (STR_YES.equals(answer))
+            return YES;
+        if (STR_NO.equals(answer))
+            return NO;
+        throw new InvalidObjectException("Unknown value: " + answer);
+    }
+}
+```
+
+Для `enum` в `Java` сделано нечто подобное, но внутри `JVM`, поэтому можно не переживать за сериализацию/десериализацию `enum`.
+
 ## Заключение
 
-Если нет необходимости в кастомизации процесса сериализации/десериализации, то я не вижу смысла в использовании `java.io.Externalizable`, даже несмотря на то, что это будет быстрее.
+Если нет необходимости в кастомизации процесса сериализации/десериализации и производительность устраивает, то я не вижу смысла в использовании `java.io.Externalizable`.
 
 Поэтому, обычным выбором, а потому и наиболее часто встречаемым, является стандартная сериализация через `java.io.Serializable`.
 
@@ -414,8 +465,11 @@ private static final long serialVersionUID
 
 Основным минусом может стандартной сериализации может являться не самая быстрая производительность, по сравнению с другими способами.
 
-
 Подход с реализацией `java.io.Externalizable` более гибок и производителен, однако вся логика и ответственность по сериализации объекта теперь ложиться на разработчика.
+
+При грамотной реализации `java.io.Externalizable` можно получить ощутимый выигрыщь в произовдительности, вот тут пишут про [выигрышь более чем в 10 раз](http://www.skipy.ru/technics/serialization.html#performance).
+
+Однако учтите, что преждевременные оптимизации могут принести много горя, поэтому я еще раз повторю, если вас устраивает производительность стандартной сериализации или вы вообще о ней не задумывались еще, то не стоит переходить на `java.io.Externalizable`.
 
 Это может вызвать дополнительные трудности и сложности, а также ошибки, поэтому необходимо четко понимать, что вы получаете как плюсы подхода и что как минусы.
 
@@ -423,12 +477,13 @@ private static final long serialVersionUID
 
 При `java.io.Externalizable` в поток не пишутся метаданные классов, также с его помощью можно сериализовать и статические поля, и поля, отмеченные как `transient`.
 
-Однако, использование `final` полей будет невозможно.
-
-// todo
-
-Также:
-* После десериализации мы  __обязаны__ проверить объект на корректность - и кинуть `java.io.InvalidObjectException.` Если что-то не так.
-* Будем испытывать проблемы с serialzie/deserialize Singleton объекта.
+Однако, использование `final` полей будет невозможно при таком подходе, так как сериализовать их не составит труда, а вот десериализовать уже будет нельзя.
 
 ## Полезные ссылки
+
+Рекомендую ознакомиться:
+
+* [Сериализация от А до Я](http://www.skipy.ru/technics/serialization.html#performance) - просто **must read**.
+* [Коротко о сериализации](https://www.baeldung.com/java-externalizable)
+* [Официальная документация](https://docs.oracle.com/javase/8/docs/api/java/io/Serializable.html)
+* [Transient vs Static](https://javabeginnerstutorial.com/core-java-tutorial/transient-vs-static-variable-java/)
