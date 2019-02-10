@@ -209,6 +209,7 @@ public void print(int[] array) {
 Поэтому старайтесь придерживаться правила: локальные переменные желательно объявлять ближе к месту использования.
 
 Возвращаясь к нашему примеру: объявлять переменную в начале метода, а начинать работать с ней только в конце метода неправильно.
+
 Согласитесь, что если мы в начале метода объявим весь список переменных с которыми нам придется столкнуться и напишем объемный кусок кода, то такое объявление только запутает.
 
 Лучше объявить переменную там, где вы начинаете с ней работать. Таким образом логика будет объявлена компактно и вникнуть в нее будет проще.
@@ -357,7 +358,103 @@ System.out.println("Else case!")
 
 Мы добавляем к прошлом примеру одну строчку, в ожидании, что это также войдет в `else` ветку. Но ждет нас лишь горькое разочарование.
 
-Во избежание таких сюрприрзов обрамляйте `if`-ы фигурными скобками `{}`.
+Во избежание таких сюрпризов обрамляйте `if`-ы фигурными скобками `{}`.
+
+## Комментарии
+
+Комментарии — это пояснения к исходному тексту программы, находящиеся непосредственно внутри комментируемого кода.
+
+В `Java` существует две возможности добавить комменатрии к коду.
+
+1. Строчный комментарий, начинающийся с `//`.
+    ```java
+    // Строчный
+    ```
+2. Блочный комментарий.
+    ```java
+    /*
+    * Блочный комментарий
+    */
+    ```
+
+В идеале надо стремиться к такому коду, который не нуждается в комментировании.
+
+Однако такое не всегда выходит, в дополнении к этому, часто бывает так, что код выполняет запутанную бизнес-логику.
+
+И такие места, я считаю, нужно комментировать и объяснять.
+
+Самой большой ошибкой будет злоупотребление комментариями в коде. Так как это серьезно захламляет код, при этом не добавляя ничего нового, например:
+
+```java
+// url and password
+private String url;
+private String password;
+```
+
+Не забывайте, что о переменной или метода сообщает также и имя класса, и имя переменной метода.
+
+```java
+public class DatabaseConfig {
+    private String url;
+    private String password;
+} 
+```
+
+Код не нуждается в комментировании, более того, оно только усложнит читаемость.
+
+Существует даже совет, что если у вас есть время на комментирование кода - потратьте его на рефакторинг.
+
+Однако из этого не следует, что комментирование вредно или не нужно, просто не стоит им злоупотрелять.
+
+Например, с помощью комментариев можно объяснить группировку объявлений полей:
+
+```java
+    // left view for sources
+    private VBox leftPane;
+    private CheckBox selectAll;
+    private ListView<SearchViewModel.SearchSource> lstCompanies;
+    private Button initConfBtn;
+
+    // right view for results
+    private WebView resultView;
+```
+
+### JavaDoc
+
+`Javadoc` — стандарт для документирования классов `Java`.
+
+Пример:
+
+```java
+/**
+ * Returns an Image object that can then be painted on the screen. 
+ * The url argument must specify an absolute {@link URL}. The name
+ * argument is a specifier that is relative to the url argument. 
+ * <p>
+ * This method always returns immediately, whether or not the 
+ * image exists. When this applet attempts to draw the image on
+ * the screen, the data will be loaded. The graphics primitives 
+ * that draw the image will incrementally paint on the screen. 
+ *
+ * @param  url  an absolute URL giving the base location of the image
+ * @param  name the location of the image, relative to the url argument
+ * @return      the image at the specified URL
+ * @see         Image
+ */
+ public Image getImage(URL url, String name) {
+        try {
+            return getImage(new URL(url, name));
+        } catch (MalformedURLException e) {
+            return null;
+        }
+ }
+ ```
+
+ Все, что начинается с `@` называется `дескриптором`.
+
+ Например, `@see` дескриптор - это ссылка на другое место в документации.
+
+ Подробнее про [Javadoc](https://ru.wikipedia.org/wiki/Javadoc)
 
 ## Заключение
 
