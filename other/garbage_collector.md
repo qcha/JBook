@@ -513,3 +513,4 @@ void foo() {
 1. [GC Алгоритмы](https://plumbr.io/handbook/garbage-collection-algorithms)
 2. [Поколения объектов](https://plumbr.io/handbook/garbage-collection-in-java)
 3. [Реализации GC](https://plumbr.io/handbook/garbage-collection-algorithms-implementations)
+4. [Доклад о сборке мусора в Java](http://profyclub.ru/docs/305)
