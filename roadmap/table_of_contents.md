@@ -127,4 +127,5 @@
 
 ## Разное
 
+* [Garbage Collector](../other/garbage_collector.md)
 * [Кодировки](../other/encoding.md)
