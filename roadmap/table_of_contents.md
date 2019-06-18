@@ -129,3 +129,4 @@
 
 * [Garbage Collector](../other/garbage_collector.md)
 * [Кодировки](../other/encoding.md)
+* [Логирование](../other/logging.md)
