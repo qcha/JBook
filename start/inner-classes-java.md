@@ -50,7 +50,7 @@ public class OuterClass {
 Может содержать:
 — только обычные свойства и методы (не статические).
 
-Экзэмпляр этого класса создаётся так:
+Экземпляр этого класса создаётся так:
 OuterClass outerClass = new OuterClass();
 OuterClass.InnerClass innerClass = outerClass.new InnerClass();
 
@@ -90,7 +90,7 @@ public class OuterClass {
 — статические свойства и методы.
 — не статические свойства и методы.
 
-Экзэмпляр этого класса создаётся так:
+Экземпляр этого класса создаётся так:
 OuterClass.StaticInnerClass staticInnerClass = new OuterClass.StaticInnerClass();
 
 Локальный класс (LocalClass)
@@ -115,7 +115,7 @@ public class OuterClass {
 — такие же локальные классы определённые в том же методе.
 
 Может быть наследован:
-— таким же локальным классом определённом в том же методе.
+— таким же локальным классом определённым в том же методе.
 
 Может имплементировать интерфейс
 
