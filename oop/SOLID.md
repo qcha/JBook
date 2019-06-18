@@ -229,7 +229,7 @@ interface ReportGenerator {
 
 Но с нашим 'толстым' интерфейсом мы не предоставляем никакого выбора.
 
-Поэтому такой интерфейс лучше разбить на несколько, `XmlReportGeneraitr` и `JsonReportgenerator` и `PlainReportGenerator`.
+Поэтому такой интерфейс лучше разбить на несколько, `XmlReportGenerator` и `JsonReportGenerator` и `PlainReportGenerator`.
 
 И предоставлять разработчику возможность выбора, где какая генерация необходима. И там, где это необходимо реализовывать эти специфичные интерфейсы.
 
