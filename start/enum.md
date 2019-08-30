@@ -91,6 +91,8 @@ public enum EnumExample {
     EnumExample(String name) {
         this.name = name;
     }
+
+    public abstract void method();
 }
 ```
 
