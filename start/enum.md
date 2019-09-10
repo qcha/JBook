@@ -246,5 +246,5 @@ public enum Example {
 
 ## Полезные ссылки
 
-[Enum in Java](http://www.quizful.net/post/java_enums)
-[Сравнение enum](https://javarevisited.blogspot.com/2013/04/how-to-compare-two-enum-in-java-equals.html)
+* [Enum in Java](http://www.quizful.net/post/java_enums)
+* [Сравнение enum](https://javarevisited.blogspot.com/2013/04/how-to-compare-two-enum-in-java-equals.html)
