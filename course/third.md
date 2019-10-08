@@ -78,6 +78,7 @@ String[] array = new String[10];
 Еще одним интересным моментом является то, что интерфейс `java.util.Collection` **не предоставляет** метода, который достает элемент из коллекции.
 
 Т.е интерфейс `java.util.Collection` предоставляет возможность только добавлять и удалять значения из коллекции, но не извлекать.
+
 ---
 # Интерфейс java.util.List
 
@@ -210,7 +211,7 @@ ArrayList реализует интерфейс `java.util.List`, который
 * Если массив уже полон, то сначала вычисляется новый размер массива с помощью побитового сдвига вида:
 ```java
 int newCapacity = oldCapacity + (oldCapacity >> 1)
-```java
+```
 где oldCapacity - это текущий размер массива.
 
 * Создается новый массив, размер которого равен `newCapacity`
@@ -293,7 +294,7 @@ int newCapacity = oldCapacity + (oldCapacity >> 1)
 
 Проиллюстрируем это:
 
-![Двусвязный список](../../images/collections/linked_list_example.png)
+![Двусвязный список](/images/collections/linked_list_example.png)
 
 Количество элементов в списке хранится в переменной `size`, точно также как и в `java.util.ArrayList`.
 
