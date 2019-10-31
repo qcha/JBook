@@ -150,7 +150,8 @@ public interface List<E> extends Collection<E> {
 Более конкретно про `java.util.ArrayList` смотрите по ссылке [тут](../collections/list/intro.md)
 
 ---
-# java.util.ArrayList
+
+## java.util.ArrayList
 
 Класс `java.util.ArrayList` является одной из самых популярных и часто используемых реализаций интерфейса `java.util.List`.
 
@@ -268,11 +269,11 @@ int newCapacity = oldCapacity + (oldCapacity >> 1)
 
 Данная реализация позволяет хранить любые значения, в том числе дубликаты и `null`.
 
-Более конкретно про `java.util.ArrayList` смотрите по ссылке [тут](../collections/list/array_list.md)
+Более конкретно про [java.util.ArrayList](../collections/list/array_list.md)
 
 ---
 
-# java.util.LinkedList
+## java.util.LinkedList
 
 Класс `java.util.LinkedList` является второй, после `java.util.ArrayList`, популярной реализацией интерфейса `java.util.List`.
 
@@ -286,7 +287,7 @@ int newCapacity = oldCapacity + (oldCapacity >> 1)
 
 Позволяет хранить любые значения, в том числе и `null` значения.
 
-## Реализация
+### Реализация
 
 Прежде всего обратим внимание на поля класса и выделим наиболее значимые:
 
@@ -334,4 +335,4 @@ int newCapacity = oldCapacity + (oldCapacity >> 1)
 
 Класс `java.util.LinkedList` хранит ссылку на первый и последний элемент списка. Благодрая чему осуществляется быстрая вставка в начало и в конец.
 
-Более конкретно про `java.util.LinkedList` смотрите по ссылке [тут](../collections/list/linked_list.md)
+Более конкретно про [java.util.LinkedList](../collections/list/linked_list.md)
