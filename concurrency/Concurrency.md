@@ -19,8 +19,8 @@
 Создать поток просто - мы должны отнаследоваться от `Thread`:
 ```java
 public class MyThread extends Thread {
-@Override
-public void run() {/*some work*/}
+    @Override
+    public void run() {/*some work*/}
 }
 ```
 
@@ -69,8 +69,8 @@ public class ThreadExample extends Thread {
 Тут поможет второй вариант создания потока. Это разумеется реализация интерфейса! Наш интерфейс называется `Runnable`.
 ```java
 class Task implements Runnable {
-@Override
-public void run() {/*some work*/}
+    @Override
+    public void run() {/*some work*/}
 }
 ```
 Запуск:
@@ -84,8 +84,8 @@ thread.start();
 Т.е выглядело бы это как-то так:
 ```java
 Thread thread = new Thread(new Runnable() {
-@Override
-public void run() {/*some work*/}
+    @Override
+    public void run() {/*some work*/}
 });
 
 thread.start();
@@ -126,8 +126,8 @@ public class RunnableExample implements Runnable {
 ```java
 Timer timer = new Timer();
 timer.schedule(new TimeTask {
-@Override
-public void run() {/*some work*/}
+    @Override
+    public void run() {/*some work*/}
 }, 60);
 ```
 
@@ -238,12 +238,12 @@ Join заставляет дождаться завершения потока �
 ```java
 class MyThread extends Thread {
 private volatile boolean  stopFlag = false;
-@Override
-public void run() {
-while(!stopFlag) {
-/*work here*/
-}
-}
+    @Override
+    public void run() {
+        while(!stopFlag) {
+            /*work here*/
+        }
+    }
 }
 
 //bla bla
@@ -283,12 +283,12 @@ public class ThreadWithFlag extends Thread {
 Примерно также работает и второй случай - это через `Thread.currentThread.isInterrupted())`:
 ```java
 class MyThread extends Thread {
-@Override
-public void run() {
-while(!Thread.currentThread.isInterrupted())) {
-/*work here*/
-}
-}
+    @Override
+    public void run() {
+        while(!Thread.currentThread.isInterrupted())) {
+            /*work here*/
+        }
+    }
 }
 
 //bla bla
@@ -323,10 +323,10 @@ public class ThreadInterruptExample extends Thread {
 Если сделать как:
 ```java
 class MyThread extends Thread {
-@Override
-public void run() {
-/*work here*/
-}
+    @Override
+    public void run() {
+        /*work here*/
+    }
 }
 
 //bla bla
@@ -340,7 +340,6 @@ thread.interrupt();
 public class ThreadWithoutInterruptCheck extends Thread {
     @Override
     public void run() {
-
         while (true) {
             System.out.println("i still alive");
         }
@@ -511,15 +510,17 @@ public class ThreadPoolExample {
 Synchronized можно передать объект для лока тоже.
 ```java
 public class Example {
-//synchronized на this
-public synchronized void test() {
-}
+    //synchronized на this
+    public synchronized void test() {
+        /* work here */
+    }
 
-//synchronized на объекте
-public  void test() {
-synchronized(obj) {
-}
-}
+    //synchronized на объекте
+    public  void test() {
+        synchronized(obj) {
+             /* work here */
+        }
+    }
 }
 ```
 
