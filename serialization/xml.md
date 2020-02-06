@@ -1,8 +1,12 @@
-##XML Serialization
+## XML Serialization
+
 ### Введение
+
 Сериализовать можно также и в файл, например, в xml.
 Как можно это сделать? Есть стандартная библиотека.
+
 ### JAXB
+
 Java Architecture for XML Binding.
 
 Здесь мы уже можем пользоваться XML-schema(XSD)и сравнивать Java объект с XML-документом.
