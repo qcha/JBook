@@ -83,7 +83,7 @@
 
 ## Надо знать или иметь представление
 
-  1. [Ссылки в Java](../common/references.md)
+  1. [Ссылки в Java](../common/reference.md)
   2. [Overloading и Overriding](../common/over-load-ride.md) - // todo ПЕРЕПИСАТЬ
 
 ## Паттерны
