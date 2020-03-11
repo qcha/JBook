@@ -822,6 +822,49 @@ Optional<Person> findPerson(String name);
 
 Отсюда следует второй совет: думайте над `API` ваших классов, исключений можно избежать воспользовавшись другим подходом.
 
+Важным моментом, который нельзя не упомянуть, является то, что если в методе объявляется, что он может сгенерировать исключение(с помощью `throws`), то при переопределении такого метода нельзя указать более общее исключение в качестве выбрасываемого.
+
+```java
+class Person {
+    void hello() throws RuntimeException {
+        // some code
+    }
+}
+
+// Compile Error
+class PPerson extends Person {
+    @Override
+    void hello() throws Exception {
+        // some code
+    }
+}
+```
+
+Если было явно указано, что метод может сгенерировать `java.lang.RuntimeException`, то нельзя объявить более общее бросаемое исключение при переопредлении. Но можно указать потомка:
+
+```java
+// IllegalArgumentException - потомок RuntimeException!
+class PPerson extends Person {
+    @Override
+    void hello() throws IllegalArgumentException {
+        // some code
+    }
+}
+```
+
+Что, в целом логично. Если объявляется, что метод может сгенерировать `java.lang.RuntimeException`, а он выбрасывает `java.lang.IOException`, то это было бы не логично. При этом при переопределении можно вообще не объявлять бросаемые исключения, таким образом сообщив, что все проблемы будут решены в методе:
+
+```java
+class PPerson extends Person {
+    @Override
+    void hello() {
+        // some code
+    }
+}
+```
+
+Отсюда следует третий совет: необходимо думать о тех исключениях, которые делегирует метод, если класс может участвовать в наследовании.
+
 ## Исключения и статические блоки
 
 Еще интересно поговорить про то, что происходит, если исключение возникает в статическом блоке.
@@ -941,6 +984,12 @@ Handled uncaught exception in thread :Thread[Thread-0,5,main] Exception : java.l
 Если исключение можно не генерировать, то лучше так и сделать. Не пренебрегайте проверками.
 
 Старайтесь продумывать то, как вы будете реагировать на исключения, не игнорировать их, использовать **только** `try-с-ресурсами`.
+
+Помните:
+
+> In Java you can ignore exceptions, but you have to willfully do it. You can't accidentally say, "I don't care." You have to explicitly say, "I don't care."
+>
+> (c) James Gosling.
 
 ## Полезные ссылки
 
