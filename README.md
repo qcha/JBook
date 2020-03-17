@@ -35,6 +35,6 @@
 
 [Путеводитель](roadmap/table_of_contents.md)
 
-Copyright 2016-2019 Aleksandr Kuchuk.
+Copyright 2016-2020 Aleksandr Kuchuk.
 
 All Rights Reserved.
