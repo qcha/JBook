@@ -125,6 +125,10 @@
 
 * [Сортировка пузырьком](../algorithms/sorting/bubble.md)
 
+## Многопоточное программирование
+
+* [Потоки и пулы потоков](../concurrency/Concurrency.md)
+
 ## Разное
 
 * [Garbage Collector](../other/garbage_collector.md)
