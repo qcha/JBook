@@ -244,7 +244,7 @@ public class ExceptionHandling {
             }
         }
     }
-```
+    ```
 ---
 
 **Вопрос**:
