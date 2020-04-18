@@ -92,9 +92,9 @@
 
 ### Порождающие
 
-* [Builder](../patterns/builder.md)
-* [Factory](../patterns/factory.md)
-* [Singleton](../patterns/singleton.md)
+* [Builder](../patterns/creational/builder.md)
+* [Factory](../patterns/creational/factory.md)
+* [Singleton](../patterns/creational/singleton.md)
 
 ### Поведенческие
 
