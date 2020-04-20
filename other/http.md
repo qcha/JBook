@@ -300,7 +300,7 @@ Connection: close
 
 Сертификат - это как наториально заверенный документ, подтверждающий вашу личность. А нотариус - это центр сертификации.
 
-## HTTP/2
+## HTTP 2
 
 `HTTP/2` - вторая крупная версия сетевого протокола `HTTP`.
 
@@ -332,7 +332,7 @@ Connection: close
 
 ## Полезные ссылки
 
-1. [Web-технологии. Протокол HTTP | Технострим][(https://habr.com/ru/post/113145/](https://www.youtube.com/watch?v=HFt7Lm7hv1E))
+1. [Web-технологии. Протокол HTTP | Технострим](https://www.youtube.com/watch?v=HFt7Lm7hv1E)
 2. [HTTP Wikipedia](https://ru.wikipedia.org/wiki/HTTP)
 3. [HTTP протокол - Иван Бибилов](https://www.youtube.com/watch?v=yUHlrabtEaU)
 4. [HTTP и HTTPS - Вячеслав Бирюков](https://www.youtube.com/watch?v=WNVcwW7mC34&t=1550s)
