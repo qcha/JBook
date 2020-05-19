@@ -170,6 +170,15 @@ public class Person {
 }
 ```
 
+Также, с версии `Java 8+` в классе `java.util.Objects` есть вспомогательные методы для генерации `hashCode`:
+
+```java
+    @Override
+    public int hashCode() {
+        return Objects.hash(age, number, salary, name, carKey);
+    }
+```
+
 ## Классы-обертки над примитивами
 
 Помните, что типы-обертки, которые по размеру меньше или равны `int`, возвращают в качестве `hashCode` свое значение.
