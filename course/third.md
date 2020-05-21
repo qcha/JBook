@@ -156,4 +156,6 @@
 
 ## Полезные ссылки
 
-
+1. [Лекторий ФИВТ, Java (3 курс) - лектор Пономарёв. Java #3. Классы](https://www.youtube.com/watch?v=BC7OWimiVoo&list=PL4_hYwCyhAvblhTbPQmOF4b3kilWSpOjU&index=3)
+2. [Абстрактный класс в ООП](https://www.youtube.com/watch?v=jq-UlNmHYAQ)
+3. [Интерфейс в ООП](https://www.youtube.com/watch?v=cGCLDYqH7Pw)
