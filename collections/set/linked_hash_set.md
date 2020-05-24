@@ -41,11 +41,7 @@
 
 В остальном все сказанное в адрес `java.util.HashSet` справедливо и для `java.util.LinkedHashSet`.
 
-Также, как и для `java.util.HashSet`, для элементов, хранимых в множестве, важно определить `hashCode` и `equals`.
-
-> [Подробнее про equals](../../object/equals.md).
->
-> [Подробнее про hashCode](../../object/hashcode.md).
+Также, как и для `java.util.HashSet`, для элементов, хранимых в множестве, важно определить [hashCode](../../object/hashcode.md) и [equals](../../object/equals.md).
 
 ## Многопоточность
 
