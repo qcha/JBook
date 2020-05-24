@@ -1,5 +1,11 @@
 # Интерфейс java.util.List
 
+- [Интерфейс java.util.List](#%d0%98%d0%bd%d1%82%d0%b5%d1%80%d1%84%d0%b5%d0%b9%d1%81-javautillist)
+  - [Введение](#%d0%92%d0%b2%d0%b5%d0%b4%d0%b5%d0%bd%d0%b8%d0%b5)
+    - [Интерфейс java.util.ListIterator](#%d0%98%d0%bd%d1%82%d0%b5%d1%80%d1%84%d0%b5%d0%b9%d1%81-javautillistiterator)
+  - [Реализации java.util.List](#%d0%a0%d0%b5%d0%b0%d0%bb%d0%b8%d0%b7%d0%b0%d1%86%d0%b8%d0%b8-javautillist)
+  - [Выбор реализации](#%d0%92%d1%8b%d0%b1%d0%be%d1%80-%d1%80%d0%b5%d0%b0%d0%bb%d0%b8%d0%b7%d0%b0%d1%86%d0%b8%d0%b8)
+
 ## Введение
 
 Как уже было сказано во [введении](../intro.md), интерфес `java.util.List` расширяет `java.util.Collection`, добавляя туда новые методы.
