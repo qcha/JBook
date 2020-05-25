@@ -4,7 +4,10 @@
 
 Как уже было сказано во [введении](../intro.md), интерфес `java.util.Map` не имеет отношения к интерфейсу `java.util.Collection`, однако формально является коллекцией.
 
-По сути, это коллекция `пар` ключ->значение, а `java.util.Map` это интерфейс ассоциативного массива.
+По сути, это коллекция `пар` ключ -> значение, а `java.util.Map` это интерфейс ассоциативного массива. Каждому ключу соответствует некоторое значение.
+Иногда реализации `java.util.Map` называют 'мапами', хэш-таблицами, в `Python` же это и вовсе `словари`.
+
+Название `Map` появилось как сокращение слова `mapping`, что значит `отображение`, `соответствие`.
 
 В интерфейсе `java.util.Map` параметризуются два типа, это ключ и значение.
 
@@ -15,14 +18,6 @@ public interface Map<K,V> {
     // ...
 }
 ```
-
-Иногда реализации `java.util.Map` называют 'мапами', хэш-таблицами, в `Python` же это и вовсе `словари`.
-
-> При этом реализации `java.util.Map` могут быть построены не на хэшах и не являться хэш-таблицами.
-
-Название `Map` появилось как сокращение слова `mapping`, что значит `отображение`, `соответствие`.
-
-Каждому ключу соответствует некоторое значение.
 
 При этом стоит отметить, что не может быть повторяющихся ключей, что следует из названия и смысла `Map`: каждому ключу соответствует значение.
 
@@ -56,11 +51,11 @@ public interface Map<K,V> {
 * `Collection<V> values()`
 * `Set<Map.Entry<K, V>> entrySet()`
 
-Это значит, что все реализации интерфейса `java.util.Map` позволяют доставать, класть и удалять элементы по ключам, а также предоставлять множество ключей и коллекцию хранимых значений.
+Это значит, что все реализации интерфейса `java.util.Map` позволяют доставать, добавлять и удалять элементы по ключам, а также предоставлять множество ключей и коллекцию хранимых значений.
 
 Отдельного рассмотрения заслуживает последний метод: `Set<Map.Entry<K, V>> entrySet()`.
 
-### Интерфейс java.util.Map#Entry
+## Интерфейс java.util.Map#Entry
 
 Как уже было сказано выше, `Map` это набор пар ключ-значение.
 
@@ -69,16 +64,62 @@ public interface Map<K,V> {
 Объявление `java.util.Map#Entry` выглядит как:
 
 ```java
-interface Entry<K,V>{
+interface Entry<K,V> {
+    /**
+     * Returns the key corresponding to this entry.
+     *
+     * @return the key corresponding to this entry
+     * @throws IllegalStateException implementations may, but are not
+     *         required to, throw this exception if the entry has been
+     *         removed from the backing map.
+     */
+    K getKey();
+
+    /**
+     * Returns the value corresponding to this entry.  If the mapping
+     * has been removed from the backing map (by the iterator's
+     * <tt>remove</tt> operation), the results of this call are undefined.
+     *
+     * @return the value corresponding to this entry
+     * @throws IllegalStateException implementations may, but are not
+     *         required to, throw this exception if the entry has been
+     *         removed from the backing map.
+     */
+    V getValue();
+
+    /**
+     * Replaces the value corresponding to this entry with the specified
+     * value (optional operation).  (Writes through to the map.)  The
+     * behavior of this call is undefined if the mapping has already been
+     * removed from the map (by the iterator's <tt>remove</tt> operation).
+     *
+     * @param value new value to be stored in this entry
+     * @return old value corresponding to the entry
+     * @throws UnsupportedOperationException if the <tt>put</tt> operation
+     *         is not supported by the backing map
+     * @throws ClassCastException if the class of the specified value
+     *         prevents it from being stored in the backing map
+     * @throws NullPointerException if the backing map does not permit
+     *         null values, and the specified value is null
+     * @throws IllegalArgumentException if some property of this value
+     *         prevents it from being stored in the backing map
+     * @throws IllegalStateException implementations may, but are not
+     *         required to, throw this exception if the entry has been
+     *         removed from the backing map.
+     */
+    V setValue(V value);
+    
     // ...
 }
 ```
 
 И предоставляет методы, позволяющие получить/установить ключ и значение.
 
+Единственное, что может быть здесь интересно - это то, что `setValue` в отличии от канонических `setter-`ов возвращает старое замененное значение.
+
 Помимо всего прочего предоставляются также компараторы для сравнения пар по ключу и значению.
 
-#### Реализации java.util.Map#Entry
+### Реализации java.util.Map#Entry
 
 У каждого класса, реализующего интерфейс `java.util.Map` своя реализация `java.util.Map#Entry`, но большинство из них основано на стандартной реализации, которая объявлена у `java.util.HashMap`.
 
@@ -96,7 +137,6 @@ static class Node<K,V> implements Map.Entry<K,V> {
 ```
 
 В этой реализации нет каких-то подводных камней и сложностей, кроме того, что она объявлена с модификатором доступа `package`.
-
 Ее использование ограничено в рамках пакета, в классе которого она объявлена, т.е `java.util`.
 
 Стандартная реализация, доступная для использования везде, объявлена у `java.util.AbstractMap` и называется `SimpleEntry`.
@@ -115,41 +155,8 @@ static class Node<K,V> implements Map.Entry<K,V> {
 
 ```
 
-> Там же объявлена и неизменяемая реализация `SimpleImmutableEntry`.
-
-Также существуют еще реализации `java.util.Map#Entry` в сторонних библиотеках, например, в `Apache Commons`.
-
-Так вот, `Set<Map.Entry<K, V>> entrySet()` возвращает нам, как мы уже поняли, множество `пар`, хранящихся в `Map`.
-
-Наиболее частый вопрос у тех, кто только начинает знакомиться с `Map`-ами, звучит следующим образом.
-
----
-
-**Вопрос**:
-
-Как проитерироваться по `Map`? Ведь `java.util.Map` не является `java.lang.Iterable`.
-
-**Ответ**:
-
-Самым простым способом будет взять множество пар и пройтись по этому множеству.
-
-```java
-        Map<String, String> map = new HashMap<>();
-        map.put("Hello", "World");
-        map.put("Hello2", "World2");
-        map.put("2", "World3");
-
-        for (Map.Entry<String, String> entry : map.entrySet()) {
-            System.out.println(entry);
-        }
-```
-
-При этом следует помнить, что порядок гарантируеутся не всеми реализациями.
-Например, в примере выше первая напечатанная пара будет `2=World3`.
-
-Другой возможный вариант, это получить множество ключей с помощью `Set<K> keySet()` и доставать элементы по ключам, однако предыдущий вариант мне кажется наиболее предпочтительным.
-
----
+Там же объявлена и неизменяемая реализация `SimpleImmutableEntry`.
+Также существуют сторонние реализации `java.util.Map#Entry`, например, в библиотеке `Apache Commons`.
 
 ## Реализации java.util.Map
 
@@ -177,10 +184,44 @@ static class Node<K,V> implements Map.Entry<K,V> {
 
 Если порядок хранения элементов не важен, то выбор `java.util.HashMap` более чем оправдан.
 
-Данная реализация предоставляет быстрый доступ до элемента, но при условии отсутствия коллизий, т.е хорошо определенной хэш-функции добавляемых элементов, в `Java` за это отвечает метод `hashCode`.
-
-[Подробнее про hashCode](../../object/hashcode.md).
+Данная реализация предоставляет быстрый доступ до элемента, но при условии отсутствия коллизий, т.е хорошо определенной хэш-функции добавляемых элементов, в `Java` за это отвечает метод [hashCode](../../object/hashcode.md).
 
 В случае, если порядок добавления элементов важен стоит рассмотреть `java.util.LinkedHashMap`. Понятно, что за сохранение порядка надо платить, поэтому данная реализация работает медленнее, чем `java.util.HashMap`.
 
 Если необходимо, чтобы элементы были отсортированы, то следует присмотреться к `java.util.TreeMap`. Однако в таком случае добавляемые элементы должны либо реализовывать интерфейс `java.lang.Comparable`, либо необходимо написать свой собственный компаратор.
+
+## Итерирование
+
+Метод `Set<Map.Entry<K, V>> entrySet()` возвращает множество `пар`, хранящихся в `java.util.Map`.
+
+Наиболее частый вопрос у тех, кто только начинает знакомиться с `Map`-ами, звучит следующим образом.
+
+---
+
+**Вопрос**:
+
+Как проитерироваться по `Map`? Ведь `java.util.Map` не является `java.lang.Iterable`.
+
+**Ответ**:
+
+Самым простым способом будет взять множество пар и пройтись по этому множеству.
+
+```java
+ // объявление и заполнение мапы
+ Map<String, String> map = new HashMap<>();
+ map.put("Hello", "World");
+ map.put("Hello2", "World2");
+ map.put("2", "World3");
+
+// итерирование по мапе
+ for (Map.Entry<String, String> entry : map.entrySet()) {
+         System.out.println(entry);
+ }
+```
+
+При этом следует помнить, что порядок гарантируеутся не всеми реализациями.
+Например, в примере выше первая напечатанная пара будет `2=World3`.
+
+Другой возможный вариант, это получить множество ключей с помощью `Set<K> keySet()` и доставать элементы по ключам, однако предыдущий вариант мне кажется наиболее предпочтительным.
+
+---
