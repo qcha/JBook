@@ -162,7 +162,7 @@ static class Node<K,V> implements Map.Entry<K,V> {
 
 Иерархия классов выглядит следующим образом:
 
-<img src="../../images/collections/map_hierarchy.png">
+<img src="../../images/collections/map/map_hierarchy.png">
 
 Абстрактный класс `java.util.AbstractMap` предоставляет заготовку для последующих реализаций.
 
