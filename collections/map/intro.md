@@ -192,9 +192,19 @@ static class Node<K,V> implements Map.Entry<K,V> {
 
 ## Итерирование
 
-Метод `Set<Map.Entry<K, V>> entrySet()` возвращает множество `пар`, хранящихся в `java.util.Map`.
+Реализации `java.util.Map` имеют встроенные итераторы. Получить можно как список всех ключей `keySet()` или всех значений `values()`, так и все пары ключ-значение `entrySet()`.
 
-Наиболее частый вопрос у тех, кто только начинает знакомиться с `Map`-ами, звучит следующим образом.
+```java
+for (Map.Entry<String, String> entry: hashmap.entrySet())
+    System.out.println(entry.getKey() + " = " + entry.getValue());
+
+for (String key: hashmap.keySet())
+    System.out.println(hashmap.get(key));
+
+Iterator<Map.Entry<String, String>> itr = hashmap.entrySet().iterator();
+while (itr.hasNext())
+    System.out.println(itr.next());
+```
 
 ---
 
@@ -224,4 +234,53 @@ static class Node<K,V> implements Map.Entry<K,V> {
 
 Другой возможный вариант, это получить множество ключей с помощью `Set<K> keySet()` и доставать элементы по ключам, однако предыдущий вариант мне кажется наиболее предпочтительным.
 
+Стоит помнить, что, как и в случае с итерированием [сипсков](../list/intro.md), если в ходе работы итератора структура данных была изменена (без использования методов итератора), то будет выброшено исключение:
+
+```java
+public class ExampleApplication {
+    public static void main(String[] args) {
+        Map<String, String> map = new HashMap<>();
+
+        map.put("key1", "value1");
+        map.put("key13", "value1");
+        map.put("key12", "value1");
+
+        System.out.println(map);
+
+        Iterator<Map.Entry<String, String>> itr = map.entrySet().iterator();
+        while (itr.hasNext())
+        {
+            Map.Entry<String, String> next = itr.next();
+            System.out.println(next);
+            if (next.getKey().equals("key1")) {
+                map.remove(itr.next().getKey());
+            }
+        }
+    }
+}
+```
+
+Результатом будет:
+
+```java
+Exception in thread "main" java.util.ConcurrentModificationException
+	at java.util.HashMap$HashIterator.nextNode(HashMap.java:1442)
+	at java.util.HashMap$EntryIterator.next(HashMap.java:1476)
+	at java.util.HashMap$EntryIterator.next(HashMap.java:1474)
+```
+
+Избежать этого можно удаляя элемент с помощью итератора, с которым происходит работа:
+
+```java
+        Iterator<Map.Entry<String, String>> itr = map.entrySet().iterator();
+        while (itr.hasNext())
+        {
+            Map.Entry<String, String> next = itr.next();
+            System.out.println(next);
+            if (next.getKey().equals("key1")) {
+                itr.remove(); // удаление с помощью метода итератора
+            }
+        }
+    }
+```
 ---
