@@ -376,10 +376,59 @@ o.equals(elementData[index])
 
 ## Многопоточность
 
-Все методы `java.util.ArrayList` - не синхронизированы.
+Все методы `java.util.ArrayList` не синхронизированы.
 Поэтому добавление из различных потоков в такой список **строго** не рекомендуется.
 
 Если необходима `concurrent`-реализация `java.util.ArrayList`, то стоит воспользоваться `java.util.concurrent.CopyOnWriteArrayList`.
+
+В `Java` также существует класс утилит `java.util.Collections`, предоставляющих статические методы для преобразования в `concurrent` структуру данных:
+
+```java
+List m = Collections.synchronizedList(new ArrayList(...));
+```
+
+Но тут есть подводный камень.
+
+Посмотрим на метод:
+
+```java
+    public static <T> List<T> synchronizedList(List<T> list) {
+        return (list instanceof RandomAccess ?
+                new SynchronizedRandomAccessList<>(list) :
+                new SynchronizedList<>(list));
+    }
+```
+
+Все, что делает метод `synchronizedList` - это оборачивает реализацию `java.util.List` в `SynchronizedList`:
+
+```java
+static class SynchronizedList<E>
+        extends SynchronizedCollection<E>
+        implements List<E> {
+        private static final long serialVersionUID = -7754090372962971524L;
+
+        final List<E> list;
+
+        SynchronizedList(List<E> list) {
+            super(list);
+            this.list = list;
+        }
+
+        public E get(int index) {
+            synchronized (mutex) {return list.get(index);}
+        }
+        
+        public E set(int index, E element) {
+            synchronized (mutex) {return list.set(index, element);}
+        }
+
+        // ...
+}
+```
+
+, где методы синхронизованы на `java.lang.Object`. Грубо говоря, это превращает `java.util.ArrayList` в `java.util.Vector`. А это серьезно снижает производительность.
+
+В целом, я бы не использовал `Collections.synchronizedList(...)`, разве что необходимо синхронизировать небольшую по объему структуру и производительность не важна.
 
 ## Производительность
 

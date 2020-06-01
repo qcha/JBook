@@ -665,6 +665,50 @@ map.get(key1): value1
 
 Если необходима `concurrent`-реализация `java.util.HashMap`, то стоит воспользоваться [java.util.ConcurrentHashMap](https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/ConcurrentHashMap.html).
 
+В `Java` также существует класс утилит `java.util.Collections`, предоставляющих статические методы для преобразования в `concurrent` структуру данных:
+
+```java
+Map m = Collections.synchronizedMap(new HashMap(...));
+```
+
+Но тут есть подводный камень.
+
+Посмотрим на метод:
+
+```java
+    public static <K,V> Map<K,V> synchronizedMap(Map<K,V> m) {
+        return new SynchronizedMap<>(m);
+    }
+```
+
+Дело в том, что `Collections.synchronizedMap(...)` не создает `java.util.ConcurrentHashMap`. Все, что делает метод `synchronizedMap` - это оборачивает реализацию `java.util.Map` в `SynchronizedMap`:
+
+```java
+private static class SynchronizedMap<K,V>
+        implements Map<K,V>, Serializable {
+        private static final long serialVersionUID = 1978198479659022715L;
+
+        private final Map<K,V> m;     // Backing Map
+        final Object      mutex;        // Object on which to synchronize
+
+        SynchronizedMap(Map<K,V> m) {
+            this.m = Objects.requireNonNull(m);
+            mutex = this;
+        }
+
+        // ...
+        public V get(Object key) {
+            synchronized (mutex) {return m.get(key);}
+        }
+
+        public V put(K key, V value) {
+            synchronized (mutex) {return m.put(key, value);}
+        }
+}
+```
+
+, где методы синхронизованы на `java.lang.Object`. Грубо говоря, это превращает `java.util.HashMap` в `java.util.HashTable`. А это серьезно снижает производительность. В то время, как `java.util.ConcurrentHashMap` отличается во внутренней структуре для хранения пар key-value и более производительна в многопоточной среде.
+
 ## Производительность
 
 Благодаря тому, что в основе реализации лежит массив, `java.util.HashMap` предоставляет доступ к элементам за константное время. Но при условии отсутствия коллизий, т.е хорошо определенной хэш-функции добавляемых элементов.
