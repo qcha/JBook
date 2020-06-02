@@ -373,9 +373,8 @@ public class WeatherTracker {
 
 ## Полезные ссылки
 
-Больше примеров кода по каждому принципу:
-
-[SOLID Примеры](https://github.com/qcha/SOLID)
+1. [SOLID Примеры](https://github.com/qcha/SOLID)
+2. [Подробно о каждом из принципов](https://ota-solid.now.sh/srp)
 
 Принципы из дополнения:
 
