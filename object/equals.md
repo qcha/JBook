@@ -271,6 +271,41 @@ public boolean equals(Object obj)
 
 > При этом надо отметить, что аннотация `@Override` предотвратит от такой ошибки не дав скомпилировать код, поэтому, когда переопределяете методы не забывайте ее ставить.
 
+## Важно знать
+
+У массивов не переопределен `equals` и выполняется сравнение ссылок.
+
+```java
+        int[] arr = {1, 2, 3, 4, 5};
+        int[] arr2 = {1, 2, 3, 4, 5};
+        System.out.println(arr.equals(arr2));
+        System.out.println(arr == arr2);
+```
+
+Результат:
+
+```java
+false
+false
+```
+
+Решением является использовать статический метод для сравнения массивов: `Arrays.equals(...)`.
+
+```java
+        int[] arr = {1, 2, 3, 4, 5};
+        System.out.println(Arrays.equals(arr));
+
+        arr[0] = 100;
+        System.out.println(Arrays.equals(arr));
+```
+
+Результат:
+
+```java
+true
+false
+```
+
 ## Заключение
 
 * При переопределении `hashCode` всегда переопределяйте `equals` и наоборот.
