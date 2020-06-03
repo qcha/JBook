@@ -1,10 +1,11 @@
 # Интерфейс java.util.List
 
-- [Интерфейс java.util.List](#%d0%98%d0%bd%d1%82%d0%b5%d1%80%d1%84%d0%b5%d0%b9%d1%81-javautillist)
-  - [Введение](#%d0%92%d0%b2%d0%b5%d0%b4%d0%b5%d0%bd%d0%b8%d0%b5)
-    - [Интерфейс java.util.ListIterator](#%d0%98%d0%bd%d1%82%d0%b5%d1%80%d1%84%d0%b5%d0%b9%d1%81-javautillistiterator)
-  - [Реализации java.util.List](#%d0%a0%d0%b5%d0%b0%d0%bb%d0%b8%d0%b7%d0%b0%d1%86%d0%b8%d0%b8-javautillist)
-  - [Выбор реализации](#%d0%92%d1%8b%d0%b1%d0%be%d1%80-%d1%80%d0%b5%d0%b0%d0%bb%d0%b8%d0%b7%d0%b0%d1%86%d0%b8%d0%b8)
+- [Интерфейс java.util.List](#интерфейс-javautillist)
+  - [Введение](#введение)
+    - [Интерфейс java.util.ListIterator](#интерфейс-javautillistiterator)
+  - [Реализации java.util.List](#реализации-javautillist)
+  - [Выбор реализации](#выбор-реализации)
+  - [Полезные ссылки](#полезные-ссылки)
 
 ## Введение
 
@@ -144,6 +145,8 @@ public interface ListIterator<E> extends Iterator<E> {
 
 Из-за этого реализация `java.util.ArrayList` сейчас более быстродейственна и рекомендуется использовать именно `java.util.ArrayList` при выборе реализации `java.util.List`.
 
+Плюс ко всему, важно ещё понимать что элементы `java.util.ArrayList` хранятся массивом, т.е. линейно в памяти, и можно довольно удачно загрузить кусок массива в кэш процессора, что также благоприятно скажется на [производительности](https://kjellkod.wordpress.com/2012/08/08/java-galore-linkedlist-vs-arraylist-vs-dynamicintarray/).
+
 Также стоит отметить, что `java.util.ArrayList` предоставляет более низкие затраты по хранению объектов, в отличии от `java.util.LinkedList`.
 
 Связано это с тем, что `java.util.LinkedList` хранит объекты в классе-обертке `Node`, который помимо хранимого объекта имеет еще ссылки на следующий и предыдущий элемент:
@@ -282,3 +285,9 @@ Exception in thread "main" java.util.ConcurrentModificationException
         }
     }
     ```
+
+## Полезные ссылки
+
+1. [Java Battle Royal: LinkedList vs ArrayList vs DynamicIntArray](https://kjellkod.wordpress.com/2012/08/08/java-galore-linkedlist-vs-arraylist-vs-dynamicintarray/)
+2. [Baeldung Java ArrayList vs LinkedList](https://www.baeldung.com/java-arraylist-linkedlist)
+3. [Dzone ArrayList vs. LinkedList vs. Vector](https://dzone.com/articles/arraylist-vs-linkedlist-vs)
