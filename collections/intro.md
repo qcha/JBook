@@ -166,3 +166,9 @@ public interface Collection<E> extends Iterable<E> {
 
 * [Trove](http://trove4j.sourceforge.net/html/overview.html), реализация коллекций, работающая с примитивами.
 * [Google Guava](https://github.com/google/guava), добавляет несколько полезных реализаций структур данных, например, мультимножество.
+
+## Полезные ссылки
+
+1. [Введение в Java. Коллекции. | Технострим](https://www.youtube.com/watch?v=hlAunthj794)
+2. [Java #7. Collections, lambdas, method references](https://www.youtube.com/watch?v=cNkZvnBARAc&list=PL4_hYwCyhAvblhTbPQmOF4b3kilWSpOjU&index=7)
+3. [Volodya Mozhenkov Коллекции Java - введение](https://www.youtube.com/watch?v=H8YOHx1dLMI)
