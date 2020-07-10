@@ -16,7 +16,7 @@
 Применение `final` по отношению к классу объявляет класс завершенным, т.е запрещает дальнейшее наследование от такого класса.
 
 ```java
-public final FileUtils {
+public final class FileUtils {
     // some code
 }
 
@@ -55,7 +55,7 @@ public final class Math {
 Применение `final` по отношению к методу объявляет метод завершенным, т.е запрещает дальнейшее переопределние такого метода.
 
 ```java
-public Person {
+public class Person {
     void hello() {
         System.out.println("Hello!");
     }
@@ -87,7 +87,7 @@ class Employee extends Person {
 Переменная класса, объявленная как `final`, но не являющаяся `static`, должна инициализироваться при объявлении или в теле конструктора, или блоке инициализации, иначе произойдет ошибка компиляции.
 
 ```java
-public ArrayList {
+public class ArrayList {
     private final int size;
     private final String type = "ArrayList";
     private final String[] data; // compilation error
