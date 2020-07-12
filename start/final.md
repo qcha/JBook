@@ -56,7 +56,7 @@ public final class Math {
 
 ```java
 public class Person {
-    void hello() {
+    final void hello() {
         System.out.println("Hello!");
     }
 
