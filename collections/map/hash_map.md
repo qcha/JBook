@@ -755,3 +755,4 @@ private static class SynchronizedMap<K,V>
 7. [OTUS Балансировка красно-чёрных деревьев — Три случая](https://habr.com/ru/company/otus/blog/472040/)
 8. [Стратегии разрешения коллизий](https://neerc.ifmo.ru/wiki/index.php?title=%D0%A0%D0%B0%D0%B7%D1%80%D0%B5%D1%88%D0%B5%D0%BD%D0%B8%D0%B5_%D0%BA%D0%BE%D0%BB%D0%BB%D0%B8%D0%B7%D0%B8%D0%B9)
 9. [Потеря элемента в HashMap](https://www.youtube.com/watch?v=38h3w7RwR-M)
+10. [Владимир Долженко — Внутрь VM сквозь замочную скважину hashCode](https://www.youtube.com/watch?v=GS2YqQ1DNJU)
