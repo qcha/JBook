@@ -17,12 +17,10 @@
 1. [Введение в ООП](../oop/intro.md)
 2. [Инкапсуляция](../oop/encapsulation.md)
 3. [Наследование](../oop/inheritance.md)
-4. [Полиморфизм](../oop/polymorphism.md)
-5. [Абстракция](../oop/abstraction.md)
-6. [Понятие интерфейса](../oop/interface.md)
-7. [Понятие абстрактного класса](../oop/abstract_class.md)
-8. [Абстрактные классы и интерфейсы](../oop/abstract_vs_interface.md)
-9. [SOLID](../oop/SOLID.md)
+4. [Понятие интерфейса](../oop/interface.md)
+5. [Понятие абстрактного класса](../oop/abstract_class.md)
+6. [Абстрактные классы и интерфейсы](../oop/abstract_vs_interface.md)
+7. [SOLID](../oop/SOLID.md)
 
 ## java.lang.Object
 
