@@ -281,8 +281,10 @@ for(int i = 0; i < a.length; i++) {
 1. [Объектно-ориентированное программирование](https://ru.wikipedia.org/wiki/%D0%9E%D0%B1%D1%8A%D0%B5%D0%BA%D1%82%D0%BD%D0%BE-%D0%BE%D1%80%D0%B8%D0%B5%D0%BD%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%BD%D0%BE%D0%B5_%D0%BF%D1%80%D0%BE%D0%B3%D1%80%D0%B0%D0%BC%D0%BC%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5)
 2. [ООП с примерами, Часть 1](https://habr.com/post/87119/)
 3. [ООП с примерами, Часть 2](https://habr.com/post/87205/)
-4. [Про полиморфизм](https://www.youtube.com/watch?v=ve3eAhuaF0s)
-5. [Java Courses With Kovalevskyi Модуль 2. Урок 1. Введение в ООП.](https://www.youtube.com/watch?v=l_b9K7uQvAI&list=PLsQAG1V_t58AKvV5v4NVXxo68OyLdNX3j&index=7)
+4. [Полиморфизм простыми словами Sergey Ufocoder](https://medium.com/devschacht/polymorphism-207d9f9cd78)
+5. [Про полиморфизм](https://www.youtube.com/watch?v=ve3eAhuaF0s)
+6. [Полиморфизм простыми словами Sergey Ufocoder](https://www.youtube.com/watch?v=QDEuPc-TGS8)
+7. [Java Courses With Kovalevskyi Модуль 2. Урок 1. Введение в ООП.](https://www.youtube.com/watch?v=l_b9K7uQvAI&list=PLsQAG1V_t58AKvV5v4NVXxo68OyLdNX3j&index=7)
 
 Также стоит познакомиться с [SOLID](./SOLID.md)
 
