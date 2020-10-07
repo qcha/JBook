@@ -165,6 +165,7 @@ public interface Collection<E> extends Iterable<E> {
 Были разобраны структуры данных, предоставленные `JDK`, но помимо этого существуют и другие реализации, например:
 
 * [Trove](http://trove4j.sourceforge.net/html/overview.html), реализация коллекций, работающая с примитивами.
+* [Koloboke](https://github.com/leventov/Koloboke), реализация коллекций, работающая с примитивами(форк Trove, поздее ставший полноценным проектом).
 * [Google Guava](https://github.com/google/guava), добавляет несколько полезных реализаций структур данных, например, мультимножество.
 
 ## Полезные ссылки
