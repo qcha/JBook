@@ -202,6 +202,46 @@ public void setAge(int age) {
     }
     ```
 
+Также, в `Java 7+` существует вспомогательный класс `java.util.Objects`, который содержит вспомогательные методы проверки на `null`:
+
+```java
+     /**
+     * Returns {@code true} if the provided reference is {@code null} otherwise
+     * returns {@code false}.
+     *
+     * @apiNote This method exists to be used as a
+     * {@link java.util.function.Predicate}, {@code filter(Objects::isNull)}
+     *
+     * @param obj a reference to be checked against {@code null}
+     * @return {@code true} if the provided reference is {@code null} otherwise
+     * {@code false}
+     *
+     * @see java.util.function.Predicate
+     * @since 1.8
+     */
+    public static boolean isNull(Object obj) {
+        return obj == null;
+    }
+
+    /**
+     * Returns {@code true} if the provided reference is non-{@code null}
+     * otherwise returns {@code false}.
+     *
+     * @apiNote This method exists to be used as a
+     * {@link java.util.function.Predicate}, {@code filter(Objects::nonNull)}
+     *
+     * @param obj a reference to be checked against {@code null}
+     * @return {@code true} if the provided reference is non-{@code null}
+     * otherwise {@code false}
+     *
+     * @see java.util.function.Predicate
+     * @since 1.8
+     */
+    public static boolean nonNull(Object obj) {
+        return obj != null;
+    }
+```
+
 #### Preconditions Guava
 
 С учётом того, что `assert`-ы зачастую не любимы `Java` разработчиками, а многословность явных проверок утомляет и иногда делает код более тяжелым к пониманию/прочтению/написанию, было бы наивно ожидать, что не будет написано что-то вспомогательное. Поэтому `preconditions` является частью [Google Guava](https://mvnrepository.com/artifact/com.google.guava/guava).
