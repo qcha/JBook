@@ -9,7 +9,8 @@
 3. [Как оформить класс для хранения константных значений](../start/classes_for_static.md)
 4. [Ключевое слово final](../start/final.md)
 5. [Война с null](../start/null_war.md)
-6. [Общие советы](../start/advices.md)
+6. [Проверки и assert](../start/assertions.md)
+7. [Общие советы](../start/advices.md)
 
 ## Объектно-ориентированное программирование
 
@@ -62,7 +63,7 @@
     * [java.util.LinkedHashMap](../collections/map/linked_hash_map.md)
     * [java.util.TreeMap](../collections/map/tree_map.md)
 5. [Generics](../collections/generics/generics.md)
-5. Общие советы.
+6. Общие советы.
     * [Что делать, когда вам нужна пустая коллекция](../collections/empty_collections.md)
 
 ## Сериализация
@@ -70,10 +71,11 @@
   Сериализация в `Java`. Виды, использование, примеры.
 
 ## Загрузка классов
+
 Все про загрузчики, порядок инициализации полей при загрузке и т.д.
 
-1.  [Загрузчики классов](../classes/class_loading.md)
-2.  [Порядок инициализации полей класса](../classes/order_of_loading.md)  
+1. [Загрузчики классов](../classes/class_loading.md)
+2. [Порядок инициализации полей класса](../classes/order_of_loading.md)  
 
 ## Системы сборки проекта
 
