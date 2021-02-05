@@ -213,7 +213,7 @@ public class IllegalArgumentException extends RuntimeException {
 
 ```java
 public void setAge(int age) {
-    if(age >= 0 && age < 150) {
+    if (age < 0 || age > 150) {
         throw new IllegalArgumentException("Age can't be less then 0 or higher 150");
     }
 
@@ -233,7 +233,7 @@ public void setAge(int age) {
     
     // ...
     public void runWithTimeout(int timeout) {
-        if(timeout < 0) {
+        if (timeout < 0) {
             run(DEFAULT_TIMEOUT);
         }
     }
