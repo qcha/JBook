@@ -86,7 +86,7 @@ StringBuilder s = new StringBuilder();
 Лично я считаю, что использование констант в интерфейсах - не совсем верно. Интерфейс - это все-таки API класса, это его поведение.
 Гораздо лучше и ,как по мне, правильней - вынести константы в класс констант.
 
-Как это сделать и использовать - [Classes For Static](../start/ClassesForStatic.md).
+Как это сделать и использовать - [Classes For Static](../start/classes_for_static.md).
 
 #### Свести использование null к минимуму.
 `Null` - это наиболее частый источник проблем.
@@ -107,7 +107,7 @@ Collections.emptyList();
 Collections.emptyMap();
 Collections.emptySet();
 ```
-Про пустые коллекции я писал [Empty in Collection](../collections/EmptyCollections.md).
+Про пустые коллекции я писал [Empty in Collection](../collections/empty_collections.md).
 
 В java8 появился специальный тип для защиты от NPE: `Optional`:
 ```java
