@@ -88,8 +88,7 @@ public ArrayList(int initialCapacity) {
 
 Это связано с тем, как устроена параметризация(`Generic`-и) в `Java`.
 
-// todo generics link
-Об этом можно прочитать здесь.
+Об этом можно прочитать [здесь](../generics/generics.md).
 
 ---
 
