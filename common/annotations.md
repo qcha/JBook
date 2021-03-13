@@ -1,10 +1,27 @@
 # Аннотации
 
-*Аннотация* в Java - элемент языка, позволяющий прикрепить некоторую информацию к _другим_ элементам языка.
+Представим, что у нас в проекте каждый тест, исправляющий дефект должен быть связан с некоторым баг-репортом во внешней системе. Естественным желанием было бы указывать ссылку на этот баг-репорт в коде, например, в комментариях (пример из [Spring Data MongoDB)](https://github.com/spring-projects/spring-data-mongodb/blob/a88748d79809ac969567cbeb840437ec44e81fe2/spring-data-mongodb/src/test/java/org/springframework/data/mongodb/gridfs/GridFsTemplateIntegrationTests.java#L316):
 
-Наиболее известная аннотация - [`@Override`](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/Override.html).
-Она добавляется к методам, которые переопределяют методы супер-класса или интерфейса.
+```java
+@Test // DATAMONGO-765
+public void considersSkipLimitWhenQueryingFiles() {
+    // тело теста
+}
+```
+
+подобный комментарий, по сути, несет в себе некоторую структурированную мета-информацию.
+
+В Java для выражения подобного существует специальный тип - **аннотация**.
+
+
+**Аннотация** в Java - элемент языка, позволяющий прикрепить некоторую мета-информацию к _другим_ элементам языка.
+
+В качестве примера, рассмотрим аннотацию, с которой, наверняка, сталкивался каждый Java-разработчик - [`@Override`](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/Override.html).
+
+
+Она сообщает компилятору, что происходит переопределение метода супер-класса или интерфейса.
 Её отсутствие не вызовет ошибки компиляции, однако её присутствие у метода, не переопределяющего метод предка, вызовет ошибку компиляции.
+
 Здесь можно вспомнить тот самый пример с `equals`:
 
 ```java
@@ -20,18 +37,16 @@ public class Person {
 
 Среди других аннотаций пакета `java.lang` находятся:
 
-* [`@Deprecated`](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/Deprecated.html) - пометка, что _элемент_ устарел и не должен использоваться
-* [`@FunctionalInterface`](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/FunctionalInterface.html) выражает намерение программиста сделать из интерфейса _функциональный интерфейс_ (тот, у которого один `abstract` ный метод), в противном случае - выдать ошибку компиляции
-* [`@SafeVarargs`](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/SafeVarargs.html) - говорит, что тело метода *не* будет выполнять небезопасных операций с vararg типами параметров (это связано с generic'ами).
+* [`@Deprecated`](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/Deprecated.html) - предупреждает разработчика о том, что _элемент_ (например: метод, класс) устарел и не должен использоваться
+* [`@FunctionalInterface`](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/FunctionalInterface.html) выражает намерение программиста сделать из интерфейса _функциональный интерфейс_ (тот, у которого один `abstract` ный метод - _аналог_ функций в Java), в противном случае - выдать ошибку компиляции
+* [`@SafeVarargs`](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/SafeVarargs.html) - сигнал компилятору о том, что тело метода *не* будет выполнять небезопасных операций с vararg типами параметров (это связано с generic'ами).
 См. пример в javadoc + [Java SafeVarargs annotation, does a standard or best practice exist?](https://stackoverflow.com/questions/14231037/java-safevarargs-annotation-does-a-standard-or-best-practice-exist)
 * [`@SuppressWarnings`](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/SuppressWarnings.html) - сообщает компилятору, что предупреждение необходимо подавить.
 Наиболее известный частный случай - [`@SuppressWarnings("unchecked")`](https://stackoverflow.com/questions/1129795/what-is-suppresswarnings-unchecked-in-java)
 
 ## Объявление аннотаций
 
-В java нет ключевого слова [`annotation`](https://kotlinlang.org/docs/reference/annotations.html).
-Вместо этого используется `@` + `interface`.
-Например:
+Для объявления аннотаций используется комбинация `@` и ключевого слова `interface` (а в Kotlin для этого есть ключевое слово [`annotation`](https://kotlinlang.org/docs/reference/annotations.html)):
 
 ```java
 public @interface Wow {
@@ -65,7 +80,7 @@ _Если доводить их использование до абсурда, 
 
 ## Методы аннотаций
 
-Аннотации могут иметь _методы_ (аннотации - интерфейсы).
+У аннотаций могут быть _методы_ (ведь, аннотации -- интерфейсы).
 
 Пример:
 
@@ -89,7 +104,7 @@ public class ScheduledUsage {
 
 ### Значения по умолчанию
 
-Методы могут иметь значения по умолчанию, для этого используется ключевое слово `default`:
+У метода может быть значение по умолчанию, чтобы его задать используется ключевое слово `default`:
 
 ```java
 public @interface Scheduled {
