@@ -280,7 +280,7 @@ class com.sun.proxy.$Proxy1
 Так делают: [Jackson](https://github.com/FasterXML/jackson), [Gson](https://github.com/google/gson), [Retrofit](https://square.github.io/retrofit/)
 
 В связи с этим различием введено понятие **retention**.
-Оно определяет, _на каком этапе аннотация будет отброшена_.
+Он определяет, _на каком этапе аннотация будет отброшена_.
 Всего предусмотрено три таких этапа: `SOURCE`, `CLASS`, `RUNTIME`, они перечислены в [`RetentionPolicy`](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/annotation/RetentionPolicy.html).
 
 ### Сравнение RetentionPolicy
