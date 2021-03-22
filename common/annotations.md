@@ -1,20 +1,5 @@
 # Аннотации
 
-Представим, что у нас в проекте каждый тест, исправляющий дефект, должен быть связан с некоторым баг-репортом во внешней системе.
-Естественным желанием было бы указывать ссылку на этот баг-репорт в коде, например так (из [Spring Data MongoDB)](https://github.com/spring-projects/spring-data-mongodb/blob/a88748d79809ac969567cbeb840437ec44e81fe2/spring-data-mongodb/src/test/java/org/springframework/data/mongodb/gridfs/GridFsTemplateIntegrationTests.java#L316):
-
-```java
-@Test // DATAMONGO-765
-public void considersSkipLimitWhenQueryingFiles() {
-    // тело теста
-}
-```
-
-подобный комментарий, по сути, несет в себе некоторую структурированную мета-информацию.
-
-Для этой же цели в Java существует специальный тип - **аннотация**.
-
-
 **Аннотация** в Java - элемент языка, позволяющий прикрепить некоторую мета-информацию к _другим_ элементам языка.
 
 В качестве примера, рассмотрим аннотацию, с которой, наверняка, сталкивался каждый Java-разработчик - [`@Override`](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/Override.html).
@@ -36,14 +21,37 @@ public class Person {
 }
 ```
 
-Среди других аннотаций пакета `java.lang` находятся:
+Аннотации:
+* позволяют разработчику добавить мета-информацию в программу _с одной стороны_.
+* полноценно поддерживаются виртуальной машиной и языком с другой.
+  
+Java предоставляет все _необходимые инструменты_ для получения аннотаций и работы с ними.
 
-* [`@Deprecated`](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/Deprecated.html) - предупреждает разработчика о том, что _элемент_ (например: метод, класс) устарел и не должен использоваться
-* [`@FunctionalInterface`](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/FunctionalInterface.html) выражает намерение программиста сделать из интерфейса _функциональный интерфейс_ (тот, у которого один `abstract` ный метод - _аналог_ функций в Java), в противном случае - выдать ошибку компиляции
-* [`@SafeVarargs`](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/SafeVarargs.html) - сигнал компилятору о том, что тело метода *не* будет выполнять небезопасных операций с vararg типами параметров (это связано с generic'ами).
-См. пример в javadoc + [Java SafeVarargs annotation, does a standard or best practice exist?](https://stackoverflow.com/questions/14231037/java-safevarargs-annotation-does-a-standard-or-best-practice-exist)
-* [`@SuppressWarnings`](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/SuppressWarnings.html) - сообщает компилятору, что предупреждение необходимо подавить.
-Наиболее известный частный случай - [`@SuppressWarnings("unchecked")`](https://stackoverflow.com/questions/1129795/what-is-suppresswarnings-unchecked-in-java)
+---
+**Вопрос**:
+
+Где аннотации могут быть полезны?
+
+**Ответ**:
+
+Аннотации могут выступить некоторым промежуточным звеном между определённым _инструментом, библиотекой или фреймворком_ и **прикладным разработчиком**:
+* С одной стороны: программист **декларативно** указывает, что он хочет получить в месте использования аннотации.
+* С другой: обработчик считывает примененную аннотацию и выполняет что-то со своей.
+  
+Это может быть:
+
+* Декларативная валидация с помощью [Bean Validation](https://beanvalidation.org/):
+    ```java
+    public class User {
+        @Pattern("[a-z]{6,30}")
+        private String username;
+    }
+    ```
+    * Библиотека проверит соответствие имени пользователя указанному регулярному выражению.
+* Декларативное кэширование с помощью [`@Cacheable`](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/cache/annotation/Cacheable.html).
+* Явное указание имени json-свойства с помощью [`@JsonProperty`](https://stackoverflow.com/questions/12583638/when-is-the-jsonproperty-property-used-and-what-is-it-used-for) из Jackson.
+
+---
 
 ## Объявление аннотаций
 
@@ -53,7 +61,7 @@ public class Person {
 public @interface Wow {
 }
 ```
-В примере кода выше объявлена аннотация `Wow`, а использоваться она может примерно так:
+В примере выше объявлена аннотация `Wow`, использоваться она может примерно так:
 
 ```java
 @Wow
@@ -70,92 +78,13 @@ public class Something {
 
 Здесь проаннотированы и класс, и поле, и конструктор, и его параметр.
 
-_Если доводить их использование до абсурда, то может получиться [что-то такое](https://twitter.com/lukaseder/status/711612663202238464):_
+_Если доводить использование аннотаций до абсурда, то может получиться [что-то такое](https://twitter.com/lukaseder/status/711612663202238464):_
 
 ![Передозировка аннотациями](../images/annotation_overdose.png)
 
-## Аннотации -- это особые интерфейсы
-
-Об этом написано в JLS - спецификации языка Java в § 9.6:
-
-> An annotation type declaration specifies a new annotation type, **a special kind of interface type.**
-
-То есть, как ни странно, их можно реализовывать, используя ключевое слово `interface`:
-
-```java
-public class DefaultFoo implements Wow {
-    @Override
-    public Class<? extends Annotation> annotationType() {
-        return Wow.class;
-    }
-}
-```
-
-_при этом, компилятор попросит переопределить `annotationType` - метод из интерфейса [`Annotation`](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/annotation/Annotation.html), возвращающий тип аннотации (в данном случае это - `Wow`)._
-
-
----
-
-**Вопрос**:
-
-Имеет ли смысл _реализовывать (`implements`)_ аннотацию?
-
-**Ответ**:
-
-Скорее **нет**, чем да.
-
-Intellij IDEA, например, имеет инспекцию "Class extends annotation interface":
-
-> Reports any classes declared as implementing or extending an annotation interface. While it is legal to extend an annotation interface, it is often done by accident, and the result won't be usable as an annotation.
-
-реализовывать аннотации разрешено, но часто это происходит по ошибке и IDEA ругается на это:
-
-![Intellij IDEA ругается на класс, реализующий аннотацию Wow](../images/class_implements_annotation.png)
-
-**Вопрос**:
-
-Если аннотация - интерфейс, то кто её реализует?
-
-**Ответ**:
-
-В общем случае это должно быть не так важно, но если вдаться в детали реализации OpenJDK, то это делается динамически с помощью класса [`Proxy`](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/reflect/Proxy.html):
-
-```java
-@Wow
-public class Main {
-    @Retention(RetentionPolicy.RUNTIME)
-    public @interface Wow {
-    }
-
-    public static void main(String[] args) {
-        Wow wow = Main.class.getAnnotation(Wow.class);
-        System.out.println(wow.getClass());
-    }
-}
-```
-
-Вывод:
-
-```text
-class com.sun.proxy.$Proxy1
-```
-
-**Вопрос**:
-
-Аннотации **неизменяемы**, однако их _методы могут возвращать массивы_, которые, в свою очередь, **изменяемы**.
-Что будет, если такой массив изменить массив?
-
-**Ответ**:
-
-Изменится возвращенный массив.
-При этом последующий вызов такого метода вернёт массив, в точности соответствующий исходному.
-Реализации приходится для этого [возвращать **копию** массива](https://stackoverflow.com/questions/53436794/how-do-annotations-prevent-mutations-of-an-array-parameter/53436966#53436966).
-
----
-
 ## Методы аннотаций
 
-У аннотаций могут быть _методы_ (ведь, аннотации -- интерфейсы).
+У аннотаций могут быть _методы_ ([аннотации -- интерфейсы](#Аннотации-это-особые-интерфейсы), но об этом чуть позже).
 
 Пример:
 
@@ -179,7 +108,7 @@ public class ScheduledUsage {
 
 ### Значения по умолчанию
 
-У метода может быть значение по умолчанию, чтобы его задать используется ключевое слово `default`:
+У метода может быть значение _по умолчанию_, чтобы его задать используется ключевое слово `default`:
 
 ```java
 public @interface Scheduled {
@@ -189,8 +118,8 @@ public @interface Scheduled {
 }
 ```
 
-Тогда `rateMillis` указывать будет необязательно.
-Вместо этого будет использоваться значение по умолчанию - `1000`:
+Тогда `rateMillis` указывать будет **необязательно**.
+_Вместо этого будет использоваться значение по умолчанию - `1000`_:
 
 ```java
 public class ScheduledUsage {
@@ -236,58 +165,121 @@ public class ScheduledUsage {
 
 _Если попробовать посмотреть на это с другой стороны, то: аннотации добавляются к элементам класса, а *не* к их экземплярам_
 
-### `java.lang.annotation`
+## Аннотации -- это особые интерфейсы
 
-`java.lang.annotation` - пакет, добавляющий поддержку аннотаций в сам язык.
-Как ни странно, часть этой поддержки тоже добавляется через аннотации.
+Об этом написано в JLS - спецификации языка Java в § 9.6:
 
-В этом пакете находятся:
+> An annotation type declaration specifies a new annotation type, **a special kind of interface type.**
 
-* `interface` [`Annotation`](https://stackoverflow.com/questions/1129795/what-is-suppresswarnings-unchecked-in-java).
-Все аннотации его реализуют
-* Ошибки / исключения: [`AnnotationTypeMismatchException`](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/annotation/AnnotationTypeMismatchException.html), [`IncompleteAnnotationException`](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/annotation/IncompleteAnnotationException.html), [`AnnotationFormatError`](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/annotation/AnnotationFormatError.html)
-* Другие аннотации:
-  * [`@Documented`](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/annotation/Documented.html)
-  * [`@Inherited`](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/annotation/Inherited.html)
-  * [`@Native`](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/annotation/Native.html)
-  * [`@Repeatable`](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/annotation/Repeatable.html)
-  * [*`@Retention`*](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/annotation/Retention.html) - аннотация, позволяющая указать, "до какого этапа жизни" аннотации она должна присутствовать (Подробнее - в [Retention](#Retention))
-  * [*`@Target`*](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/annotation/Target.html) - аннотация, ставящаяся над другой аннотацией.
-Она позволяет уточнить / ограничить места, где данная _аннотированная_ аннотация может быть добавлена
+То есть, как ни странно, их можно реализовывать, используя ключевое слово `interface`:
 
-## Retention
+```java
+public class DefaultFoo implements Wow {
+    @Override
+    public Class<? extends Annotation> annotationType() {
+        return Wow.class;
+    }
+}
+```
+
+_при этом, компилятор попросит переопределить `annotationType` - метод из интерфейса [`Annotation`](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/annotation/Annotation.html), возвращающий тип аннотации (в данном случае это - `Wow`)._
+
+---
+
+**Вопрос**:
+
+Имеет ли смысл _реализовывать (`implements`)_ аннотацию?
+
+**Ответ**:
+
+Скорее **нет**, чем да.
+
+Intellij IDEA, например, имеет инспекцию "Class extends annotation interface":
+
+> Reports any classes declared as implementing or extending an annotation interface. While it is legal to extend an annotation interface, it is often done by accident, and the result won't be usable as an annotation.
+
+реализовывать аннотации разрешено, но часто это происходит по ошибке и IDEA ругается на это:
+
+![Intellij IDEA ругается на класс, реализующий аннотацию Wow](../images/class_implements_annotation.png)
+
+**Вопрос**:
+
+Если аннотация -- интерфейс, то кто её реализует?
+
+**Ответ**:
+
+В общем случае это должно быть не так важно, но если вдаться в детали реализации OpenJDK, то это делается динамически с помощью класса [`Proxy`](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/reflect/Proxy.html):
+
+```java
+@Wow
+public class Main {
+    @Retention(RetentionPolicy.RUNTIME)
+    public @interface Wow {
+    }
+
+    public static void main(String[] args) {
+        Wow wow = Main.class.getAnnotation(Wow.class);
+        System.out.println(wow.getClass());
+    }
+}
+```
+
+Вывод:
+
+```text
+class com.sun.proxy.$Proxy1
+```
+
+**Вопрос**:
+
+Аннотации **неизменяемы**, однако их _методы могут возвращать массивы_, которые, в свою очередь, **изменяемы**.
+Что будет, если такой массив изменить?
+
+**Ответ**:
+
+Изменится возвращенный массив.
+При этом последующий вызов такого метода вернёт массив, в точности соответствующий исходному.
+Реализация для этого [производит **копирование** массива](https://stackoverflow.com/questions/53436794/how-do-annotations-prevent-mutations-of-an-array-parameter/53436966#53436966).
+
+---
+
+## Мета-аннотации, тесно связанные с языком Java
+
+Аннотация, находящаяся над аннотацией, называется **мета-аннотацией**.
+Некоторые мета-аннотации особенно важны, т.к. они позволяют контролировать некоторые аспекты применения _аннотаций_.
+
+Рассмотрим их чуть подробнее.
+
+### `@Retention` и доступность аннотаций
 
 Аннотации могут быть использованы для разных целей:
 
-1. Генерация исходного `java`-кода на этапе компиляции (так делает, например, [Dagger](https://dagger.dev/), [Micronaut](https://micronaut.io/))
-1. Использование информации *во время исполнения*.
+1. Генерации исходного `java`-кода на этапе **компиляции** (так делают, например, [Dagger](https://dagger.dev/), [Micronaut](https://micronaut.io/))
+1. Использования информации *во время исполнения*.
 Так делают [Jackson](https://github.com/FasterXML/jackson), [Gson](https://github.com/google/gson), [Retrofit](https://square.github.io/retrofit/)
 
-* Пункт 1 соответствует `RetentionPolicy.SOURCE`.
-* Второй - `RetentionPolicy.RUNTIME`.
-* Кроме этого, есть нечто посередине - `RetentionPolicy.CLASS`.
-Это - значение *по умолчанию*
-
-_См. [`RetentionPolicy`](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/annotation/RetentionPolicy.html)_
-
-_Для генерации исходного java-кода на этапе компиляции входная точка - [Annotation Processing API](https://docs.oracle.com/javase/8/docs/api/javax/annotation/processing/package-summary.html).
-См также: [Awesome Java Annotation Processing](https://github.com/gunnarmorling/awesome-annotation-processing)_
+В связи с этим различием введено понятие **retention**.
+Оно определяет, _на каком этапе аннотация будет отброшена_.
+Всего предусмотрено три таких этапа: `SOURCE`, `CLASS`, `RUNTIME`, они перечислены в [`RetentionPolicy`](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/annotation/RetentionPolicy.html).
 
 ### Сравнение RetentionPolicy
 
 
 | RetentionPolicy | Описание | Остается в класс-файле | Доступна во время исполнения|
 |-----------------|----------|------------------------|-----------------------------|
-| `SOURCE` | Отбрасываются после компиляции | icon:times[] | icon:times[] |
-| `CLASS` | Отбрасывается на этапе _загрузки класса_ | icon:check[] | Условно: если найти класс-файл и прочитать его |
-| `RUNTIME` | Аннотация всегда доступна через reflection *во время исполнения* | icon:check[] | icon:times[] |
+| `SOURCE` | Отбрасываются после компиляции | Нет | Нет |
+| `CLASS` | Отбрасывается на этапе _загрузки класса_ | Да | _Условно: если найти класс-файл и прочитать его_ |
+| `RUNTIME` | Аннотация всегда доступна через reflection *во время исполнения* | Да | Да |
+
+**Значение по умолчанию - `RetentionPolicy.CLASS`**
+
+_Для генерации исходного java-кода на этапе компиляции входная точка - [Annotation Processing API](https://docs.oracle.com/javase/8/docs/api/javax/annotation/processing/package-summary.html).
+См также: [Awesome Java Annotation Processing](https://github.com/gunnarmorling/awesome-annotation-processing)_
+
 
 #### Мини-эксперимент
 
 ```java
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-
 @Retention(RetentionPolicy.CLASS)
 @interface RetainedInClass {
 }
@@ -316,7 +308,7 @@ public class Annotations {
 ```
 
 * Аннотация `RetainedInClass` имеет `retention = CLASS`, `RetainedInSource` - `SOURCE`, `RetainedAtRuntime`
-* Над классом `Annotations` висят все три
+* Над классом `Annotations` находятся все три
 * В методе `main` производится попытка получить аннотации через reflection api (см. [`Class#getAnnotation`](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/Class.html#getAnnotation(java.lang.Class)))
 
 Результат:
@@ -345,10 +337,10 @@ $ javap -v Annotations.class
 ```text
 RuntimeVisibleAnnotations:
   0: #32()
-    ru.hse.annotations.RetainedAtRuntime
+    ru.misc.annotations.RetainedAtRuntime
 RuntimeInvisibleAnnotations:
   0: #34()
-    ru.hse.annotations.RetainedInClass
+    ru.misc.annotations.RetainedInClass
 ```
 
 `javap` говорит, что в `.class` файле есть:
@@ -357,48 +349,20 @@ RuntimeInvisibleAnnotations:
 * Аннотация, которую во время исполнения не видно, это - `RetainedInClass`
 * `RetainedInSource` не упоминается в контексте _использования_ аннотации в качестве аннотации
 
-## Места использования
+### Места использования и `@Target`
 
-Аннотации могут быть использованы в совершенно различных местах.
-Исчерпывающий список, как и всегда в подобных случаях, приводится в JLS - спецификации языка Java, [§ 9.6.4.1. `@Target`](https://docs.oracle.com/javase/specs/jls/se11/html/jls-9.html#jls-9.6.4.1):
+Аннотация [`@Target`](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/annotation/Target.html) - позволяет конкретно указать, где именно аннотация, _аннотированная аннотацией `@Target`,_ может быть использована.
 
-1. Объявления модулей (`module`, `ElementType.MODULE`)
-1. Объявление пакетов (`package`, `ElementType.PACKAGE`)
-1. Объявления типов (`class`, `interface`, `enum`, аннотации. `ElementType.TYPE` + для аннотаций `ElementType.ANNOTATION_TYPE`)
-1. Объявления методов (`ElementType.METHOD`)
-1. Объявления конструкторов (`ElementType.CONSTRUCTOR`)
-1. Объявления generic классов, интерфейсов, методов, конструкторов (`ElementType.TYPE_PARAMETER`)
-1. Объявления полей (`ElementType.FIELD`)
-1. Формальные параметры и параметры объявления исключений (TODO: что это?) (`ElementType.PARAMETER`)
-1. Объявления локальных переменных (`ElementType.LOCAL_VARIABLE`)
-
-### Пример использования аннотации для локальной переменной
-
-```java
-public class Main {
-    public static void main(String[] args){
-        List<String> stringList = Collections.emptyList();
-        @SuppressWarnings({"RawTypeCanBeGeneric", "rawtypes"})
-        List l = stringList;
-    }
-}
-```
-
-TIP: В стандартной библиотеке это соответствует перечислению [`ElementType`](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/annotation/ElementType.html)
-
-### [`@Target`](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/annotation/Target.html)
-
-Аннотация `@Target` - одна из особых аннотаций языка.
-Она позволяет ограничить, где именно аннотация, _аннотированная аннотацией `@Target`,_ может быть использована.
-
-Пример:
+Допустим, у нас есть аннотация, которую имеет смысл ставить только над полями - `@MakesSenseOnlyAtFields`:
 
 ```java
 @Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.FIELDS)
+@Target(ElementType.FIELD)
 public @interface MakesSenseOnlyAtFields {
 }
 ```
+
+указав `@Target(ElementType.FIELD)`, мы сможем ставить её только над полями:
 
 ```java
 public class User {
@@ -411,9 +375,7 @@ public class User {
 }
 ```
 
-* `@Target` аннотации - `FIELDS`
-* Она добавлена к полю, поэтому код успешно комплируется
-* При попытке добавить её к классу, т.е.:
+А при попытке добавить её к классу:
 
 ```java
 @MakesSenseOnlyAtFields
@@ -421,32 +383,205 @@ public class User {
 }
 ```
 
-возникает ошибка компиляции:
+получим ошибку компиляции:
 
 ```text
 java: annotation type not applicable to this kind of declaration
 ```
 
-[#targetDefaultValue]
-### `target` по умолчанию
+Исчерпывающий список мест применения, как и всегда в подобных случаях, приводится в JLS - спецификации языка Java, [§ 9.6.4.1](https://docs.oracle.com/javase/specs/jls/se11/html/jls-9.html#jls-9.6.4.1). Наиболее распространены объявления:
 
-В случае, если `@Target` не будет задан, то будет использоваться значение по умолчанию - везде, кроме параметров типов и type contexts (TODO: что это?).
+1. Типов (`class`, `interface`, `enum`, аннотации. `ElementType.TYPE`)
+1. Методов (`ElementType.METHOD`)
+1. Конструкторов (`ElementType.CONSTRUCTOR`)
+1. Полей (`ElementType.FIELD`)
 
-* Параметры типов - это про generic'и:
+Это соответствует перечислению [`ElementType`](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/annotation/ElementType.html)
+
+---
+**Вопрос:**
+
+Можно ли одновременно указать несколько `@Target`'ов?
+
+**Ответ:**
+
+Да, конечно: `value` у `@Target` принимает массив `ElementType`. Пример:
 
 ```java
-Set<@Wow String> strings;
-//  ^^^
+@Target({ElementType.METHOD, ElementType.FIELD})
+@interface Lax {
+}
+
+public class Main {
+    @Lax
+    private int bar;
+    
+    @Lax
+    public void foo() {
+    }
+}
+```
+---
+
+
+### Наследование аннотаций и [`@Inherited`](https://docs.oracle.com/javase/8/docs/technotes/guides/reflection/index.html)
+
+Аннотация [`@Inherited`](https://docs.oracle.com/javase/8/docs/technotes/guides/reflection/index.html) показывает, что она должна быть **унаследована**.
+Т.е. при запросе аннотации у `class` 'а будут проверены все супер-классы
+
+Пример:
+
+```java
+@Retention(RetentionPolicy.RUNTIME)
+@Inherited // 1
+public @interface Persistable {
+}
+
+@Persistable // 2
+public abstract class AbstractEntity {
+}
+
+public class Task extends AbstractEntity { // 3
+}
+
+public class InheritedDemo {
+    public static void main(String[] args) {
+        Persistable persistable = Task.class.getAnnotation(Persistable.class); // 4
+        System.out.println(persistable);
+    }
+}
 ```
 
-* Type contexts - непонятно (TODO)
+* `1`: аннотация помечена, как _наследуемая_
+* `2`: `AbstractEntity` в свою очередь помечена, как `@Persistable`
+* `3`: `Task extends AbstractEntity` без добавления аннотации
+* `4`: Запрос аннотации через `Class#getAnnotation`
+
+Вывод:
+
+```text
+@ru.misc.annotations.Persistable()
+```
+
+Без `@Inherited` вывод был следующим:
+
+```text
+null
+```
+
+---
+
+**Вопрос**:
+
+А интерфейсы? Что будет, если такую аннотацию поставить над ним?
+
+**Ответ**:
+
+Она будет проигнорирована:
+
+```java
+@Persistable
+interface Identifiable {
+}
+
+public abstract class AbstractEntity implements Identifiable {
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Persistable persistable = AbstractEntity.class.getAnnotation(Persistable.class); // 4
+        System.out.println(persistable);
+    }
+}
+```
+
+Вывод:
+
+```text
+null
+```
+
+[Javadoc `@Inherited`](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/annotation/Inherited.html) сообщает, что в этом нет смысла. Аннотация наследуется только от **супер-класса**:
+
+> Note that this meta-annotation type has **no effect** if the annotated type is used to annotate **anything other than a class**. Note also that this meta-annotation only causes annotations to be inherited from superclasses; annotations on implemented interfaces have no effect.
+
+---
+
+### Повторяемые аннотации и `@Repeatable`
+
+Иногда может быть полезно применить одну и ту же аннотацию несколько раз, например:
+
+```java
+@Retention(RetentionPolicy.RUNTIME)
+public @interface RunEveryDayAt {
+    int hours() default 0;
+}
+
+public class Cron {
+    @RunEveryDayAt(hours = 11)
+    @RunEveryDayAt(hours = 23)
+    public void compactSpace() {
+    }
+}
+```
+
+Однако, класс `Cron` просто не скомпилируется с ошибкой:
+
+```text
+java: ru.misc.annotations.RunEveryDayAt is not a repeatable annotation type
+```
+
+Чтобы это заработало необходимо:
+
+1. объявить другую аннотацию, которая:
+    1. имеет метод, который:
+        1. возвращает массив _исходных_ аннотаций
+        1. назван `value`
+    1. не имеет других методов без указания `default` значений
+1. пометить исходную аннотацию как [`@Repeatable`](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/annotation/Repeatable.html) указав в ней аннотацию, полученную на предыдущем шаге
+
+```java
+@Retention(RetentionPolicy.RUNTIME)
+public @interface RunEveryDayAts {
+    RunEveryDayAt[] value() default {}; // 1
+}
+
+@Retention(RetentionPolicy.RUNTIME)
+@Repeatable(RunEveryDayAts.class) // 2
+public @interface RunEveryDayAt {
+    int hours() default 0;
+}
+```
+
+* Аннотация `RunEveryDayAts` - аннотация, получанная на первом шаге
+* `1`: Метод `value` возвращает массив _исходных_ аннотаций.
+* `2`: Исходная аннотация помечена, как `Repeatable` с указанием контейнерной аннотации `RunEveryDayAts`
+
+Тогда следующий код:
+
+```java
+public class Main {
+    public static void main(String[] args) throws NoSuchMethodException, SecurityException {
+        Method method = Cron.class.getMethod("compactSpace");
+        System.out.println(Arrays.toString(method.getAnnotationsByType(RunEveryDayAt.class)));
+    }
+}
+```
+
+выведет:
+
+```text
+[@ru.misc.annotations.RunEveryDayAt(hours=11), @ru.misc.annotations.RunEveryDayAt(hours=23)]
+```
+
+**`getAnnotation(RunEveryDayAt.class)` в данном случае вернёт `null`**
 
 ## Работа с аннотациями во время исполнения
 
 Аннотации сами по себе чаще всего ничего не значат, их должен кто-то обрабатывать.
 
 * _Это важно понимать, когда вы столкнётесь с `@Transactional` / `@Cacheable` или `@OneToMany`_
-* _Аннотации, упомянутые до этого, - *особые*, т.к. они тесно связаны с самим языком_
+* _Аннотации `@Target`, `@Retention` и подобные - *особые*, т.к. они тесно связаны с самим языком_
 
 Обработка аннотаций в общем случае зависит от логики, которую необходимо добавить по предоставленной с помощью аннотаций информации.
 
@@ -515,170 +650,8 @@ _Вместо вывода может быть добавлена любая д�
 См. также:
 * [Java Reflection API](https://docs.oracle.com/javase/8/docs/technotes/guides/reflection/index.html)
 
-## Наследование аннотаций и [`@Inherited`](https://docs.oracle.com/javase/8/docs/technotes/guides/reflection/index.html)
+## Выводы
 
-Аннотация [`@Inherited`](https://docs.oracle.com/javase/8/docs/technotes/guides/reflection/index.html) показывает, что она должна быть унаследована.
-Т.е. при запросе аннотации у `class` 'а будут проверены все супер-классы
-
-Пример:
-
-```java
-@Retention(RetentionPolicy.RUNTIME)
-@Inherited // 1
-public @interface Persistable {
-}
-
-@Persistable // 2
-public abstract class AbstractEntity {
-}
-
-public class Task extends AbstractEntity { // 3
-}
-
-public class InheritedDemo {
-    public static void main(String[] args) {
-        Persistable persistable = Task.class.getAnnotation(Persistable.class); // 4
-        System.out.println(persistable);
-    }
-}
-```
-
-* `1`: аннотация помечена, как _наследуемая_
-* `2`: `AbstractEntity` в свою очередь помечена, как `@Persistable`
-* `3`: `Task extends AbstractEntity` без добавления аннотации
-* `4`: Запрос аннотации через `Class#getAnnotation`
-
-Вывод:
-
-```text
-@ru.hse.annotations.Persistable()
-```
-
-Без `@Inherited` вывод был следующим:
-
-```text
-null
-```
-
----
-
-**Вопрос**:
-
-А интерфейсы? Что будет, если такую аннотацию поставить над ним?
-
-**Ответ**:
-
-Она будет проигнорирована:
-
-```java
-@Persistable
-interface Identifiable {
-}
-
-public abstract class AbstractEntity implements Identifiable {
-}
-
-public class Main {
-    public static void main(String[] args) {
-        Persistable persistable = AbstractEntity.class.getAnnotation(Persistable.class); // 4
-        System.out.println(persistable);
-    }
-}
-```
-
-Вывод:
-
-```text
-null
-```
-
-[Javadoc `@Inherited`](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/annotation/Inherited.html) сообщает, что в этом нет смысла. Аннотация наследуется только от **супер-класса**:
-
-> Note that this meta-annotation type has **no effect** if the annotated type is used to annotate **anything other than a class**. Note also that this meta-annotation only causes annotations to be inherited from superclasses; annotations on implemented interfaces have no effect.
-
----
-
-## Повторяемые аннотации и [`@Repeatable`](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/annotation/Repeatable.html)
-
-Иногда может быть полезно применить одну и ту же аннотацию несколько раз, например:
-
-```java
-@Retention(RetentionPolicy.RUNTIME)
-public @interface RunEveryDayAt {
-    int hours() default 0;
-}
-
-public class Cron {
-    @RunEveryDayAt(hours = 11)
-    @RunEveryDayAt(hours = 23)
-    public void compactSpace() {
-    }
-}
-```
-
-Однако, класс `Cron` просто не скомпилируется с ошибкой:
-
-```text
-java: ru.hse.annotations.RunEveryDayAt is not a repeatable annotation type
-```
-
-Чтобы это заработало необходимо:
-
-1. объявить другую аннотацию, которая:
-    1. имеет метод, который:
-        1. возвращает массив _исходных_ аннотаций
-        1. назван `value`
-    1. не имеет других методов без указания `default` значений
-1. пометить исходную аннотацию как `@Repeatable` указав в ней аннотацию, полученную на предыдущем шаге
-
-```java
-@Retention(RetentionPolicy.RUNTIME)
-public @interface RunEveryDayAts {
-    RunEveryDayAt[] value() default {}; // 1
-}
-
-@Retention(RetentionPolicy.RUNTIME)
-@Repeatable(RunEveryDayAts.class) // 2
-public @interface RunEveryDayAt {
-    int hours() default 0;
-}
-```
-
-* Аннотация `RunEveryDayAts` - аннотация, получанная на первом шаге
-* `1`: Метод `value` возвращает массив _исходных_ аннотаций.
-* `2`: Исходная аннотация помечена, как `Repeatable` с указанием контейнерной аннотации `RunEveryDayAts`
-
-Тогда следующий код:
-
-```java
-public class Main {
-    public static void main(String[] args) throws NoSuchMethodException, SecurityException {
-        Method method = Cron.class.getMethod("compactSpace");
-        System.out.println(Arrays.toString(method.getAnnotationsByType(RunEveryDayAt.class)));
-    }
-}
-```
-
-выведет:
-
-```text
-[@ru.hse.annotations.RunEveryDayAt(hours=11), @ru.hse.annotations.RunEveryDayAt(hours=23)]
-```
-
-**`getAnnotation(RunEveryDayAt.class)` в данном случае вернёт `null`**
-
-## `@Documented`
-
-Мета-аннотация, которая даёт _подсказку_ инструментам, генерирующим документацию, что использование аннотации с `@Documented` должно быть задокументировано.
-
-См. также:
-
-* [`@Documented` annotation in java](https://stackoverflow.com/q/5592703/6486622)
-
-## `@Native`
-
-Аннотация, сообщающая что _поле_ может быть использовано в `native` коде.
-
-См. также:
-
-* [Why would someone use `@Native` annotations?](https://softwareengineering.stackexchange.com/questions/218538/why-would-someone-use-native-annotations)
+* Аннотация -- _элемент языка_, позволяющий в определенном формате добавить **мета-информацию** в код.
+* _Виртуальная машина_ и _язык Java_ предоставляют широкие возможности по работе с ними.
+* Аннотации могут быть обработаны как на этапе **компиляции**, так и на этапе **исполнения**.
