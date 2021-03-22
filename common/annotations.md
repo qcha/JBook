@@ -252,9 +252,9 @@ class com.sun.proxy.$Proxy1
 
 Аннотации могут быть использованы для разных целей:
 
-1. Генерации исходного `java`-кода на этапе **компиляции** (так делают, например, [Dagger](https://dagger.dev/), [Micronaut](https://micronaut.io/))
+1. Генерации исходного `java`-кода на этапе **компиляции**. Так делают: [Dagger](https://dagger.dev/), [Micronaut](https://micronaut.io/))
 1. Использования информации *во время исполнения*.
-Так делают [Jackson](https://github.com/FasterXML/jackson), [Gson](https://github.com/google/gson), [Retrofit](https://square.github.io/retrofit/)
+Так делают: [Jackson](https://github.com/FasterXML/jackson), [Gson](https://github.com/google/gson), [Retrofit](https://square.github.io/retrofit/)
 
 В связи с этим различием введено понятие **retention**.
 Оно определяет, _на каком этапе аннотация будет отброшена_.
