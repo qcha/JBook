@@ -632,6 +632,47 @@ try {
 Значит и сообщить лучше именно как о том, что это не абстрактный `java.lang.IOException`, а именно `ConfigException`. При этом, так как перехваченное исключение было передано новому в конструкторе, т.е. указалась причина возникновения (cause) `ConfigException`, то при выводе на консоль или обработке в вызывающем коде будет понятно почему `ConfigException` был создан.
 Также, можно было добавить еще и текстовое описание к сгенерированному `ConfigException`, более подробно описывающее произошедшую ситуацию.
 
+---
+
+**Вопрос**:
+
+Есть ли способ получить причину возникновения исключения?
+
+**Ответ**:
+
+Да, для этого можно воспользоваться методом [getCause](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/Throwable.html#getCause())
+
+```java
+public class ExceptionExample {
+    public Config readConfig() throws ConfigException { // (1)
+      try {
+        Reader readerConf = ....;
+        readerConf.readConfig();
+      } catch (IOException ex) {
+          System.err.println("Log exception: " + ex);
+          throw new ConfigException(ex); // (2)
+      }
+    }
+
+    public void run() {
+        try {
+            Config config = readConfig(); // (3)
+        } catch (ConfigException e) {
+            Throwable t = e.getCause(); // (4)
+        }
+    }
+}
+```
+
+В коде выше:
+
+* В строке (1) объявлен метод `readConfig`, который может выбросить `ConfigException`
+* В строке (2) создаётся исключение `ConfigException`, в конструктор которого передается `IOException` - причина возникновения
+* `readConfig` вызывается в (3) строке кода
+* А в (4) вызван метод `getCause` который и вернёт причину возникновения `ConfigException` - `IOException`
+
+---
+
 Еще одной важной областью применения `re-throw` бывает преобразование проверяемых исключений в непроверяемые.
 В `Java 8` даже добавили исключение `java.io.UncheckedIOException`, которое предназначено как раз для того, чтобы сделать `java.lang.IOException` непроверяемым, обернуть в `unchecked` обертку.
 
@@ -812,6 +853,116 @@ try (FileReader fr = new FileReader(path);
 finally {
     resource.close();
 }
+```
+
+**Вопрос**:
+
+Является ли безопасной конструкция следующего вида?
+
+```java
+try (BufferedWriter bufferedWriter
+        = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("a")))) {
+}
+```
+
+**Ответ:**
+
+Не совсем, если конструктор `OutputStreamWriter` или `BufferedWriter` выбросит исключение, то `FileOutputStream` закрыт, к сожалению, не будет.
+
+Вот минимальный пример, демонстрирующий это:
+
+```java
+public class Main {
+    public static void main(String[] args) throws Exception {
+        try (ThrowingAutoCloseable throwingAutoCloseable
+                     = new ThrowingAutoCloseable(new PrintingAutoCloseable())) { // (1)
+        }
+    }
+
+    private static class ThrowingAutoCloseable implements AutoCloseable { // (2)
+        private final AutoCloseable other;
+
+        public ThrowingAutoCloseable(AutoCloseable other) {
+            this.other = other;
+            throw new IllegalStateException("I always throw"); // (3)
+        }
+
+        @Override
+        public void close() throws Exception {
+            try {
+                other.close(); // (4)
+            } finally {
+                System.out.println("ThrowingAutoCloseable is closed");
+            }
+        }
+    }
+
+    private static class PrintingAutoCloseable implements AutoCloseable { // (5)
+        public PrintingAutoCloseable() {
+            System.out.println("PrintingAutoCloseable created"); // (6)
+        }
+
+        @Override
+        public void close() {
+            System.out.println("PrintingAutoCloseable is closed"); // (7)
+        }
+    }
+}
+```
+
+* В строке (1) происходит заворачивание одного ресурса в другой, аналогично `new BufferedWriter(new OutputStreamWriter(new FileOutputStream("a")))`
+* `ThrowingAutoCloseable` (2) - такой `AutoCloseable`, который всегда бросает исключение (3), в (4) производится попытка закрыть полученный в конструкторе `AutoCloseable`
+* `PrintingAutoCloseable` (5) - `AutoCloseable`, который печатает сообщения о своём создании (5) и закрытии (7).
+
+В результате выполнения этой программы вывод будет примерно следующим:
+
+```text
+PrintingAutoCloseable created
+Exception in thread "main" java.lang.IllegalStateException: I always throw
+	at ru.misc.Main$ThrowingAutoCloseable.<init>(Main.java:19)
+	at ru.misc.Main.main(Main.java:9)
+```
+
+Как видно, `PrintingAutoCloseable` закрыт не был
+
+**Вопрос:**
+
+В каком порядке закрываются ресурсы, объявленные в try-with-resources?
+
+**Ответ:**
+
+В обратном, пример:
+
+```java
+public class Main {
+    public static void main(String[] args) throws Exception {
+        try (PrintingAutoCloseable printingAutoCloseable1 = new PrintingAutoCloseable("1");
+             PrintingAutoCloseable printingAutoCloseable2 = new PrintingAutoCloseable("2");
+             PrintingAutoCloseable printingAutoCloseable3 = new PrintingAutoCloseable("3")) {
+        }
+    }
+
+    private static class PrintingAutoCloseable implements AutoCloseable {
+        private final String id;
+
+        public PrintingAutoCloseable(String id) {
+            this.id = id;
+        }
+
+        @Override
+        public void close() {
+            System.out.println("Closed " + id);
+        }
+    }
+}
+```
+
+Вывод:
+
+```text
+Closed 3
+Closed 2
+Closed 1
 ```
 
 ---
