@@ -46,6 +46,7 @@ public class Person {
 _Разработчик ошибся и в качестве типа параметра `equals` указал `Person`, хотя [`equals`](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/Object.html#equals(java.lang.Object)) принимает `Object`._
 
 ---
+
 **Вопрос**:
 
 Где ещё аннотации могут быть полезны?
@@ -137,6 +138,8 @@ Intellij IDEA имеет инспекцию "Class extends annotation interface"
 Реализовывать аннотации разрешено, но часто это происходит по ошибке, и IDEA ругается на это:
 
 ![Intellij IDEA ругается на класс, реализующий аннотацию Wow](../images/class_implements_annotation.png)
+
+---
 
 **Вопрос**:
 
@@ -418,6 +421,7 @@ java: annotation type not applicable to this kind of declaration
 Это соответствует перечислению [`ElementType`](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/annotation/ElementType.html)
 
 ---
+
 **Вопрос:**
 
 Можно ли одновременно указать несколько `@Target`'ов?
@@ -440,6 +444,7 @@ public class Main {
     }
 }
 ```
+
 ---
 
 ### Наследование аннотаций и `@Inherited`

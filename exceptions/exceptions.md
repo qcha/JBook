@@ -982,7 +982,7 @@ public class Main {
 
 1. В строке (1) происходит заворачивание одного ресурса в другой, аналогично `new BufferedWriter(new OutputStreamWriter(new FileOutputStream("a")))`.
 2. `ThrowingAutoCloseable` (2) - такой `AutoCloseable`, который всегда бросает исключение (3), в (4) производится попытка закрыть полученный в конструкторе `AutoCloseable`.
-3. `PrintingAutoCloseable` (5) - `AutoCloseable`, который печатает сообщения о своём создании (5) и закрытии (7).
+3. `PrintingAutoCloseable` (5) - `AutoCloseable`, который печатает сообщения о своём создании (6) и закрытии (7).
 
 В результате выполнения этой программы вывод будет примерно следующим:
 
@@ -994,6 +994,8 @@ Exception in thread "main" java.lang.IllegalStateException: I always throw
 ```
 
 Как видно, `PrintingAutoCloseable` закрыт не был!
+
+---
 
 ---
 
