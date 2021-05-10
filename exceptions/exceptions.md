@@ -997,8 +997,6 @@ Exception in thread "main" java.lang.IllegalStateException: I always throw
 
 ---
 
----
-
 **Вопрос:**
 
 В каком порядке закрываются ресурсы, объявленные в try-with-resources?
