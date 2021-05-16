@@ -13,10 +13,12 @@
       - [Расположение catch блоков](#расположение-catch-блоков)
       - [Транзакционность](#транзакционность)
     - [Делегирование](#делегирование)
-    - [Методы и практики обработки исключительных ситуаций](#методы-и-практики-обработки-исключительных-ситуаций)
+    - [Методы и практики работы с исключительными ситуацими](#методы-и-практики-работы-с-исключительными-ситуацими)
       - [Собственные исключения](#собственные-исключения)
       - [Реагирование через re-throw](#реагирование-через-re-throw)
+      - [Не забывайте указывать причину возникновения исключения](#не-забывайте-указывать-причину-возникновения-исключения)
       - [Сохранение исключения](#сохранение-исключения)
+      - [Логирование](#логирование)
       - [Чего нельзя делать при обработке исключений](#чего-нельзя-делать-при-обработке-исключений)
     - [Try-with-resources или try-с-ресурсами](#try-with-resources-или-try-с-ресурсами)
     - [Общие советы](#общие-советы)
@@ -607,7 +609,7 @@ String readLine(String path) throws IOException {
 
 Теперь пришла пора рассмотреть методы обработки исключительных ситуаций.
 
-### Методы и практики обработки исключительных ситуаций
+### Методы и практики работы с исключительными ситуацими
 
 Главное и основное правило при работе с исключениями звучит так:
 
@@ -682,15 +684,67 @@ try {
 
 Также, можно было добавить еще и текстовое описание к сгенерированному `ConfigException`, более подробно описывающее произошедшую ситуацию.
 
----
+Еще одной важной областью применения `re-throw` бывает преобразование проверяемых исключений в непроверяемые.
+В `Java 8` даже добавили исключение `java.io.UncheckedIOException`, которое предназначено как раз для того, чтобы сделать `java.io.IOException` непроверяемым, обернуть в `unchecked` обертку.
 
-**Вопрос**:
+Пример:
 
-Есть ли способ получить причину возникновения исключения?
+```java
+try {
+    Reader readerConf = ....
+    readerConf.readConfig();
+} catch(IOException ex) {
+    System.err.println("Log exception: " + ex);
+    throw new UncheckedIOException(ex);
+}
+```
 
-**Ответ**:
+#### Не забывайте указывать причину возникновения исключения
 
-Да, для этого можно воспользоваться методом [getCause](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/Throwable.html#getCause())
+В предыдущем пункте мы создали собственное исключение, которому указали причину: перехваченное исключение, `java.io.IOException`.
+
+Чтобы понять как это работает, давайте рассмотрим наиболее важные поля класса `java.lang.Throwable`:
+
+```java
+public class Throwable implements Serializable {
+
+    /**
+     * Specific details about the Throwable.  For example, for
+     * {@code FileNotFoundException}, this contains the name of
+     * the file that could not be found.
+     *
+     * @serial
+     */
+    private String detailMessage;
+
+    // ...
+
+
+    /**
+     * The throwable that caused this throwable to get thrown, or null if this
+     * throwable was not caused by another throwable, or if the causative
+     * throwable is unknown.  If this field is equal to this throwable itself,
+     * it indicates that the cause of this throwable has not yet been
+     * initialized.
+     *
+     * @serial
+     * @since 1.4
+     */
+    private Throwable cause = this;
+
+    // ...
+}
+```
+
+Все исключения, будь то `java.lang.RuntimeException`, либо `java.lang.Exception` имеют необходимые конструкторы для инициализации этих полей.
+
+> При создании собственного исключения не пренебрегайте этими конструкторами!
+
+Поле `cause` используются для указания родительского исключения, причины. Например, выше мы перехватили `java.io.IOException`, прокинув свое исключение вместо него. Но причиной того, что наш код выкинул `ConfigException` было именно исключение `java.io.IOException`. И эту причину нельзя игнорировать.
+
+Представьте, что код, использующий ваш метод также перехватил `ConfigException`, пробросив какое-то своё исключение, а это исключение снова кто-то перехватил и пробросил свое. Получается, что истинная причина будет просто **потеряна**! Однако, если каждый будет указывать `cause`, истинного виновника возникновения исключения, то вы всегда сможете обнаружить по этому стеку виновника.
+
+Для получения причины возникновения исключения существует метод [getCause](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/Throwable.html#getCause()).
 
 ```java
 public class ExceptionExample {
@@ -720,23 +774,6 @@ public class ExceptionExample {
 2. В строке (2) создаётся исключение `ConfigException`, в конструктор которого передается `IOException` - причина возникновения.
 3. `readConfig` вызывается в (3) строке кода.
 4. А в (4) вызван метод `getCause` который и вернёт причину возникновения `ConfigException` - `IOException`.
-
----
-
-Еще одной важной областью применения `re-throw` бывает преобразование проверяемых исключений в непроверяемые.
-В `Java 8` даже добавили исключение `java.io.UncheckedIOException`, которое предназначено как раз для того, чтобы сделать `java.io.IOException` непроверяемым, обернуть в `unchecked` обертку.
-
-Пример:
-
-```java
-try {
-    Reader readerConf = ....
-    readerConf.readConfig();
-} catch(IOException ex) {
-    System.err.println("Log exception: " + ex);
-    throw new UncheckedIOException(ex);
-}
-```
 
 #### Сохранение исключения
 
@@ -796,6 +833,38 @@ class Example {
     }
 }
 ```
+
+#### Логирование
+
+Когда логировать исключение?
+
+В большинстве случаев лучше всего логировать исключение в месте его обработки. Это связано с тем, что именно в данном месте кода достаточно информации для описания возникшей проблемы - реакции на исключение. Кроме этого, одно и то же исключение при вызове одного и того же метода можно перехватывать в разных местах программы.
+
+Также, исключение может быть частью ожидаемого поведения. В этом случае нет необходимости его логировать.
+
+Поэтому не стоит преждевременно логировать исключение, например:
+
+```java
+/**
+ * Parse date from string to java.util.Date.
+ * @param date as string 
+ * @return Date object.
+ */
+public static Date from(String date) {
+    try {
+        DateFormat format = new SimpleDateFormat("MMMM d, yyyy", Locale.ENGLISH);
+        return format.parse(date);
+    }  catch (ParseException e) {
+        logger.error("Can't parse ")
+        throw e;
+    }
+}
+```
+
+Здесь `ParseException` является частью ожидаемой работы, в ситуациях, когда строка содержит невалидные данные.
+Раз происходит **делегирование** исключения выше (с помощью `throw`), то и там, где его будут обрабатывать и лучше всего логировать, а эта запись в лог будет избыточной. Хотя бы потому, что в месте обработки исключения его тоже залогируют!
+
+Подробнее о [логировании](../other/logging.md).
 
 #### Чего нельзя делать при обработке исключений
 
@@ -1330,6 +1399,8 @@ void hello() throws Exception {
 >
 > (c) James Gosling.
 
+Для закрепления материала рекомендую ознакомиться с ссылками ниже и [этим](./questions.md) материалом.
+
 ## Полезные ссылки
 
 1. [Книга С. Стелтинг 'Java без сбоев: обработка исключений, тестирование, отладка'](https://www.ozon.ru/context/detail/id/2342758/)
@@ -1342,3 +1413,4 @@ void hello() throws Exception {
 8. [The Trouble with Checked Exceptions by Bill Venners with Bruce Eckel](https://www.artima.com/intv/handcuffs.html)
 9. [Никто не умеет обрабатывать ошибки](https://habr.com/ru/post/221723/)
 10. [Исключения и обобщенные типы в Java](https://youtu.be/fH6G8KrjElk)
+11. [Вопросы для закрепления](./questions.md)
