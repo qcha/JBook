@@ -331,7 +331,7 @@ public static double sqrt(double value) {
 1. `checkArgument` - проверка аргумента на выполнение условия. При невыполнении бросается `java.lang.IllegalArgumentException`.
 2. `checkElementIndex` - проверка на валидность индекса массива/списка/строки. В противном случае бросается `java.lang.IndexOutOfBoundsException`.
 3. `checkNotNull` - проверка на наш любимый `null`. В противном случае бросается `java.lang.NullPointerException`.
-4. `checkState` - проверка состояния. Если аргумент -- `false` кинет `java.lang.IllegalStateException`.
+4. `checkState` - проверка состояния. Если аргумент - `false` кинет `java.lang.IllegalStateException`.
 
 `Precondtions.checkNotNull` является аналогом `Objects.requireNonNull` из стандартной библиотеки.
 
