@@ -166,21 +166,34 @@ public class AssertionError extends Error {
 И представляем иерархию. Понятно, что обработка исключений при использовании `assert` усложняется в разы.
 Просто потому, что отреагировать на такое специфическое исключение - сложно.
 
-Из этого следует, что использовать `assert`-ы в проверках (например, на `null` или валидацию входных значений в метод) - плохая задумка.
-Просто потому, что для ситуации с передачей неправильных аргументов в метод уже существует `java.lang.IllegalArgumentException`:
+Из этого следует, что использовать `assert`-ы в проверках (например, на `null` или валидацию входных значений в метод) - плохая задумка, потому что:
 
-```java
-/**
- * Thrown to indicate that a method has been passed an illegal or
- * inappropriate argument.
- *
- * @author  unascribed
- * @since   JDK1.0
- */
-public class IllegalArgumentException extends RuntimeException {
-    // ...
-}
-```
+* Если передали неправильные аргументы, то существует `java.lang.IllegalArgumentException`:
+    ```java
+    /**
+     * Thrown to indicate that a method has been passed an illegal or
+     * inappropriate argument.
+     *
+     * @author  unascribed
+     * @since   JDK1.0
+     */
+    public class IllegalArgumentException extends RuntimeException {
+        // ...
+    }
+    ```
+* Если метод вызван не вовремя, например у `Iterator`'а вызвали метод `remove` без вызова `next`, то JDK на этот случай предлагает `java.lang.IllegalStateException`:
+    ```java
+    /**
+    * Signals that a method has been invoked at an illegal or
+    * inappropriate time.  In other words, the Java environment or
+    * Java application is not in an appropriate state for the requested
+    * operation.
+    *
+    * @author  Jonni Kanerva
+    * @since   1.1
+    */
+    public class IllegalStateException extends RuntimeException {
+    ```
 
 Это ещё серьёзный камень в огород `assert`-ов.
 
@@ -318,8 +331,9 @@ public static double sqrt(double value) {
 1. `checkArgument` - проверка аргумента на выполнение условия. При невыполнении бросается `java.lang.IllegalArgumentException`.
 2. `checkElementIndex` - проверка на валидность индекса массива/списка/строки. В противном случае бросается `java.lang.IndexOutOfBoundsException`.
 3. `checkNotNull` - проверка на наш любимый `null`. В противном случае бросается `java.lang.NullPointerException`.
+4. `checkState` - проверка состояния. Если аргумент - `false` кинет `java.lang.IllegalStateException`.
 
-Последний является аналогом `Objects.requireNonNull` из стандартной библиотеки.
+`Precondtions.checkNotNull` является аналогом `Objects.requireNonNull` из стандартной библиотеки.
 
 Использовать `Preconditions` из `Guava` или нет зачастую зависит от команды и проекта, кому-то кажется, что это делает код более лаконичным, с другой стороны тащить только ради этого целую библиотеку в проект спорно (если до этого у вас не было `Guava` в проекте).
 
@@ -343,6 +357,7 @@ public static double sqrt(double value) {
 1. `isTrue` - проверка аргумента на выполнение условия. При невыполнении бросается `java.lang.IllegalArgumentException`.
 2. `validIndex` - проверка на валидность индекса массива/списка/строки. В противном случае бросается `java.lang.IndexOutOfBoundsException`.
 3. `notNull` - проверка на наш любимый `null`. В противном случае бросается `java.lang.NullPointerException`.
+4. `validState` - проверка состояния. Кинет `java.lang.IllegalStateException`, если первый аргумент - `false`.
 
 И так далее.
 
