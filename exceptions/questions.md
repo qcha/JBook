@@ -11,7 +11,7 @@
 ![Exception Hierarchy](../images/exception/exceptions.png)
 
 Также могут попросить привести пару примеров исключений каждого типа.
-Необходимо помнить какие из иключений проверяемые, а какие не проверяемые.
+Необходимо помнить какие из исключений проверяемые, а какие не проверяемые.
 
 ### Методы и поля исключения
 
@@ -70,8 +70,9 @@ public String getMessage() {
 ```java
 public class ExceptionExample {
     public static void main(String[] args) {
+        String line;
         try {
-            String line = "hello";
+            line = "hello";
         } catch (Exception e) {
             System.err.println(e);
         }
@@ -167,7 +168,7 @@ public int example() {
 
 **Ответ**:
 
-Так как блок `finally` будет выполняется всегда, то результатом будет `-1`.
+Так как блок `finally` выполняется всегда, то результатом будет `-1`.
 
 ---
 
@@ -260,7 +261,7 @@ try {
 
 **Вопрос**:
 
-Коронный вопрос на всех собеседованих на `junior`:
+Коронный вопрос на всех собеседованиях на `junior`:
 
 В чем отличия между `final`, `finally` и `finalize`?
 
