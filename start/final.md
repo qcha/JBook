@@ -214,7 +214,7 @@ public class StringArrayList {
     final String[] arr;
 
     public StringArrayList() {
-        this.arr = = new String[10];
+        this.arr = new String[10];
         arr[0] = "World";
     }
 }
