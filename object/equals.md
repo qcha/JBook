@@ -387,7 +387,10 @@ b.equals(a) == false;
 
 В итоге получается палка о двух концах, поэтому выбор `getClass` или `instanceOf` надо делать под конкретную задачу, осознавая к чему может привести ваше решение.
 
-Например, как определен `equals` у `HashSet`:
+Возможно, стоит вообще отказаться от наследования.
+
+Но в некоторых случаях, `instanceOf` вполне можно использовать и не переживать о нарушениях.
+Например, посмотрите как определен `equals` у `HashSet`:
 
 ```java
     /**
@@ -547,5 +550,6 @@ false
 
 ## Полезные ссылки
 
-1. [Что выбрать: getClass vs instanceOf](https://stackoverflow.com/questions/4989818/instanceof-vs-getclass)
-2. [Liskov substitution principle vs Symmetric in equals](https://stackoverflow.com/questions/27581/what-issues-should-be-considered-when-overriding-equals-and-hashcode-in-java/32223#32223)
+1. [Java equals() and hashCode() Contracts](https://www.baeldung.com/java-equals-hashcode-contracts)
+2. [Что выбрать: getClass vs instanceOf](https://stackoverflow.com/questions/4989818/instanceof-vs-getclass)
+3. [Liskov substitution principle vs Symmetric in equals](https://stackoverflow.com/questions/27581/what-issues-should-be-considered-when-overriding-equals-and-hashcode-in-java/32223#32223)
