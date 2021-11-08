@@ -449,7 +449,7 @@ public final class Optional<T> {
 
 Для работы `Optional` с примитивами существует: `java.util.OptionalInt`, `java.util.OptionalLong` и `java.util.OptionalDouble`.
 
-Для примера, пусть необходим метод, который в телефонной книге ищет пользователя по имени и фамилии(как уникальным идентификаторам пользователя в нашей реализации):
+Для примера, пусть необходим метод, который в телефонной книге ищет пользователя по имени и фамилии (как уникальным идентификаторам пользователя в нашей реализации):
 
 ```java
 public Person findByNameAndSurname(final String name, final String surname) {
@@ -457,7 +457,7 @@ public Person findByNameAndSurname(final String name, final String surname) {
 }
 ```
 
-Очевидно, что может возникнуть ситуация, когда будет произведен поиск несуществующего пользователя(например, не зарегестрированного у нас).
+Очевидно, что может возникнуть ситуация, когда будет произведен поиск несуществующего пользователя (например, не зарегестрированного у нас).
 
 Что делать в таком случае?
 
@@ -565,6 +565,8 @@ Optional<Object> optional = Optional.of(null); // exception
 
 Это путь в ад и к ненависти.
 
+Подробно о [Optional](./optional.md).
+
 ### Доверяйте, но с аннотациями
 
 Но как быть тому, кто будет использовать ваш код, понять, какие поля вы какие поля *могут* по нашей задумке быть `null`, а какие - нет, и это *явная* ошибка?
@@ -582,7 +584,7 @@ Optional<Object> optional = Optional.of(null); // exception
 4. [lombok.NonNull](https://projectlombok.org/)
 5. [org.eclipse.jdt.annotation.NonNull](http://help.eclipse.org/oxygen/topic/org.eclipse.jdt.doc.user/tasks/task-improve_code_quality.htm)
 
-В целом, я уверен, существуют еще несколько, но я выделил наиболее популярные(исключая `Android` специфичные) на данный момент.
+В целом, я уверен, существуют еще несколько, но я выделил наиболее популярные (исключая `Android` специфичные) на данный момент.
 
 Какую выбрать и как использовать?
 
@@ -724,10 +726,11 @@ printStatus(null);  // тот самый грузовик по встречно�
 5. [Про проверки на null](https://www.baeldung.com/java-avoid-null-check)
 6. [Какие аннотации для null использовать](https://stackoverflow.com/questions/4963300/which-notnull-java-annotation-should-i-use)
 7. [Про Optional](https://blog.joda.org/2014/11/optional-in-java-se-8.html)
-8. [Ещё про Optional](https://habr.com/ru/post/346782/)
-9. [Про Null.Часть 1](https://medium.com/destinationaarhus-techblog/avoiding-null-pointer-exceptions-in-a-modern-java-application-c048ba872f7e)
-10. [Про Null.Часть 2](https://medium.com/destinationaarhus-techblog/avoiding-null-pointer-exceptions-in-a-modern-java-application-5e54fab6e3b)
-11. [Stop Abusing Nihil](https://rocket-science.ru/hacking/2019/03/21/stop-abusing-nihil)
+8. [Java Optional — попытка избежать NullPoinerException](https://www.youtube.com/watch?v=WRRHDl0cwOg)
+9. [Ещё про Optional](https://habr.com/ru/post/346782/)
+10. [Про Null.Часть 1](https://medium.com/destinationaarhus-techblog/avoiding-null-pointer-exceptions-in-a-modern-java-application-c048ba872f7e)
+11. [Про Null.Часть 2](https://medium.com/destinationaarhus-techblog/avoiding-null-pointer-exceptions-in-a-modern-java-application-5e54fab6e3b)
+12. [Stop Abusing Nihil](https://rocket-science.ru/hacking/2019/03/21/stop-abusing-nihil)
 
 ## Отдельная благодарность
 

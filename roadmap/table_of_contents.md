@@ -9,8 +9,9 @@
 3. [Как оформить класс для хранения константных значений](../start/classes_for_static.md)
 4. [Ключевое слово final](../start/final.md)
 5. [Война с null](../start/null_war.md)
-6. [Проверки и assert](../start/assertions.md)
-7. [Общие советы](../start/advices.md)
+6. [Optional](../start/optional.md)
+7. [Проверки и assert](../start/assertions.md)
+8. [Общие советы](../start/advices.md)
 
 ## Объектно-ориентированное программирование
 
