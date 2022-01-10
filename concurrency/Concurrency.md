@@ -1,211 +1,509 @@
-# Многопоточность в Java
+# Java Concurrency
 
 ## Введение
 
-Ясно, что делать два дела одновременно и хорошо - это несомненный плюс.
-Вы можете ехать в метро и слушать музыку, чистить зубы и смотреть фильм.
+Человек давно привык делать несколько дел одновременно.
+Мы едем в метро, слушаем музыку и думаем о работе, чистим зубы и смотрим фильм.
 
-Зачем в Java?
+При этом каждая задача борется с другими за 'процессорное время' - за мозг человека.
+Мозг, ловко переключается между задачами, давая каждой чуть-чуть своего внимания, и создается впечатление, что мы делаем задачи параллельно.
 
-* Используем CPU, несколько ядер
-* Многозадачность и производительность
-* Асинхронная обработка событий
+Зачем нам это? Для производительности!
+Всегда ли это хорошо и помогает нам? Не всегда, сами понимаете, что некоторые задачи выполнять 'параллельно' не получится.
 
-В чем же разница между процессом и потоком?
+Точно то же самое можно сказать и про программирование на `Java`! 
+Только в `Java` задачи выполняют `Thread`-ы или потоки.
 
-* Процессы обладают собственным адресным пространством.
-* Потоки работают с общей памятью.
-* С потоками работает именно планировщик ОС.
+> В разных источниках по разному переводится слово `Thread`: поток, нить и прочее.
+> Мы будем просто говорить `thread` или поток.
+
+Где мы можем получить выгоду от многопоточности?
+
+* У нас много `cpu` ядер и наша задача хорошо разбивается на подзадачи.
+    Например, вычислительные задачи.
+
+* Нам надо быстро отреагировать на запрос.
+    Например, пользователь запросил данные, для их получения требуется время, поэтому мы параллельно запускаем задачу сбора данных и при этом не прекращаем диалог с пользователем, не блокируем ему интерфейс.
+
+* Многопользовательский сервис.
+    Сервис, где каждый запрос обрабатывается параллельно с другими 
+
+Где выгоды от увеличения многопоточности не будет?
+
+* Задача плохо параллелизуется.
+    Например, упирается в неразделяемый ресурс.
+
+* У нас мало `cpu` ядер.
+    Если у нас всего два ядра, то от большого увеличения количества потоков пользы не будет.
+    Ведь потоки будут 'драться' за процессорное время, по сути за эти два ядра.
+    И увеличение количества потоков только негативно скажется на производительности.
+
+Еще одним ограничением является закон Амдала.
+
+### Закон Амдала
+
+Иллюстрирует ограничение роста производительности вычислительной системы с увеличением количества вычислителей:
+
+> Пусть необходимо решить некоторую вычислительную задачу.
+>
+> Предположим, что её алгоритм таков, что доля `a` от общего объёма вычислений может быть получена только последовательными расчётами, а, соответственно, доля `1- a`  может быть распараллелена идеально (то есть время вычисления будет обратно пропорционально числу задействованных узлов `p`.
+> 
+> Тогда ускорение, которое может быть получено на вычислительной системе из `p` процессоров, по сравнению с однопроцессорным решением не будет превышать величины:
+
+> ![Amdahl's law](../images/concurrency/amdahl_law.png)
+
+Графически это выглядит как:
+
+![Amdahl's law graphics](../images/concurrency/amdahl_law_graphics.png)
+
+Теперь представим, что у нас есть работа и 80% ее можно выполнить раздельно, но 20% должно быть выполнено последовательно.
+
+Вопрос: какое максимальное ускорение мы можем получить при распараллеливании?
+
+И в таком случае, ответ на вопрос будет: не более, чем в пять раз.
 
 
-## Создание и запуск
+Таблица показывает, во сколько раз быстрее выполнится программа с долей последовательных вычислений `a` при использовании `p` процессоров:
 
-Создать поток просто - мы должны отнаследоваться от `Thread`:
+| a \ p  | 10     | 100    | 1 000  |  
+|--------|--------|--------|--------|
+|  10 %  | 5,263  | 9,174  | 9,910  |
+|  25 %  | 3,077  | 3,883  | 3,988  |
+|  40 %  | 2,174  | 2,463  | 2,496  |
+
+На самом деле все еще хуже, потому что есть еще межпоточная координация, которая тоже влияет на производительность.
+ 
+Это как раз учитывается в `Universal Scalability Law` или `USL`, который является расширением закона Амдала:
+
+![USL](../images/concurrency/USL.png)
+
+Здесь, k - это параметр, определяющий штраф на межпоточную координацию (cohesion).
+
+И графики сравнения будут:
+
+![USL](../images/concurrency/usl_vs_amdahls.png)
+
+Видно, что после какого-то значения увеличение количества потоков только ухудшает производительность. Где-то есть лимит, после которого нет смысла уже увеличивать количество потоков.
+
+Поэтому, прежде чем использовать многопоточность у себя необходимо ответить на вопросы:
+
+* Хорошо ли задача паралелизуется?
+* Насколько многопоточным должно быть решение?
+
+## Concurrency vs Parallelism
+
+Еще важно понимать, что многопоточная программа не обязательно выполняется параллельно.
+
+![Concurrency vs Parallelism](../images/concurrency/concurrency_vs_parallelism.png)
+
+У нас два автомата по выдаче напитков, соответственно, два человека могут получить напиток сразу - это параллельное выполнение программы.
+Многопоточная программа не обязательно выполняет действия параллельно, она потенциально может стать параллельной, если добавить больше ресурсов.
+
+Потоков может быть больше (чаще всего их и так больше), нежели ядер процессора, на которых потоки выполняются.
+Например, мы вполне можем создать несколько потоков на одноядерном процессоре, соответственно, наша программа будет многопоточной, но не параллельной.
+
+Остюда же неявно следует, что если бесконтрольно плодить потоки, то это негативно скажется на производительности.
+Просто представьте, что у вас 4 автомата с колой, а вы сделали 1000 очередей!
+
+Добавим сюда умные формулы, графики из `USL` и получим следующую картину:
+
+![Theory vs Actual](../images/concurrency/theory_vs_actual.png)
+
+Теперь, когда мы поняли все риски, приступим к рассмотрению многопоточности в `Java`.
+
+## Создание
+
+### Наследник java.lang.Thread
+
+Самый простой способ создать поток - это отнаследоваться от `java.lang.Thread` и переопределить метод `void run()`:
 
 ```java
 public class MyThread extends Thread {
     @Override
-    public void run() {/*some work*/}
+    public void run() {
+        // наша логика здесь
+    }
 }
 ```
 
-Запуск будет выглядеть как
+Запуск поток **всегда** происходит через метод `start()`:
 
 ```java
 MyThread thread = new MyThread();
 thread.start();
 ```
 
-При этом, надо обязательно помнить, что вызывать надо именно `start`, который
-уже в отдельном потоке запустит то, что вы написали в `run`. И да, мы **можем**
-переопределить `start` - но этого делать **не стоит**, так как там своя логика
-запуска вашего потока.
+---
 
-Пример кода:
+**Вопрос**:
+
+Зачем нам два метода? Почему `start` - это запуск потока, а `run` - это наша логика вычисления, которая будет запущена в потоке?
+
+**Ответ**:
+
+Для ответа на этот вопрос рассмотрим пример:
 
 ```java
-import java.util.concurrent.TimeUnit;
+class ThreadExample extends Thread {
+    private final String greeting;
+    private final int count;
 
-public class ThreadExample extends Thread {
-    private static final int COUNT = 10;
-    private String name;
-    private int delay;
-
-    public ThreadExample(String name, int delay) {
-        this.name = name;
-        this.delay = delay;
+    public ThreadExample(String greeting, int count) {
+        this.greeting = greeting;
+        this.count = count;
     }
 
     @Override
     public void run() {
-        System.out.println("Thread " + name + " started!");
+        System.out.println(greeting);
         
-        try {
-            for (int i = 0; i < COUNT; i++) {
-                System.out.println(name + " generate number: " + i);
-                TimeUnit.SECONDS.sleep(delay);
-            }
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+        int sum = 0;
+        for(int i = 0; i < count; i ++) {
+            sum += i;
         }
 
-        System.out.println("Thread " + name + " finished!");
+        System.out.println("Sum is:" + sum);
+    }
+}
+
+public class Example {
+    public static void main(String[] args) {
+        new ThreadExample("Hello from 1", 1_000_000).run();
+        new ThreadExample("Hello from 2", 2).run();
     }
 }
 ```
 
-Внимательный читатель сразу спросит, как так, а если я хочу, чтобы мой класс был
-потоком, но он уже наследует какой-то другой класс. Как быть?
+Запустим и увидим, что все будет выполняться последовательно. Сначала отработает `te1`, а уже после него начнет работу `te2`. 
 
-Тут поможет второй вариант создания потока. Это, разумеется, реализация
-интерфейса! Нужный интерфейс называется `Runnable`.
+Поэтому никогда **НЕ** вызывайте метод `run` напрямую!
+
+И отсюда же следует ответ почему существует метод `start`!
+
+Дело в том, что кто-то должен породить поток. Да, мы написали логику в `run`.
+Но далее кто-то должен породить в операционной системе поток и запустить эту логику в нем.
+
+Этим и занимается `start`, прося выделить поток в `ОС` (через `native` метод `private native void startImpl();`), а после запуская внутри `run`.
+
+---
+
+**Вопрос**:
+
+Можем ли мы переопределить `start`? Что в таком случае будет?
+
+**Ответ**:
+
+Как и любой не `final` публичный метод в `Java`, разумеется `start` можно переопределить.
+
+Но этого делать **не стоит**!.
+
+Ведь переопределнный метод `start` уже не сможет запросить создание потока у `ОС`, соответственно дальнейшая работа уже будет бессмысленна:
+
+---
+
+### java.lang.Runnable
+
+Создавать наследника `java.lang.Thread`, выделяя под это целый класс зачастую неудобно.
+
+Во-первых, ваш класс уже может быть чьим-то наследником, поэтому просто отнаследоваться от `java.lang.Thread` не получиться.
+
+Во-вторых, иногда просто неудобно создавать целый класс, чтобы переопределить `run`.
+Неудобно, громоздко, плодит лишние классы, добавляя проблем с выдумыванием им названий!
+
+Классы не могут, интерфейсы помогут и решение нашей проблемы называется `java.lang.Runnable`:
+
+```java
+/**
+ * The <code>Runnable</code> interface should be implemented by any
+ * class whose instances are intended to be executed by a thread. The
+ * class must define a method of no arguments called <code>run</code>.
+ * <p>
+ * This interface is designed to provide a common protocol for objects that
+ * wish to execute code while they are active. For example,
+ * <code>Runnable</code> is implemented by class <code>Thread</code>.
+ * Being active simply means that a thread has been started and has not
+ * yet been stopped.
+ * <p>
+ * In addition, <code>Runnable</code> provides the means for a class to be
+ * active while not subclassing <code>Thread</code>. A class that implements
+ * <code>Runnable</code> can run without subclassing <code>Thread</code>
+ * by instantiating a <code>Thread</code> instance and passing itself in
+ * as the target.  In most cases, the <code>Runnable</code> interface should
+ * be used if you are only planning to override the <code>run()</code>
+ * method and no other <code>Thread</code> methods.
+ * This is important because classes should not be subclassed
+ * unless the programmer intends on modifying or enhancing the fundamental
+ * behavior of the class.
+ *
+ * @author  Arthur van Hoff
+ * @see     java.lang.Thread
+ * @see     java.util.concurrent.Callable
+ * @since   JDK1.0
+ */
+@FunctionalInterface
+public interface Runnable {
+    /**
+     * When an object implementing interface <code>Runnable</code> is used
+     * to create a thread, starting the thread causes the object's
+     * <code>run</code> method to be called in that separately executing
+     * thread.
+     * <p>
+     * The general contract of the method <code>run</code> is that it may
+     * take any action whatsoever.
+     *
+     * @see     java.lang.Thread#run()
+     */
+    public abstract void run();
+}
+```
+
+Реализовав интерфейс и передав его в конструктор `java.lang.Thread`, мы точно также через `start` запустим отдельный поток выполнения:
 
 ```java
 class Task implements Runnable {
     @Override
-    public void run() {/*some work*/}
+    public void run() {
+        // логика
+    }
 }
-```
 
-Запуск:
-
-```java
 Thread thread = new Thread(new Task());
 thread.start();
 ```
 
-Тут все просто - мы реализуем интерфейс `Runnable` и объект такого класса
-передаем в конструктор `Thread`. В принципе мы могли бы создать даже анонимный
-класс прямо в создании `Thread`. Т.е выглядело бы это как-то так:
+В принципе, можно сделать то же самое через анонимный класс:
 
 ```java
 Thread thread = new Thread(new Runnable() {
     @Override
-    public void run() {/*some work*/}
+    public void run() {
+        /*some work*/
+    }
 });
 
 thread.start();
+
+// или через лямбду
+Thread thread2 = new Thread(() -> {
+    // работа тут
+}));
+
+thread2.start();
 ```
 
-Пример этого решения:
+---
+
+**Вопрос**:
+
+Как вы думаете, что будет выведено на экран, если запустить следующий код?
 
 ```java
-import java.util.concurrent.TimeUnit;
+class ThreadExample extends Thread {
+    private final int num;
 
-public class RunnableExample implements Runnable {
-    private static final int COUNT = 10;
-    private String name;
-    private int delay;
-
-    public RunnableExample(String name, int delay) {
-        this.name = name;
-        this.delay = delay;
+    public ThreadExample(int num) {
+        this.num = num;
     }
 
     @Override
     public void run() {
-        System.out.println("RunnableThread " + name + " started!");
-        
-        try {
-            for (int i = 0; i < COUNT; i++) {
-                System.out.println(name + " generate number: " + i);
-                TimeUnit.SECONDS.sleep(delay);
-            }
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        System.out.println("Thread : " + num);
+    }
+}
 
-        System.out.println("RunnableThread " + name + " finished!");
+public class Example {
+    public static void main(String[] args) {
+        new ThreadExample(1).start();
+        new ThreadExample(2).start();
+        new ThreadExample(3).start();
+        new ThreadExample(4).start();
     }
 }
 ```
 
-Есть еще третий вариант &mdash; создать `Timer`:
+**Ответ**:
+
+Запустим пример выше:
 
 ```java
-Timer timer = new Timer();
-timer.schedule(new TimeTask {
-    @Override
-    public void run() {/*some work*/}
-}, 60);
+Thread : 2
+Thread : MAIN
+Thread : 1
+Thread : 3
+Thread : 4
 ```
 
-Выполнение задачи в отдельном потоке, но по таймеру:
+Сделаем это еще раз:
 
 ```java
-package samples.concurrency;
+Thread : 2
+Thread : 3
+Thread : 4
+Thread : 1
+Thread : MAIN
+```
 
-import java.util.TimerTask;
-import java.util.concurrent.TimeUnit;
+Порядок выполнения потоков **недетерминирован**!
 
-public class TimerTaskExample extends TimerTask {
-    private static final int COUNT = 10;
-    private String taskName;
-    private int delay;
+---
 
-    public TimerTaskExample(String taskName, int delay) {
-        this.taskName = taskName;
-        this.delay = delay;
+## Volatile
+
+В целях повышения эффективности работы, спецификации языка `Java` позволяет сохранять локальную копию переменной в каждом потоке, который ссылается на нее.
+Можно считать эти 'внутрипоточные' копии переменных похожими на кэш, помогающий избежать проверки главной памяти каждый раз, когда требуется доступ к значению переменной.
+
+Теперь пердставим, что 
+
+```java
+
+```
+
+## Управление потоками
+
+С запуском разобрались. Теперь посмотрим, что еще мы можем сделать с потоком?
+
+### interrupt
+
+Примеры потоков ранее представляли поток как последовательный набор операций. После выполнения последней операции завершался и поток.
+
+Но зачастую поток должен постоянно делать какую-то работу, пока его явно не попросят остановиться. Это может быть как опрос сокета на новые данные, мониторинг появления новых файлов в директории, да что угодно! 
+
+И как в таком случае правильно останавливать поток?
+
+У `java.lang.Thread` есть метод `stop`, но он `deprecated` и крайне не рекомендован к использованию.
+
+Почему?
+
+Обратимся к Oracle [за поясненимями](https://docs.oracle.com/javase/1.5.0/docs/guide/misc/threadPrimitiveDeprecation.html):
+
+> Why is Thread.stop deprecated?
+>
+> Because it is inherently unsafe. Stopping a thread causes it to unlock all the monitors that it has locked. (The monitors are unlocked as the ThreadDeath exception propagates up the stack.) 
+> If any of the objects previously protected by these monitors were in an inconsistent state, other threads may now view these objects in an inconsistent state. 
+> Such objects are said to be damaged. When threads operate on damaged objects, arbitrary behavior can result. 
+> This behavior may be subtle and difficult to detect, or it may be pronounced. 
+> Unlike other unchecked exceptions, ThreadDeath kills threads silently; thus, the user has no warning that his program may be corrupted. 
+> The corruption can manifest itself at any time after the actual damage occurs, even hours or days in the future.
+
+Что это значит?
+А это значит, что завершать поток на полном ходу, через `stop`, словно коня на скаку, плохая идея.
+Ведь в таком случае поток освобождает все занятые блокировки, не заканчивает работу с какими-то ресурсами и т.д.
+
+Это чревато тем, что поток при завершении может оставить какие-то объекты, ресурсы в незаконченном/поврежденном состоянии.
+
+Соответственно, нам нужен механизм, который **сообщит** потоку, что **пора** завершаться. 
+
+Как мы можем это сделать? С помощью флага!
+
+```java
+class MyThread extends Thread {
+    private volatile boolean stopFlag = false;
+
+    public void setStopFlag(boolean flag) {
+        stopFlag = flag;
     }
 
     @Override
     public void run() {
-        System.out.println("Thread " + taskName + " started!");
-        
-        try {
-            for (int i = 0; i < COUNT; i++) {
-                System.out.println(taskName + " generate number: " + i);
-                TimeUnit.SECONDS.sleep(delay);
-            }
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+        while(!stopFlag) {
+            /* here we're doing our work */
+            System.out.println("I'm still alive");
         }
 
-        System.out.println("Thread " + taskName + " finished!");
+        /* here we're shutting down and releasing resources */
+        System.out.println("That's all...");
+    }
+}
+
+//bla bla
+MyThrad thread = new MyThread();
+thread.setStopFlag(true);
+```
+
+Поток 
+
+
+### join
+
+Иногда бывает необходимо дождаться в одном потоке завершения другого и только после этого продолжить выполнение логики.
+
+Снова рассмотрим пример с `ThreadExample`:
+
+```java
+class ThreadExample extends Thread {
+    private final String greeting;
+    private final int count;
+
+    public ThreadExample(String greeting, int count) {
+        this.greeting = greeting;
+        this.count = count;
+    }
+
+    @Override
+    public void run() {
+        System.out.println(greeting);
+
+        int sum = 0;
+        for (int i = 0; i < count; i++) {
+            sum += i;
+        }
+
+        System.out.println("Sum from " + greeting + " is:" + sum);
+    }
+}
+
+public class Example {
+    public static void main(String[] args) {
+        new ThreadExample("Hello from 1", 1_000_000).start();
+        new ThreadExample("Hello from 2", 2).start();
     }
 }
 ```
 
-Теперь посмотрим что будет, если я вместо `start` буду вызывать именно метод `run`:
+Но что если нам надо сначала дождаться выполнения `Hello from 1`, а уже после `"Hello from 2"`?
+
+В этом нам поможет метод `join`:
 
 ```java
-    void wrongRun() {
-        ThreadExample te1 = new ThreadExample("My thread", 1);
-        ThreadExample te2 = new ThreadExample("My thread 2", 2);
-        te1.run();
-        te2.run();
+public class Example {
+    public static void main(String[] args) throws InterruptedException {
+        Thread t1 = new ThreadExample("Hello from 1", 1_000_000);
+        Thread t2 = new ThreadExample("Hello from 2", 1_000_000);
+        t1.start();
+        t2.start();
+
+        t1.join();
+        t2.join();
+
+        System.out.println("Hello from MAIN");
     }
+}
 ```
 
-И увидим мы то, что все будет выполняться последовательно, без многопоточности.
-Сначала отработает `te1`, а уже после него начнет работу `te2`. Поэтому **НЕ**
-вызывайте `run` напрямую &mdash; это *бесполезно*.
+Запустим и увидим:
+
+```java
+Hello from 1
+Hello from 2
+Sum from Hello from 2 is:1783293664
+Sum from Hello from 1 is:1783293664
+Hello from MAIN
+```
+
+Видим, что оба потока стартовали и выполнялись параллельно, но **главный** поток, наш `main`, прежде чем выполнить печать `Hello from MAIN`, дождался выполнения обоих потоков.
+
+Т.е `join` заставляет дождаться завершения потока у которого он вызван, при этом из какого потока мы делаем вызываем `join` - тот и ждет.
+
+### sleep
+
 
 
 ## Жизнь потока
 
-Итак, как создать и запустить &mdash; разобрались.
-Теперь - о том, что вообще с ним происходит после `start`.
+Теперь давайте разберемся в том, что вообще происходит с потоком после `start`.
+
+Поток порождается в операционной системе, запускает работу нашей логики в `run` и переходит в состояие `RUNNABLE`.
+
 
 Не вдаваясь в подробности, у потока есть состояния: `RUNNABLE`, `WAITING`, `BLOCKED`, `TERMINATED`.
 
@@ -246,26 +544,6 @@ public class TimerTaskExample extends TimerTask {
 Приложение на Java работает до тех пор, пока существует и работает хотя бы один поток не-демон.
 Так вот, если у нас поток-демон, то его состояние не учитывается в решении завершать или нет приложение.
 Пример &mdash; запись в лог.
-
-
-## Thread join()
-
-Join заставляет дождаться завершения потока у которого он вызван. Т.е:
-
-```java
-    static void joinExample() throws InterruptedException {
-        ThreadExample te1 = new ThreadExample("My thread", 1);
-        ThreadExample te2 = new ThreadExample("My thread 2", 2);
-        te1.start();
-        te1.join();
-        System.out.println("Main thread!");
-        te2.start();
-    }
-```
-
-Видим, что пока не завершится поток `te1` &mdash; дальше ничего не происходит,
-ни в `Main thread`, ни в `te2`.
-
 
 ## Остановка по требованию
 
@@ -595,3 +873,75 @@ public class Example {
 Есть еще семафор &mdash; это лок, который допускает не один поток к ресурсу,
 а несколько, сколько мы зададим. Как только поток ресурс освобождает &mdash;
 семафор впускает следующий поток.
+
+
+
+
+В чем же разница между процессом и потоком?
+
+* Процессы обладают собственным адресным пространством.
+* Потоки работают с общей памятью.
+* С потоками работает именно планировщик ОС.
+
+
+## Полезные ссылки
+
+1. [Олег Шелаев — Обзор возможностей многопоточности в Java](https://www.youtube.com/watch?v=O2QwNjkBXNk)
+2. [Иван Пономарёв. Лекторий ФПМИ. Java #10. Concurrency](https://www.youtube.com/watch?v=CBhy6ZTgUvY)
+3. [Why Are Thread.stop, Thread.suspend, Thread.resume and Runtime.runFinalizersOnExit Deprecated?](https://docs.oracle.com/javase/1.5.0/docs/guide/misc/threadPrimitiveDeprecation.html)
+4. [Amdahl's law](https://ru.wikipedia.org/wiki/%D0%97%D0%B0%D0%BA%D0%BE%D0%BD_%D0%90%D0%BC%D0%B4%D0%B0%D0%BB%D0%B0)
+5. [Закон Амдала](https://medium.com/german-gorelkin/amdahls-law-79a8edb040e2)
+5. [USL](https://tangowhisky37.github.io/PracticalPerformanceAnalyst/pages/spe_fundamentals/what_is_universal_scalability_law/)
+6. [Concurrency vs. Parallelism — A brief view](https://medium.com/@itIsMadhavan/concurrency-vs-parallelism-a-brief-review-b337c8dac350)
+
+
+
+
+
+Устарело и лучше scheduled fixed thread pool
+
+Есть еще третий вариант &mdash; создать `Timer`:
+
+```java
+Timer timer = new Timer();
+timer.schedule(new TimeTask {
+    @Override
+    public void run() {/*some work*/}
+}, 60);
+```
+
+Выполнение задачи в отдельном потоке, но по таймеру:
+
+```java
+package samples.concurrency;
+
+import java.util.TimerTask;
+import java.util.concurrent.TimeUnit;
+
+public class TimerTaskExample extends TimerTask {
+    private static final int COUNT = 10;
+    private String taskName;
+    private int delay;
+
+    public TimerTaskExample(String taskName, int delay) {
+        this.taskName = taskName;
+        this.delay = delay;
+    }
+
+    @Override
+    public void run() {
+        System.out.println("Thread " + taskName + " started!");
+        
+        try {
+            for (int i = 0; i < COUNT; i++) {
+                System.out.println(taskName + " generate number: " + i);
+                TimeUnit.SECONDS.sleep(delay);
+            }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        System.out.println("Thread " + taskName + " finished!");
+    }
+}
+```
