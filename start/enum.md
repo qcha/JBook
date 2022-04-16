@@ -1,10 +1,26 @@
 # Enum
 
+- [Enum](#enum)
+    - [Введение](#введение)
+    - [Перечисления в Java](#перечисления-в-java)
+    - [Устройство enum](#устройство-enum)
+    - [Внутренности](#внутренности)
+    - [Вклад java.lang.Enum](#вклад-javalangenum)
+        - [ordinal и name](#ordinal-и-name)
+        - [values](#values)
+        - [valueOf](#valueOf)
+        - [compareTo](#compareto)
+        - [Serializable](#serializable)
+    - [Советы по работе с enum](#советы-по-работе-с-enum)
+    - [Секция вопросов](#секция-вопросов)
+    - [Заключение](#заключение)
+    - [Полезные ссылки](#полезные-ссылки)
+
 ## Введение
 
 Существует ряд задач, в которых требуется некоторый тип данных ограничить множеством допустимых значений.
 
-Это могут быть дни недели (понедельник, вторник и т.д), времена года (весна, зима, лето, осень), типы животных(членистоногие, моллюски, иглокожие и т.д), [HTTP-коды](https://ru.wikipedia.org/wiki/%D0%A1%D0%BF%D0%B8%D1%81%D0%BE%D0%BA_%D0%BA%D0%BE%D0%B4%D0%BE%D0%B2_%D1%81%D0%BE%D1%81%D1%82%D0%BE%D1%8F%D0%BD%D0%B8%D1%8F_HTTP) и прочее.
+Это могут быть дни недели (понедельник, вторник и т.д), времена года (весна, зима, лето, осень), типы животных (членистоногие, моллюски, иглокожие и т.д), [HTTP-коды](https://ru.wikipedia.org/wiki/%D0%A1%D0%BF%D0%B8%D1%81%D0%BE%D0%BA_%D0%BA%D0%BE%D0%B4%D0%BE%D0%B2_%D1%81%D0%BE%D1%81%D1%82%D0%BE%D1%8F%D0%BD%D0%B8%D1%8F_HTTP) и прочее.
 
 В простейшем приближении можно сказать, что перечисление - это список именованных, логически связанных констант.
 
@@ -720,7 +736,7 @@ public class LShape extends Enum<LShape> {
 
 Стандартная сериализация с помощью `java.io.Serializable` у `enum` обстоит несколько иначе, чем у обычных объектов.
 
-Сериализованная форма константы перечисления состоит исключительно из ее имени, значения поля константы отсутствуют. 
+Сериализованная форма константы перечисления состоит исключительно из ее имени, значения поля константы отсутствуют.
 
 При сериализации `enum`  записывается значение, возвращаемое уже занкомым нам методом имени константы перечисления. Чтобы десериализовать константу перечисления, считывается имя константы из потока, а затем десериализованная константа получается путем вызова метода `java.lang.Enum.valueOf`.
 
@@ -790,6 +806,135 @@ public enum MarkingCodeExtension {
 Это же поле участвует и в преобразовании строки в значение `enum`, благодаря методам: `findByCode` и `getByCode`. Один из них возвращает `Optional<MarkingCodeExtension>`, другой `MarkingCodeExtension` или исключение (можно сделать более конкретное свое исключение при необходимости), для более гибкого использования.
 
 Поле `description` необязательно, но для удобства бывает полезно. Например, для какого-то короткого замещения `toString`, человекочитаемого значения в лог.
+
+А вот пример того, как оформляются `enum`-ы в [Apache Kafka](https://kafka.apache.org/), листинг взят из их зеркала на [github](https://github.com/apache/kafka/blob/trunk/clients/src/main/java/org/apache/kafka/common/resource/ResourceType.java):
+
+```java
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements. See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License. You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package org.apache.kafka.common.resource;
+
+import org.apache.kafka.common.annotation.InterfaceStability;
+
+import java.util.HashMap;
+import java.util.Locale;
+
+/**
+ * Represents a type of resource which an ACL can be applied to.
+ *
+ * The API for this class is still evolving and we may break compatibility in minor releases, if necessary.
+ */
+@InterfaceStability.Evolving
+public enum ResourceType {
+    /**
+     * Represents any ResourceType which this client cannot understand,
+     * perhaps because this client is too old.
+     */
+    UNKNOWN((byte) 0),
+
+    /**
+     * In a filter, matches any ResourceType.
+     */
+    ANY((byte) 1),
+
+    /**
+     * A Kafka topic.
+     */
+    TOPIC((byte) 2),
+
+    /**
+     * A consumer group.
+     */
+    GROUP((byte) 3),
+
+    /**
+     * The cluster as a whole.
+     */
+    CLUSTER((byte) 4),
+
+    /**
+     * A transactional ID.
+     */
+    TRANSACTIONAL_ID((byte) 5),
+
+    /**
+     * A token ID.
+     */
+    DELEGATION_TOKEN((byte) 6);
+
+    private final static HashMap<Byte, ResourceType> CODE_TO_VALUE = new HashMap<>();
+
+    static {
+        for (ResourceType resourceType : ResourceType.values()) {
+            CODE_TO_VALUE.put(resourceType.code, resourceType);
+        }
+    }
+
+    /**
+     * Parse the given string as an ACL resource type.
+     *
+     * @param str    The string to parse.
+     *
+     * @return       The ResourceType, or UNKNOWN if the string could not be matched.
+     */
+    public static ResourceType fromString(String str) throws IllegalArgumentException {
+        try {
+            return ResourceType.valueOf(str.toUpperCase(Locale.ROOT));
+        } catch (IllegalArgumentException e) {
+            return UNKNOWN;
+        }
+    }
+
+    /**
+     * Return the ResourceType with the provided code or `ResourceType.UNKNOWN` if one cannot be found.
+     */
+    public static ResourceType fromCode(byte code) {
+        ResourceType resourceType = CODE_TO_VALUE.get(code);
+        if (resourceType == null) {
+            return UNKNOWN;
+        }
+        return resourceType;
+    }
+
+    private final byte code;
+
+    ResourceType(byte code) {
+        this.code = code;
+    }
+
+    /**
+     * Return the code of this resource.
+     */
+    public byte code() {
+        return code;
+    }
+
+    /**
+     * Return whether this resource type is UNKNOWN.
+     */
+    public boolean isUnknown() {
+        return this == UNKNOWN;
+    }
+}
+```
+
+Как видите, подход схожий.
+Идея одна и та же: не надеемся на номер перечисления, вводим свой код, вспомогательные методы и реакцию на то, если невозможно через `fromCode` получить значение `enum`, все подробно описываем `JavaDoc`-ом.
 
 ## Секция вопросов
 
@@ -947,12 +1092,12 @@ IO CO IO CO SO ITC CTC ITC CTC
 
 ## Полезные ссылки
 
-* [Enum in Java](http://www.quizful.net/post/java_enums)
-* [Сравнение enum](https://javarevisited.blogspot.com/2013/04/how-to-compare-two-enum-in-java-equals.html)
-* [Загадки Enum'ов](https://habr.com/ru/post/575208/)
-* [Why can't a Java enum be final?](https://stackoverflow.com/questions/9891613/why-cant-a-java-enum-be-final#:~:text=Java%20does%20not%20allow%20you,inside%20of%20the%20enum%20descriptor)
-* [Ограничения на создание enum](https://docs.oracle.com/javase/specs/jls/se11/html/jls-8.html#jls-8.9.2)
-* [Сериализация enum](https://docs.oracle.com/javase/6/docs/platform/serialization/spec/serial-arch.html#6469)
-* [Про сериализацию enum](https://stackoverflow.com/questions/15521309/is-custom-enum-serializable-too)
-* [JLS о enum](https://docs.oracle.com/javase/specs/jls/se11/html/jls-8.html#jls-8.9)
-* [Execution order of Enum in Java](https://stackoverflow.com/questions/28296547/execution-order-of-enum-in-java/50184535#50184535)
+- [Enum in Java](http://www.quizful.net/post/java_enums)
+- [Сравнение enum](https://javarevisited.blogspot.com/2013/04/how-to-compare-two-enum-in-java-equals.html)
+- [Загадки Enum'ов](https://habr.com/ru/post/575208/)
+- [Why can't a Java enum be final?](https://stackoverflow.com/questions/9891613/why-cant-a-java-enum-be-final#:~:text=Java%20does%20not%20allow%20you,inside%20of%20the%20enum%20descriptor)
+- [Ограничения на создание enum](https://docs.oracle.com/javase/specs/jls/se11/html/jls-8.html#jls-8.9.2)
+- [Сериализация enum](https://docs.oracle.com/javase/6/docs/platform/serialization/spec/serial-arch.html#6469)
+- [Про сериализацию enum](https://stackoverflow.com/questions/15521309/is-custom-enum-serializable-too)
+- [JLS о enum](https://docs.oracle.com/javase/specs/jls/se11/html/jls-8.html#jls-8.9)
+- [Execution order of Enum in Java](https://stackoverflow.com/questions/28296547/execution-order-of-enum-in-java/50184535#50184535)
