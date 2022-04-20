@@ -12,7 +12,8 @@
 6. [Optional](../start/optional.md)
 7. [Проверки и assert](../start/assertions.md)
 8. [Подробно о Enum в Java](../start/enum.md)
-9. [Общие советы](../start/common_advices.md)
+9. [Comparable и Comparator](../start/comparable_comparator.md)
+10. [Общие советы](../start/common_advices.md)
 
 ## Объектно-ориентированное программирование
 

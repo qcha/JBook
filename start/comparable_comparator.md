@@ -1,10 +1,21 @@
 # java.lang.Comparable и java.util.Comparator
 
+- [java.lang.Comparable и java.util.Comparator](#javalangcomparable-и-javautilcomparator)
+    - [Введение](#введение)
+    - [java.lang.Comparable](#javalangcomparable)
+    - [java.util.Comparator](#javautilcomparator)
+    - [Требования](#требования)
+    - [Применение](#применение)
+        - [Collection и Array](#collection-и-array)
+        - [Структуры данных](#структуры-данных)
+        - [Stream](#stream)
+    - [Полезные ссылки](#полезные-ссылки)
+
 ## Введение
 
 Как уже было сказано в статье про [интерфейсы](../oop/interface.md), интерфейс - это определение поведения. Умение объектов сравнивать себя с друг с другом - это точно такое же поведение.
 
-Сравнение используется различными алгоритмами от сортировки и двоичного поиска до поддержания порядка в сортированных коллекциях вроде `java.util.TreeMap`. 
+Сравнение используется различными алгоритмами от сортировки и двоичного поиска до поддержания порядка в сортированных коллекциях вроде `java.util.TreeMap`.
 
 Это повдение можно добавить как в непосредственно классы, с которыми мы работаем, так и объявить специальный класс, умеющий сравнивать два переданных объекта и решать кто из них больше, меньше или они вовсе равны.
 
@@ -65,43 +76,51 @@ public interface Comparable<T> {
 * отрицательное число, если объект меньше того, с которым его сравнивают. Обычно возвращают значение `-1`.
 * положительное число, если объект больше того, с которым его сравнивают. Обычно возвращают значение `1`.
 
-По контракту метода при работе с `null` будет выброшено исключение `java.lang.NullPointerException`.
+По контракту метода при работе с `null` должно быть выброшено исключение `java.lang.NullPointerException`.
 
 Во многих классах интерфейс `java.lang.Comparable` уже реализован, например, в классах `java.lang.Integer`, `java.lang.String` и т.д.
 
-Имеет смысл реализовывать интерфейс в классах, где определен естественный порядок у объектов. Например, в числах.
+Когда имеет смысл задуматься о реализации этого интерфейса в вашем классе? Тогда, когда определен естественный порядок у объектов класса. Например, в числах!
 
 Для примера научим объекты класса `Person`, этой рабочей лошадке всех примеров в интернете, сравниваться между собой:
 
 ```java
-class Person implements Comparable<Person>{
-     
+public class Person implements Comparable<Person> {
     private String name;
     private int age;
-    
-    Person(String name, int age){
-        this.age = age; 
+    private LocalDate birthDate;
+
+    Person(String name, int age, LocalDate birthDate) {
+        this.age = age;
         this.name = name;
+        this.birthDate = birthDate;
     }
 
-    String getName(){
+    public String getName() {
         return name;
     }
 
-    String getName(){
-        return name;
+    public int getAge() {
+        return age;
     }
-     
-    public int compareTo(Person p){ 
+
+    public LocalDate getBirthDate() {
+        return birthDate;
+    }
+
+    public int compareTo(Person p) {
         return name.compareTo(p.getName());
     }
 }
 ```
 
-Однако, возникают ситуации, когда разработчик не предусмотрел реализацию `java.lang.Comparable` в своем классе, а вам надо как-то добавить это поведение, уметь сравнивать объекты. Либо реализовал, но вас не устраивает эта реализация, и вы хотите ее переопределить, или вам необходимо реализовать несколько видов сравнений. На такой случай существуют `компараторы`.
+В данной реализации сравнение объектов будет происходить по именам [лексеграфически](https://ru.wikipedia.org/wiki/%D0%9B%D0%B5%D0%BA%D1%81%D0%B8%D0%BA%D0%BE%D0%B3%D1%80%D0%B0%D1%84%D0%B8%D1%87%D0%B5%D1%81%D0%BA%D0%B8%D0%B9_%D0%BF%D0%BE%D1%80%D1%8F%D0%B4%D0%BE%D0%BA).
 
-### Компаратор
+Но что делать, если вас не устраивает текущая реализация? Например, вы хотите сравнивать наших `Person` по возрасту, а не имени! Или вы попали в ситуацию, когда разработчик вообще не предусмотрел реализацию `java.lang.Comparable` в своем классе, а вам надо как-то добавить это поведение, уметь сравнивать объекты. Или ситуация такова, что вам необходимо реализовать несколько видов сравнений в разных случаях. На такой случай существуют `компараторы`, те самые классы-судьи.
 
+## java.util.Comparator
+
+Компараторы - это отдельные классы, реализующие интерфейс `java.util.Comparator`.
 Интерфейс `java.util.Comparator` содержит ряд методов, ключевым из которых является метод `compare`:
 
 ```java
@@ -158,12 +177,23 @@ public interface Comparator<E> {
 Компаратор на все тот же `Person`, но сравнивающий по именам:
 
 ```java
-class PersonComparator implements Comparator<Person>{
-    public int compare(Person a, Person b){
-        return a.getName().compareTo(b.getName());
+class PersonBirthDateComparator implements Comparator<Person> {
+    public int compare(Person a, Person b) {
+        return a.getBirthDate().compareTo(b.getBirthDate());
     }
 }
 ```
+
+Далее везде, где вам необходимо поведение сравнения по датам рождения вы явно спрашиваете `PersonBirthDateComparator` через вызов `compare`.
+
+Надо отметить, что многие классы умеют работать и с компараторами, и с классами, реализующими `java.lang.Comparable`, например, `java.util.TreeMap`:
+
+```java
+Map<Person, String> treeMap = new TreeMap<>(); // 1
+Map<Person, String> birthDateTreeMap = new TreeMap<>(new PersonBirthDateComparator()); // 2
+```
+
+В первом случае дерево `TreeMap` будет строиться с помощью сравнения по именам, во втором же мы явно передали компаратор, отвечающий за сравнения и будет использован именно он.
 
 ## Требования
 
@@ -183,7 +213,7 @@ class PersonComparator implements Comparator<Person>{
     }
 ```
 
-и 
+и
 
 ```java
 public static <T> void sort(T[] a, Comparator<? super T> c) {
@@ -193,11 +223,46 @@ public static <T> void sort(T[] a, Comparator<? super T> c) {
 
 ### Структуры данных
 
-Структуры данных, типа `java.util.TreeMap` или `java.util.TreeSet` работают только с элементами, реализующими `java.lang.Comparable`, или требуют в конструкторе компаратор. 
+Структуры данных, типа `java.util.TreeMap` или `java.util.TreeSet` работают только с элементами, реализующими `java.lang.Comparable`, или требуют в конструкторе компаратор.
 
 ```java
 Set<Message> messages = new TreeSet(comparator);
 ```
+
+---
+
+**Вопрос**:
+
+Небольшое лирическое отступление от темы!
+
+А что будет, если мы создадим `TreeMap` и ключом укажем класс, который не реализует `java.lang.Comparable` и при этом не передадим компаратор?
+
+```java
+class Student {
+    private int age;
+
+    public Student(int age) {
+        this.age = age;
+    }
+
+    // getters and setters
+}
+
+// psvm
+Map<Person, String> treeMap = new TreeMap<>(); 
+```
+
+**Ответ**:
+
+Объект `TreeMap` будет создан, но при первом же добавлении элемента будет выброшено исключение, так как для работы `TreeMap` необходимо, чтобы ключи умели сравниваться, мы же не добавили этого поведения и не предоставили компаратор, поэтому работать `TreeMap` не сможет:
+
+```java
+Exception in thread "main" java.lang.ClassCastException: class Student cannot be cast to class java.lang.Comparable
+```
+
+Подробнее о работе [TreeMap](../collections/map/tree_map.md).
+
+---
 
 ### Stream
 
