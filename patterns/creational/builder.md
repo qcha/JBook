@@ -608,7 +608,7 @@ public class Person {
 
 Подробнее об этом вот [тут](../../start/null_war.md#доверяйте-но-с-аннотациями).
 
-В библиотеке [apache commons](https://commons.apache.org/) широко используется этот паттерн, начиная с работы [конкатенации строк](https://commons.apache.org/proper/commons-lang/javadocs/api-3.1/org/apache/commons/lang3/builder/ToStringBuilder.html) и заканчивая работой с [hashCode](https://commons.apache.org/proper/commons-lang/javadocs/api-3.1/org/apache/commons/lang3/builder/HashCodeBuilder.html) и [equals](https://commons.apache.org/proper/commons-lang/javadocs/api-3.1/org/apache/commons/lang3/builder/EqualsBuilder.html), более того, это один из варинтов их генерации, предлагаемых [Inteliji Idea]().
+В библиотеке [apache commons](https://commons.apache.org/) широко используется этот паттерн, начиная с работы [конкатенации строк](https://commons.apache.org/proper/commons-lang/javadocs/api-3.1/org/apache/commons/lang3/builder/ToStringBuilder.html) и заканчивая работой с [hashCode](https://commons.apache.org/proper/commons-lang/javadocs/api-3.1/org/apache/commons/lang3/builder/HashCodeBuilder.html) и [equals](https://commons.apache.org/proper/commons-lang/javadocs/api-3.1/org/apache/commons/lang3/builder/EqualsBuilder.html), более того, это один из варинтов их генерации, предлагаемых [IntelliJ IDEA](https://www.jetbrains.com/ru-ru/idea/).
 
 > Напоминание:
 >
@@ -648,5 +648,5 @@ Cила паттерна раскрывается в сложных случая
 4. [Design patterns a quick guide to builder pattern](https://medium.com/@andreaspoyias/design-patterns-a-quick-guide-to-builder-pattern-a834d7cacead)
 5. [Builder Pattern more than one director](https://stackoverflow.com/questions/39717862/builder-pattern-more-than-one-director)
 6. [The Builder Design Pattern in Java](https://stackabuse.com/the-builder-design-pattern-in-java/)
-7. [](https://www.baeldung.com/java-commons-lang-3)
+7. [An Introduction to Apache Commons Lang 3](https://www.baeldung.com/java-commons-lang-3)
 8. [Книга 'Погружение в Паттерны проектирования'](https://refactoring.guru/ru/design-patterns/book)
