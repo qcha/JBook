@@ -183,25 +183,25 @@ public class Telephone {
         private Builder() {
         }
 
-        public Builder setName(String name) {
+        public Builder name(String name) {
             Telephone.this.name = name;
 
             return this;
         }
 
-        public Builder setScreenName(String screenName) {
+        public Builder screenName(String screenName) {
             Telephone.this.screenName = screenName;
 
             return this;
         }
 
-        public Builder setMark(String mark) {
+        public Builder mark(String mark) {
             Telephone.this.mark = mark;
             return this;
 
         }
 
-        public Builder setSerialnumber(int serialnumber) {
+        public Builder serialnumber(int serialnumber) {
             Telephone.this.serialnumber = serialnumber;
 
             return this;
@@ -212,7 +212,7 @@ public class Telephone {
         }
     }
 
-    public static Builder getBuilder() {
+    public static Builder builder() {
         return new Telephone().new Builder();
     }
 }
@@ -243,25 +243,25 @@ public class Telephone {
         private Builder() {
         }
 
-        public Builder setName(String name) {
+        public Builder name(String name) {
             this.name = name;
 
             return this;
         }
 
-        public Builder setScreenName(String screenName) {
+        public Builder screenName(String screenName) {
             this.screenName = screenName;
 
             return this;
         }
 
-        public Builder setMark(String mark) {
+        public Builder mark(String mark) {
             this.mark = mark;
             return this;
 
         }
 
-        public Builder setSerialnumber(int serialnumber) {
+        public Builder serialnumber(int serialnumber) {
             this.serialnumber = serialnumber;
 
             return this;
@@ -272,7 +272,7 @@ public class Telephone {
         }
     }
 
-    public static Builder getBuilder() {
+    public static Builder builder() {
         return new Builder();
     }
 }
@@ -293,11 +293,11 @@ public static void main(String[] args) {
     telephone2.setMark("X");
 
     //example of builder
-    Telephone telephone3 = Telephone.getBuilder()
-                                    .setName("Sony")
-                                    .setSerialnumber(3)
-                                    .setMark("X")
-                                    .setScreenName("TFT")
+    Telephone telephone3 = Telephone.builder()
+                                    .name("Sony")
+                                    .serialnumber(3)
+                                    .mark("X")
+                                    .screenName("TFT")
                                     .build();
 }
 ```
@@ -326,7 +326,7 @@ public static void main(String[] args) {
 
 В целом, если все шаги (сбор значений для полей) не являются обязательными и могут выполняться в любом порядке, то директор опускается и объект собирается только билдером.
 
-Для примера можно рассмотреть облетевший интернет `Buidler` машин:
+Для примера можно рассмотреть облетевший интернет `Builder` машин:
 
 Итак, наш конечный продукт - это собранная машина:
 
