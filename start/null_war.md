@@ -759,6 +759,7 @@ printStatus(null);  // тот самый грузовик по встречно�
 10. [Про Null.Часть 1](https://medium.com/destinationaarhus-techblog/avoiding-null-pointer-exceptions-in-a-modern-java-application-c048ba872f7e)
 11. [Про Null.Часть 2](https://medium.com/destinationaarhus-techblog/avoiding-null-pointer-exceptions-in-a-modern-java-application-5e54fab6e3b)
 12. [Stop Abusing Nihil](https://rocket-science.ru/hacking/2019/03/21/stop-abusing-nihil)
+13. [Java. Проблема с null. Null safety.](https://www.youtube.com/watch?v=QIfIoXW1SHA&list=PL5BhKu-LkR_3zYHvQZ-AjkmcYciv65QVB)
 
 ## Отдельная благодарность
 

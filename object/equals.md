@@ -551,5 +551,6 @@ false
 ## Полезные ссылки
 
 1. [Java equals() and hashCode() Contracts](https://www.baeldung.com/java-equals-hashcode-contracts)
-2. [Что выбрать: getClass vs instanceOf](https://stackoverflow.com/questions/4989818/instanceof-vs-getclass)
-3. [Liskov substitution principle vs Symmetric in equals](https://stackoverflow.com/questions/27581/what-issues-should-be-considered-when-overriding-equals-and-hashcode-in-java/32223#32223)
+2. [Java. Методы equals и hashCode.](https://www.youtube.com/watch?v=lWnzRILIEZ0)
+3. [Что выбрать: getClass vs instanceOf](https://stackoverflow.com/questions/4989818/instanceof-vs-getclass)
+4. [Liskov substitution principle vs Symmetric in equals](https://stackoverflow.com/questions/27581/what-issues-should-be-considered-when-overriding-equals-and-hashcode-in-java/32223#32223)
