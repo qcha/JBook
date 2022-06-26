@@ -75,7 +75,7 @@
 
 Многопоточность в `Java`.
 
-1. [Введение в Concurrency Java](../concurrency/concurrency.md)
+1. [Введение в Concurrency Java](../concurrency/intro.md)
 
 ## Сериализация
 
@@ -106,7 +106,7 @@
 ### Порождающие
 
 * [Builder](../patterns/creational/builder.md)
-* [Factory](../patterns/creational/factory.md)
+* [Abstract Factory](../patterns/creational/abstract_factory.md)
 * [Singleton](../patterns/creational/singleton.md)
 
 ### Поведенческие
@@ -137,6 +137,7 @@
 ### Алгоритмы сортировки
 
 * [Сортировка пузырьком](../algorithms/sorting/bubble.md)
+* [Сортировка простыми вставками](../algorithms/sorting/insertion.md)
 
 ## Многопоточное программирование
 
