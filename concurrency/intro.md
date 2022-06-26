@@ -11,7 +11,7 @@
 Зачем нам это? Для производительности!
 Всегда ли это хорошо и помогает нам? Не всегда, сами понимаете, что некоторые задачи выполнять 'параллельно' не получится.
 
-Точно то же самое можно сказать и про программирование на `Java`! 
+Точно то же самое можно сказать и про программирование!
 Только в `Java` задачи выполняют `Thread`-ы или потоки.
 
 > В разных источниках по разному переводится слово `Thread`: поток, нить и прочее.
@@ -26,7 +26,7 @@
     Например, пользователь запросил данные, для их получения требуется время, поэтому мы параллельно запускаем задачу сбора данных и при этом не прекращаем диалог с пользователем, не блокируем ему интерфейс.
 
 * Многопользовательский сервис.
-    Сервис, где каждый запрос обрабатывается параллельно с другими 
+    Сервис, где каждый запрос обрабатывается параллельно с другими.
 
 Где выгоды от увеличения многопоточности не будет?
 
@@ -47,9 +47,9 @@
 > Пусть необходимо решить некоторую вычислительную задачу.
 >
 > Предположим, что её алгоритм таков, что доля `a` от общего объёма вычислений может быть получена только последовательными расчётами, а, соответственно, доля `1- a`  может быть распараллелена идеально (то есть время вычисления будет обратно пропорционально числу задействованных узлов `p`.
-> 
+>
 > Тогда ускорение, которое может быть получено на вычислительной системе из `p` процессоров, по сравнению с однопроцессорным решением не будет превышать величины:
-
+>
 > ![Amdahl's law](../images/concurrency/amdahl_law.png)
 
 Графически это выглядит как:
@@ -62,7 +62,6 @@
 
 И в таком случае, ответ на вопрос будет: не более, чем в пять раз.
 
-
 Таблица показывает, во сколько раз быстрее выполнится программа с долей последовательных вычислений `a` при использовании `p` процессоров:
 
 | a \ p  | 10     | 100    | 1 000  |  
@@ -72,7 +71,7 @@
 |  40 %  | 2,174  | 2,463  | 2,496  |
 
 На самом деле все еще хуже, потому что есть еще межпоточная координация, которая тоже влияет на производительность.
- 
+
 Это как раз учитывается в `Universal Scalability Law` или `USL`, который является расширением закона Амдала:
 
 ![USL](../images/concurrency/USL.png)
@@ -94,9 +93,12 @@
 
 Еще важно понимать, что многопоточная программа не обязательно выполняется параллельно.
 
-![Concurrency vs Parallelism](../images/concurrency/concurrency_vs_parallelism.png)
+Как же так?
 
 У нас два автомата по выдаче напитков, соответственно, два человека могут получить напиток сразу - это параллельное выполнение программы.
+
+![Concurrency vs Parallelism](../images/concurrency/concurrency_vs_parallelism.png)
+
 Многопоточная программа не обязательно выполняет действия параллельно, она потенциально может стать параллельной, если добавить больше ресурсов.
 
 Потоков может быть больше (чаще всего их и так больше), нежели ядер процессора, на которых потоки выполняются.
@@ -115,7 +117,7 @@
 
 ### Наследник java.lang.Thread
 
-Самый простой способ создать поток - это отнаследоваться от `java.lang.Thread` и переопределить метод `void run()`:
+Самый простой (и не самый лучший) способ создать поток - это отнаследоваться от `java.lang.Thread` и переопределить метод `void run()`, куда поместить свою логику:
 
 ```java
 public class MyThread extends Thread {
@@ -125,6 +127,8 @@ public class MyThread extends Thread {
     }
 }
 ```
+
+Внимательный читатель увидит, что у класса `java.lang.Thread` есть еще один метод: `start()`
 
 Запуск поток **всегда** происходит через метод `start()`:
 
@@ -137,7 +141,7 @@ thread.start();
 
 **Вопрос**:
 
-Зачем нам два метода? Почему `start` - это запуск потока, а `run` - это наша логика вычисления, которая будет запущена в потоке?
+Зачем нам два метода? Почему `start` - это запуск потока, а `run` - это наша логика работы, которая будет запущена в потоке?
 
 **Ответ**:
 
@@ -168,13 +172,17 @@ class ThreadExample extends Thread {
 
 public class Example {
     public static void main(String[] args) {
-        new ThreadExample("Hello from 1", 1_000_000).run();
-        new ThreadExample("Hello from 2", 2).run();
+        ThreadExample te1 = new ThreadExample("Hello from 1", 1_000_000);
+        te1.run();
+        
+        ThreadExample te2 = new ThreadExample("Hello from 2", 2);
+        te2.run();
     }
 }
 ```
 
-Запустим и увидим, что все будет выполняться последовательно. Сначала отработает `te1`, а уже после него начнет работу `te2`. 
+Запустим и увидим, что все будет выполняться последовательно.
+Сначала отработает `te1`, а уже после него начнет работу `te2`.
 
 Поэтому никогда **НЕ** вызывайте метод `run` напрямую!
 
@@ -203,12 +211,15 @@ public class Example {
 
 ### java.lang.Runnable
 
-Создавать наследника `java.lang.Thread`, выделяя под это целый класс зачастую неудобно.
+Создавать наследника `java.lang.Thread`, выделяя под это целый класс зачастую неудобно (и неправильно).
 
-Во-первых, ваш класс уже может быть чьим-то наследником, поэтому просто отнаследоваться от `java.lang.Thread` не получиться.
+Во-первых, ваш класс уже может быть чьим-то наследником, поэтому просто отнаследоваться от `java.lang.Thread` не получится.
 
 Во-вторых, иногда просто неудобно создавать целый класс, чтобы переопределить `run`.
 Неудобно, громоздко, плодит лишние классы, добавляя проблем с выдумыванием им названий!
+
+В-третьих, как уже было сказано, основная логика всегда в `run`, остальное состояние `Thread`-а вам не нужно.
+Поэтому было бы логично, если бы существовал еще и интерфейс для выделения логики в `run`.
 
 Классы не могут, интерфейсы помогут и решение нашей проблемы называется `java.lang.Runnable`:
 
@@ -347,6 +358,343 @@ Thread : MAIN
 
 ---
 
+С запуском разобрались. Теперь посмотрим, что еще мы можем сделать с потоком?
+
+## Остановка
+
+Примеры ранее представляли поток как последовательный набор операций. После выполнения последней операции завершался и поток.
+
+Но зачастую поток должен постоянно делать какую-то работу, пока его явно не попросят остановиться. Это может быть как опрос сокета на новые данные, мониторинг появления новых файлов в директории, да что угодно!
+
+И как в таком случае правильно останавливать поток?
+
+У `java.lang.Thread` есть метод `stop`:
+
+```java
+   /**
+     * Forces the thread to stop executing.
+     * <p>
+     * If there is a security manager installed, its {@code checkAccess}
+     * method is called with {@code this}
+     * as its argument. This may result in a
+     * {@code SecurityException} being raised (in the current thread).
+     * <p>
+     * If this thread is different from the current thread (that is, the current
+     * thread is trying to stop a thread other than itself), the
+     * security manager's {@code checkPermission} method (with a
+     * {@code RuntimePermission("stopThread")} argument) is called in
+     * addition.
+     * Again, this may result in throwing a
+     * {@code SecurityException} (in the current thread).
+     * <p>
+     * The thread represented by this thread is forced to stop whatever
+     * it is doing abnormally and to throw a newly created
+     * {@code ThreadDeath} object as an exception.
+     * <p>
+     * It is permitted to stop a thread that has not yet been started.
+     * If the thread is eventually started, it immediately terminates.
+     * <p>
+     * An application should not normally try to catch
+     * {@code ThreadDeath} unless it must do some extraordinary
+     * cleanup operation (note that the throwing of
+     * {@code ThreadDeath} causes {@code finally} clauses of
+     * {@code try} statements to be executed before the thread
+     * officially dies).  If a {@code catch} clause catches a
+     * {@code ThreadDeath} object, it is important to rethrow the
+     * object so that the thread actually dies.
+     * <p>
+     * The top-level error handler that reacts to otherwise uncaught
+     * exceptions does not print out a message or otherwise notify the
+     * application if the uncaught exception is an instance of
+     * {@code ThreadDeath}.
+     *
+     * @throws     SecurityException  if the current thread cannot
+     *             modify this thread.
+     * @see        #interrupt()
+     * @see        #checkAccess()
+     * @see        #run()
+     * @see        #start()
+     * @see        ThreadDeath
+     * @see        ThreadGroup#uncaughtException(Thread,Throwable)
+     * @see        SecurityManager#checkAccess(Thread)
+     * @see        SecurityManager#checkPermission
+     * @deprecated This method is inherently unsafe.  Stopping a thread with
+     *       Thread.stop causes it to unlock all of the monitors that it
+     *       has locked (as a natural consequence of the unchecked
+     *       {@code ThreadDeath} exception propagating up the stack).  If
+     *       any of the objects previously protected by these monitors were in
+     *       an inconsistent state, the damaged objects become visible to
+     *       other threads, potentially resulting in arbitrary behavior.  Many
+     *       uses of {@code stop} should be replaced by code that simply
+     *       modifies some variable to indicate that the target thread should
+     *       stop running.  The target thread should check this variable
+     *       regularly, and return from its run method in an orderly fashion
+     *       if the variable indicates that it is to stop running.  If the
+     *       target thread waits for long periods (on a condition variable,
+     *       for example), the {@code interrupt} method should be used to
+     *       interrupt the wait.
+     *       For more information, see
+     *       <a href="{@docRoot}/java.base/java/lang/doc-files/threadPrimitiveDeprecation.html">Why
+     *       are Thread.stop, Thread.suspend and Thread.resume Deprecated?</a>.
+     */
+    @Deprecated(since="1.2")
+    public final void stop()
+```
+
+Однако, как можно заметить по `javadoc`, он `deprecated` и крайне не рекомендован к использованию.
+
+Почему?
+
+Обратимся к Oracle [за поясненимями](https://docs.oracle.com/javase/1.5.0/docs/guide/misc/threadPrimitiveDeprecation.html):
+
+> Why is Thread.stop deprecated?
+>
+> Because it is inherently unsafe. Stopping a thread causes it to unlock all the monitors that it has locked. (The monitors are unlocked as the ThreadDeath exception propagates up the stack.)
+> If any of the objects previously protected by these monitors were in an inconsistent state, other threads may now view these objects in an inconsistent state.
+> Such objects are said to be damaged. When threads operate on damaged objects, arbitrary behavior can result.
+> This behavior may be subtle and difficult to detect, or it may be pronounced.
+> Unlike other unchecked exceptions, ThreadDeath kills threads silently; thus, the user has no warning that his program may be corrupted.
+> The corruption can manifest itself at any time after the actual damage occurs, even hours or days in the future.
+
+Что это значит?
+
+А это значит, что завершать поток на полном ходу, через `stop`, словно коня на скаку, плохая идея.
+Например, потому что у нас нет гарантии, что в таком случае поток не заврешается посередине атомарной операции!
+Это чревато тем, что поток при завершении может оставить какие-то объекты, ресурсы в незаконченном/поврежденном состоянии.
+
+Соответственно, нам нужен механизм, который **сообщит** потоку, что **пора** завершаться.
+
+### Флаг
+
+Как мы можем это сделать? С помощью флага!
+
+```java
+class MyThread extends Thread {
+    private volatile boolean interrupted = false;
+
+    public void setInterrupted(boolean flag) {
+        stopFlag = flag;
+    }
+
+    @Override
+    public void run() {
+        while(!interrupted) {
+            /* here we're doing our work */
+            System.out.println("I'm still alive");
+        }
+
+        /* here we're shutting down and releasing resources */
+        System.out.println("That's all...");
+    }
+}
+
+// bla bla
+Thread thread = new MyThread();
+
+// some work
+
+thread.setInterrupted(true);
+```
+
+> О магическом слове `volatile` будет сказано позднее и вы позже поймете, почему оно здесь и зачем.
+
+Сам алгоритм прост, потому красив: пока потоку не сказали через флаг, что пора завершаться - он выполняется, выставляем флаг и поток (при итерации следующей) выйдет из цикла.
+
+При использовании флага можно освободить ресурсы, подготовить объекты, с которыми работали к завершению работы и т.д.
+
+### interrupted
+
+Давайте взглянем на внутреннее устройство `java.lang.Thread` и обнаружим там похожие на то, что мы писали выше:
+
+```java
+    /* Interrupt state of the thread - read/written directly by JVM */
+    private volatile boolean interrupted;
+
+    /**
+     * Interrupts this thread.
+     *
+     * <p> Unless the current thread is interrupting itself, which is
+     * always permitted, the {@link #checkAccess() checkAccess} method
+     * of this thread is invoked, which may cause a {@link
+     * SecurityException} to be thrown.
+     *
+     * <p> If this thread is blocked in an invocation of the {@link
+     * Object#wait() wait()}, {@link Object#wait(long) wait(long)}, or {@link
+     * Object#wait(long, int) wait(long, int)} methods of the {@link Object}
+     * class, or of the {@link #join()}, {@link #join(long)}, {@link
+     * #join(long, int)}, {@link #sleep(long)}, or {@link #sleep(long, int)}
+     * methods of this class, then its interrupt status will be cleared and it
+     * will receive an {@link InterruptedException}.
+     *
+     * <p> If this thread is blocked in an I/O operation upon an {@link
+     * java.nio.channels.InterruptibleChannel InterruptibleChannel}
+     * then the channel will be closed, the thread's interrupt
+     * status will be set, and the thread will receive a {@link
+     * java.nio.channels.ClosedByInterruptException}.
+     *
+     * <p> If this thread is blocked in a {@link java.nio.channels.Selector}
+     * then the thread's interrupt status will be set and it will return
+     * immediately from the selection operation, possibly with a non-zero
+     * value, just as if the selector's {@link
+     * java.nio.channels.Selector#wakeup wakeup} method were invoked.
+     *
+     * <p> If none of the previous conditions hold then this thread's interrupt
+     * status will be set. </p>
+     *
+     * <p> Interrupting a thread that is not alive need not have any effect.
+     *
+     * @implNote In the JDK Reference Implementation, interruption of a thread
+     * that is not alive still records that the interrupt request was made and
+     * will report it via {@link #interrupted} and {@link #isInterrupted()}.
+     *
+     * @throws  SecurityException
+     *          if the current thread cannot modify this thread
+     *
+     * @revised 6.0, 14
+     */
+    public void interrupt()
+
+    /**
+     * Tests whether this thread has been interrupted.  The <i>interrupted
+     * status</i> of the thread is unaffected by this method.
+     *
+     * @return  {@code true} if this thread has been interrupted;
+     *          {@code false} otherwise.
+     * @see     #interrupted()
+     * @revised 6.0, 14
+     */
+    public boolean isInterrupted() {
+        ...
+    }
+```
+
+Т.е. у поток **уже** есть этот флаг, а также методы работы с ним!
+
+В таком случае метод `run` потока можно написать уже так:
+
+```java
+class MyThread extends Thread {
+
+    @Override
+    public void run() {
+        while(!isInterrupted()) {
+            /* here we're doing our work */
+            System.out.println("I'm still alive");
+        }
+
+        /* here we're shutting down and releasing resources */
+        System.out.println("That's all...");
+    }
+}
+
+// bla bla
+Thread thread = new MyThread();
+
+// some work
+
+thread.interrupt();
+```
+
+Заметьте, что метод `interrupt` не ждет завершения потока, он лишь **сообщает** потоку, что его попросили прерваться.
+Поэтому флаг `interrupted` надо явно проверять во время выполнения, никакой обработки по умолчанию у него нет.
+В примере выше мы явно проверяем состояние флага с помощью метода `isInterrupted`.
+
+Здесь возникает вопрос: а что если мы не наследовались от `java.lang.Thread`, а реализовали интерфейс `java.lang.Runnable`?
+Как проверять флаг в таком случае?
+
+```java
+class RunnableExample implements Runnable {
+    @Override
+    public void run() {
+        while (/* как проверять флаг? */) {
+            System.out.println("I'm still alive");
+        }
+
+        System.out.println("That's all...");
+    }
+}
+```
+
+В таком случае, у `java.lang.Thread` существует статический метод, возвращающий ссылку на текущий поток:
+
+```java
+    /**
+     * Returns a reference to the currently executing thread object.
+     *
+     * @return  the currently executing thread.
+     */
+    @IntrinsicCandidate
+    public static native Thread currentThread();
+```
+
+И наш код с проверкой флага можно переписать в виде:
+
+```java
+class RunnableExample implements Runnable {
+    @Override
+    public void run() {
+        while (!Thread.currentThread().isInterrupted()) {
+            System.out.println("I'm still alive");
+        }
+
+        System.out.println("That's all...");
+    }
+}
+```
+
+### interrupted vs isInterrupted
+
+Внимательный читатель уже заметил, что у класса `java.lang.Thread` целых два метода, возвращающих `boolean` о состоянии флага прервывания, при этом один из них, `interrupted`, статический:
+
+```java
+    /**
+     * Tests whether the current thread has been interrupted.  The
+     * <i>interrupted status</i> of the thread is cleared by this method.  In
+     * other words, if this method were to be called twice in succession, the
+     * second call would return false (unless the current thread were
+     * interrupted again, after the first call had cleared its interrupted
+     * status and before the second call had examined it).
+     *
+     * @return  {@code true} if the current thread has been interrupted;
+     *          {@code false} otherwise.
+     * @see #isInterrupted()
+     * @revised 6.0, 14
+     */
+    public static boolean interrupted() {
+        Thread t = currentThread();
+        boolean interrupted = t.interrupted;
+        // We may have been interrupted the moment after we read the field,
+        // so only clear the field if we saw that it was set and will return
+        // true; otherwise we could lose an interrupt.
+        if (interrupted) {
+            t.interrupted = false;
+            clearInterruptEvent();
+        }
+        return interrupted;
+    }
+```
+
+В чем отличия `isInterrupted` и `interrupted`?
+
+Метод `isInterrupted` - это просто проверка на прерванный статус.
+
+В то время как `interrupted`, как видно из кода, это не просто проверка, это ещё и сброс флага прерванности потока в `false`.
+Т.е. вызов **повторный** вызов метода `interrupted` вернет `false`, даже если поток был прерван! Ведь метод сбросит флаг.
+
+Обратите внимание еще на то, что это статический метод, действующий ***только*** на текущий поток: он имеет смысл только в контексте проверки того, должен ли быть остановлен окружающий код.
+
+Итак, зачем же сбрасывается флаг?
+
+Для более коррек
+
+
+Вопр
+
+
+
+
+Завершенный поток нельзя запустить.
+
 ## Volatile
 
 В целях повышения эффективности работы, спецификации языка `Java` позволяет сохранять локальную копию переменной в каждом потоке, который ссылается на нее.
@@ -357,71 +705,6 @@ Thread : MAIN
 ```java
 
 ```
-
-## Управление потоками
-
-С запуском разобрались. Теперь посмотрим, что еще мы можем сделать с потоком?
-
-### interrupt
-
-Примеры потоков ранее представляли поток как последовательный набор операций. После выполнения последней операции завершался и поток.
-
-Но зачастую поток должен постоянно делать какую-то работу, пока его явно не попросят остановиться. Это может быть как опрос сокета на новые данные, мониторинг появления новых файлов в директории, да что угодно! 
-
-И как в таком случае правильно останавливать поток?
-
-У `java.lang.Thread` есть метод `stop`, но он `deprecated` и крайне не рекомендован к использованию.
-
-Почему?
-
-Обратимся к Oracle [за поясненимями](https://docs.oracle.com/javase/1.5.0/docs/guide/misc/threadPrimitiveDeprecation.html):
-
-> Why is Thread.stop deprecated?
->
-> Because it is inherently unsafe. Stopping a thread causes it to unlock all the monitors that it has locked. (The monitors are unlocked as the ThreadDeath exception propagates up the stack.) 
-> If any of the objects previously protected by these monitors were in an inconsistent state, other threads may now view these objects in an inconsistent state. 
-> Such objects are said to be damaged. When threads operate on damaged objects, arbitrary behavior can result. 
-> This behavior may be subtle and difficult to detect, or it may be pronounced. 
-> Unlike other unchecked exceptions, ThreadDeath kills threads silently; thus, the user has no warning that his program may be corrupted. 
-> The corruption can manifest itself at any time after the actual damage occurs, even hours or days in the future.
-
-Что это значит?
-А это значит, что завершать поток на полном ходу, через `stop`, словно коня на скаку, плохая идея.
-Ведь в таком случае поток освобождает все занятые блокировки, не заканчивает работу с какими-то ресурсами и т.д.
-
-Это чревато тем, что поток при завершении может оставить какие-то объекты, ресурсы в незаконченном/поврежденном состоянии.
-
-Соответственно, нам нужен механизм, который **сообщит** потоку, что **пора** завершаться. 
-
-Как мы можем это сделать? С помощью флага!
-
-```java
-class MyThread extends Thread {
-    private volatile boolean stopFlag = false;
-
-    public void setStopFlag(boolean flag) {
-        stopFlag = flag;
-    }
-
-    @Override
-    public void run() {
-        while(!stopFlag) {
-            /* here we're doing our work */
-            System.out.println("I'm still alive");
-        }
-
-        /* here we're shutting down and releasing resources */
-        System.out.println("That's all...");
-    }
-}
-
-//bla bla
-MyThrad thread = new MyThread();
-thread.setStopFlag(true);
-```
-
-Поток 
-
 
 ### join
 
@@ -498,43 +781,7 @@ Hello from MAIN
 
 
 
-## Жизнь потока
 
-Теперь давайте разберемся в том, что вообще происходит с потоком после `start`.
-
-Поток порождается в операционной системе, запускает работу нашей логики в `run` и переходит в состояие `RUNNABLE`.
-
-
-Не вдаваясь в подробности, у потока есть состояния: `RUNNABLE`, `WAITING`, `BLOCKED`, `TERMINATED`.
-
-Сразу после `start` поток находится в состоянии `RUNNABLE`. Он выполняется.
-Далее, если мы вызываем `wait` &mdash; мы переводим его в состояние `WAITING`,
-откуда он может стать снова `RUNNABLE`, если вызвать `notify`, и может перейти в
-состояние `TERMINATED`.
-
-Также из состояния `RUNNABLE` мы можем попасть в `BLOCKED`, если получим lock по
-монитору (lock on monitor), соответственно как только монитор освободится &mdash;
-снова перейдем в `RUNNABLE`. Также можно попасть в `TERMINATED`.
-
-И последний вариант из `RUNNABLE` мы можем попасть в `TERMINATED`, если вызовем
-метод `interrupt`.
-
-На схеме это выглядит как-то так:
-
-![](../images/thread-life.png)
-
-
-Как видно по схеме, мы из `TERMINATED` не выйдем обратно, т.е если поток
-завершился &mdash; второй раз `start` уже не вызовем. Т.е надо создать объект
-нового потока и запустить его заново, если нам это нужно.
-
-Почему так? А потому, что наши потоки &mdash; это объекты. А значит, запустив
-поток, мы можем состояние нашего потока как-то изменить, например, изменить ему
-имя, если у нашего объекта есть поле имя. Или что-то еще, но главное &mdash; мы
-можем изменить состояние объекта. После завершения потока наш объект может быть
-совсем не в том виде, что при создании объекта конструктором. И если бы мы могли
-заново запускать отработанный поток &mdash; мы бы запускали уже объект с
-неизвестными данными. Поэтому так нельзя.
 
 ## Поток-демон
 
@@ -547,101 +794,7 @@ Hello from MAIN
 
 ## Остановка по требованию
 
-А теперь рассмотрим как же остановить поток.
 
-Да, есть метод `stop`, но он помечен как **depreacated** и настоятельно рекомендуется его не использовать.
-
-Почему?
-Да потому, что так делать опасно. Пусть мы в потоке пишем в БД какие-то данные.
-Или же работаем с каким-нибудь файлом или сетью. И тут &mdash; резкий стоп. Т.е.
-поток сразу все бросает и оставляет какие-то ресурсы, состояния объектов, с
-которыми работал такой поток, может быть не валидным. Поэтому &mdash; **не используйте `stop`**.
-
-Тогда как быть?
-
-Случай 1 &mdash; работаем со своим флагом.
-Заводим флажок, оборачиваем все в цикл и работаем, пока флаг &mdash; `false`.
-
-```java
-class MyThread extends Thread {
-    private volatile boolean stopFlag = false;
-
-    public void setStopFlag(boolean flag) {
-        stopFlag = flag;
-    }
-
-    @Override
-    public void run() {
-        while(!stopFlag) {
-            /* here we're doing our work */
-            System.out.println("I'm still alive");
-            try {
-                TimeUnit.SECONDS.sleep(1);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-
-        /* here we're shutting down and releasing resources */
-        System.out.println("That's all...");
-    }
-}
-
-//bla bla
-MyThrad thread = new MyThread();
-thread.setStopFlag(true);
-```
-
-Тут кинется исключения, но об этом &mdash; ниже.
-
-Примерно так же работает и второй случай &mdash; через `Thread.currentThread.isInterrupted`:
-
-```java
-import java.util.concurrent.TimeUnit;
-
-public class ThreadInterruptExample extends Thread {
-    @Override
-    public void run() {
-        while (!Thread.currentThread().isInterrupted()) {
-            /* here we're doing our work */
-            System.out.println("i still alive");
-            try {
-                TimeUnit.SECONDS.sleep(1);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-        System.out.println("That's all...");
-    }
-}
-
-//bla bla
-ThreadInterruptExample thread = new ThreadInterruptExample();
-thread.start();
-TimeUnit.SECONDS.sleep(5);
-thread.interrupt();
-```
-
-Но надо помнить: вы должны где-то проверять поток на остановку!
-Если сделать так:
-
-```java
-class MyThread extends Thread {
-    @Override
-    public void run() {
-        /*work here*/
-    }
-}
-
-//bla bla
-MyThrad thread = new MyThread();
-thread.start();
-thread.interrupt();
-```
-
-**Поток не остановится!**
-
-Ну вроде понятно как с этим работать.
 Однако не все так просто.
 
 Ведь есть блокирующие операции:
@@ -700,6 +853,44 @@ public class ThreadInterruptWhileSleep extends Thread {
 * не использовать какие-то свои флаги, так как в состояниях `BLOCKED` или `WAITING` не дойдем до его проверки.
 * поймав `InterruptedException` &mdash; думаем, что делать, хорошей идеей будет вызывать `interrupt` у текущего потока, так как мы его разбудили InterruptedException, а теперь &mdash; выставляем флаг.
 
+
+## Жизненный цикл потока
+
+Поток в `Java` может находиться в следующих состояниях: `RUNNABLE`, `WAITING`, `BLOCKED` и `TERMINATED`.
+
+![Thread Lifecycle](../images/thread-life.png)
+
+Сразу после старта поток находится в состоянии `RUNNABLE`, выполняется.
+
+Поток может завершиться (может мы его прервали, может его работа была сделана), в таком случае он перейдет в состояние `TERMINATED`. Это конечное состояние, из него в другое состояние не перейти.
+
+Помимо этого поток может из `RUNNABLE` перейти в состоянии `WAITING`, т.е. ожидания, либо может быть заблокирован, т.е. в состоянии `BLOCKED`.
+
+В чем отли
+
+Далее, если мы вызываем `wait` &mdash; мы переводим его в состояние `WAITING`,
+откуда он может стать снова `RUNNABLE`, если вызвать `notify`, и может перейти в
+состояние `TERMINATED`.
+
+Также из состояния `RUNNABLE` мы можем попасть в `BLOCKED`, если получим lock по
+монитору (lock on monitor), соответственно как только монитор освободится &mdash;
+снова перейдем в `RUNNABLE`. Также можно попасть в `TERMINATED`.
+
+И последний вариант из `RUNNABLE` мы можем попасть в `TERMINATED`, если вызовем
+метод `interrupt`.
+
+
+Как видно по схеме, мы из `TERMINATED` не выйдем обратно, т.е если поток
+завершился &mdash; второй раз `start` уже не вызовем. Т.е надо создать объект
+нового потока и запустить его заново, если нам это нужно.
+
+Почему так? А потому, что наши потоки &mdash; это объекты. А значит, запустив
+поток, мы можем состояние нашего потока как-то изменить, например, изменить ему
+имя, если у нашего объекта есть поле имя. Или что-то еще, но главное &mdash; мы
+можем изменить состояние объекта. После завершения потока наш объект может быть
+совсем не в том виде, что при создании объекта конструктором. И если бы мы могли
+заново запускать отработанный поток &mdash; мы бы запускали уже объект с
+неизвестными данными. Поэтому так нельзя.
 
 ## Пул потоков
 
@@ -893,8 +1084,8 @@ public class Example {
 5. [Закон Амдала](https://medium.com/german-gorelkin/amdahls-law-79a8edb040e2)
 5. [USL](https://tangowhisky37.github.io/PracticalPerformanceAnalyst/pages/spe_fundamentals/what_is_universal_scalability_law/)
 6. [Concurrency vs. Parallelism — A brief view](https://medium.com/@itIsMadhavan/concurrency-vs-parallelism-a-brief-review-b337c8dac350)
-
-
+7. [What Do You Do With InterruptedException?](https://www.yegor256.com/2015/10/20/interrupted-exception.html)
+8. [Java. Многопоточность. Остановка потока. Обработка InterruptedException.](https://www.youtube.com/watch?v=K2QOWJp_IQU)
 
 
 
