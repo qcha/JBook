@@ -41,6 +41,34 @@
     }
 ```
 
+### В JDK
+
+Данная сортировка реализована в стандартной библиотеке в классе `java.util.DualPivotQuicksort` в методе `insertionSort`:
+
+```java
+  /**
+     * Sorts the specified range of the array using insertion sort.
+     *
+     * @param a the array to be sorted
+     * @param low the index of the first element, inclusive, to be sorted
+     * @param high the index of the last element, exclusive, to be sorted
+     */
+    private static void insertionSort(int[] a, int low, int high) {
+        for (int i, k = low; ++k < high; ) {
+            int ai = a[i = k];
+
+            if (ai < a[i - 1]) {
+                while (--i >= low && ai < a[i]) {
+                    a[i + 1] = a[i];
+                }
+                a[i + 1] = ai;
+            }
+        }
+    }
+```
+
+Где значения `low` - это 0 и `high` - это `a.length`.
+
 ## Производительность
 
 Из-за двух вложенных циклов сортировка вставкой медленная, ее временная сложность в наихудшем случае: `О(N^2)`.
