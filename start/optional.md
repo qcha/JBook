@@ -49,7 +49,7 @@ public Person findByNameAndSurname(final String name, final String surname) {
 Да и сама ситуация отсутствия по фамилии/отчеству человека в телефонной книге не такого рода, чтобы ломать поток выполнения программы исключением.
 
 Другой вариант явно вернуть `null`, при отсутствии значения.
-Поток выполнения не ломает, перехватывать и обрабатывать исключения на кажыдй вызов не надо.
+Поток выполнения не ломает, перехватывать и обрабатывать исключения на каждый вызов не надо.
 
 Но все еще есть существенный минус: теперь надо не забыть проверить возвращаемое значение на `null`.
 А это уже проблема, потому что сигнатура метода явно ничего не говорит о том, может ли быть возвращен `null` или нет.
@@ -553,7 +553,7 @@ Optional<Optional<String>> optPhone = findByNameAndSurname("Aleksandr", "Kuchuk"
 
 ```java
 // либо в контейнере телефон Кучука Александра, либо пустой контейнер.
-Optional<String> optPhone = findByNameAndSurname("Aleksandr", "Kuchuk").map(kuchuk -> Optional.ofNullable(kuchuk.getPhone()));
+Optional<String> optPhone = findByNameAndSurname("Aleksandr", "Kuchuk").flatMap(kuchuk -> Optional.ofNullable(kuchuk.getPhone()));
 ```
 
 Когда используется: когда необходимо применить функцию, уже возвращающую `Optional`, к значению в контейнере.
