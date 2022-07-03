@@ -76,7 +76,7 @@
 Логер создается с помощью фабрики и на этапе создания ему присваивается имя. Имя может быть любым, но по стандарту имя должно быть сопряжено с именем класса, в котором вы собираетесь что-то логировать:
 
 ```java
-Logger logger = LoggerFactory.gerLogger(SomeClass.class.getName());
+Logger logger = LoggerFactory.getLogger(SomeClass.class.getName());
 ```
 
 Это дает нам имя логера в виде: `ru.aarexer.example.SomeClass`.
