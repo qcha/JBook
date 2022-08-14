@@ -106,6 +106,7 @@
 ### Порождающие
 
 * [Builder](../patterns/creational/builder.md)
+* [Factory Method](../patterns/creational/factory_method.md)
 * [Abstract Factory](../patterns/creational/abstract_factory.md)
 * [Singleton](../patterns/creational/singleton.md)
 
