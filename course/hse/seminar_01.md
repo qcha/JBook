@@ -26,7 +26,7 @@
 
 ### Почему Java
 
-Общая статья [тут](https://github.com/qcha/JBook/blob/master/course/intro.md).
+Общая статья [тут](../zero_to_hero/intro.md).
 
 #### Популярность
 
@@ -154,28 +154,28 @@ java Main
 
 ### Код стайл
 
-Говорим о важности [код-стайла](https://github.com/qcha/JBook/blob/master/start/code_style.md).
+Говорим о важности [код-стайла](../../start/code_style.md).
 
 Явно проговариваем, что на этом будет акцент и внимательно относится надо к коду.
 
 ### Типы данных и касты
 
-Бегло проходимся по [типам данных](https://github.com/qcha/JBook/blob/master/course/first.md) и показываем касты одного к другому.
+Бегло проходимся по [типам данных](../zero_to_hero/first.md) и показываем касты одного к другому.
 Демонстрируем строгую типизацию.
 
 ### Знакомство с управляющими конструкциями
 
 Акцент на это не надо делать, студенты должны знать все с прошлых курсов.
-Бегло [проговорить](https://github.com/qcha/JBook/blob/master/course/first.md#14-%D0%BE%D0%BF%D0%B5%D1%80%D0%B0%D1%82%D0%BE%D1%80%D1%8B), дать домашнее задание.
+Бегло [проговорить](../zero_to_hero/first.md#14-%D0%BE%D0%BF%D0%B5%D1%80%D0%B0%D1%82%D0%BE%D1%80%D1%8B), дать домашнее задание.
 
 ### Домашнее задание
 
-Пишем простую программу на `Java` из [списка](https://github.com/qcha/JBook/blob/master/course/first.md#17-%D0%BF%D1%80%D0%B0%D0%BA%D1%82%D0%B8%D0%BA%D0%B0).
+Пишем простую программу на `Java` из [списка](../zero_to_hero/first.md#17-%D0%BF%D1%80%D0%B0%D0%BA%D1%82%D0%B8%D0%BA%D0%B0).
 
 ## Полезные ссылки
 
-1. [Почему Java](https://github.com/qcha/JBook/blob/master/course/intro.md).
-2. [Код-стайл](https://github.com/qcha/JBook/blob/master/start/code_style.md)
-3. [Управляющие конструкции](https://github.com/qcha/JBook/blob/master/course/first.md)
+1. [Почему Java](../zero_to_hero/intro.md).
+2. [Код-стайл](../../start/code_style.md)
+3. [Управляющие конструкции](../zero_to_hero/first.md)
 4. [Ключевые слова Java](https://en.wikipedia.org/wiki/List_of_Java_keywords)
 5. [Java #1. Экосистема](https://www.youtube.com/watch?v=Bgs-8eJyzhg&list=PL4_hYwCyhAvblhTbPQmOF4b3kilWSpOjU)
