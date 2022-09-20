@@ -134,7 +134,7 @@ Java SE 9 (September 21, 2017)  |  Java SE 19 (due to in September 2022)
 public class Main {
     public static void main(String[] args) {
         System.out.println("Hello World");
-}
+    }
 }
 ```
 
@@ -156,7 +156,7 @@ java Main
 
 Говорим о важности [код-стайла](../../start/code_style.md).
 
-Явно проговариваем, что на этом будет акцент и внимательно относится надо к коду.
+Явно проговариваем, что на этом будет акцент и надо внимательно относиться к коду.
 
 ### Типы данных и касты
 
