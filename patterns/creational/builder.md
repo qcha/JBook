@@ -643,10 +643,11 @@ Cила паттерна раскрывается в сложных случая
 ## Полезные ссылки
 
 1. [Элегантный Builder на Java](https://habr.com/ru/post/244521/)
-2. [Builder Design Pattern In Java](https://dzone.com/articles/builder-design-pattern-in-java)
-3. [Перевод Builder Design Pattern In Java на Хабре](https://habr.com/ru/company/otus/blog/552412/)
-4. [Design patterns a quick guide to builder pattern](https://medium.com/@andreaspoyias/design-patterns-a-quick-guide-to-builder-pattern-a834d7cacead)
-5. [Builder Pattern more than one director](https://stackoverflow.com/questions/39717862/builder-pattern-more-than-one-director)
-6. [The Builder Design Pattern in Java](https://stackabuse.com/the-builder-design-pattern-in-java/)
-7. [An Introduction to Apache Commons Lang 3](https://www.baeldung.com/java-commons-lang-3)
-8. [Книга 'Погружение в Паттерны проектирования'](https://refactoring.guru/ru/design-patterns/book)
+2. [Еще один пример Builder](https://github.com/iluwatar/java-design-patterns/tree/master/builder)
+3. [Builder Design Pattern In Java](https://dzone.com/articles/builder-design-pattern-in-java)
+4. [Перевод Builder Design Pattern In Java на Хабре](https://habr.com/ru/company/otus/blog/552412/)
+5. [Design patterns a quick guide to builder pattern](https://medium.com/@andreaspoyias/design-patterns-a-quick-guide-to-builder-pattern-a834d7cacead)
+6. [Builder Pattern more than one director](https://stackoverflow.com/questions/39717862/builder-pattern-more-than-one-director)
+7. [The Builder Design Pattern in Java](https://stackabuse.com/the-builder-design-pattern-in-java/)
+8. [An Introduction to Apache Commons Lang 3](https://www.baeldung.com/java-commons-lang-3)
+9. [Книга 'Погружение в Паттерны проектирования'](https://refactoring.guru/ru/design-patterns/book)
