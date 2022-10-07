@@ -4,7 +4,7 @@
 
 ## Условие
 
-Перед вами описание метода и несколько решений:
+Ваш коллега пишет метод для получения строк из файла, он сделал описание метода и предоставил несколько решений:
 
 ```java
 class FileUtils {
@@ -136,15 +136,18 @@ class FileUtils {
      * @param path путь до файла
      * @return список строк-содержимого файла
      */
-    public List<String> readAll(String path) throws IOException {
-        try (BufferedReader br = new BufferedReader(new FileReader(path))) {
+    public static List<String> readAll(String path) throws IOException {
+        try (
+                FileReader fr = new FileReader(path);
+                BufferedReader br = new BufferedReader(fr)
+        ) {
             List<String> result = new ArrayList<>();
-            
+
             String line;
             while ((line = br.readLine()) != null) {
                 result.add(line);
             }
-            
+
             return result;
         }
     }
@@ -172,6 +175,8 @@ try {
 }
 ```
 
+При этом, в идеале, надо было бы добавить информацию о кодировке файла: `charset`.
+
 #### Другие решения
 
 ##### Java Core
@@ -191,5 +196,6 @@ try {
 ### Что дальше
 
 Эта задача может стать хорошим трамплином для разговора о более сложных темах: что если файл огромный (десятки гигабайт)? А в какой кодировке данные файла?
+Что за метод `flush` у потока и почему мы его не вызываем? Что такое буффер у `java.io.BufferedReader` и на что он влияет?
 
 Это позволит посмотреть на кругозор собеседуемого человека.
