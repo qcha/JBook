@@ -4,6 +4,8 @@
 
 ## Условие
 
+Имеются следующие таблицы:
+
 ```sql
 -- Department table
 create table department
