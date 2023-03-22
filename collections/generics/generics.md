@@ -2,9 +2,116 @@
 
 ## Введение
 Зачем нужны Generics?
-//todo
-## Generics
+`Generics` -  это механизм, который позволяет писать безопасный для типов код. С помощью Generics в Java можно создавать классы, интерфейсы и методы, которые могут работать с различными типами данных, без необходимости создавать отдельные версии этих элементов для каждого типа.
 
+## Generics
+Для указания параметризованного типа используют угловые скобки `(<>)`. Например, можно создать обобщенный класс, который будет хранить массив элементов любого типа:
+```java
+public class Test<T> {
+  private T[] elements;
+  
+  public Test(T elements) {
+    this.elements = elements;
+  }
+  
+  public void printElems() {
+    for (T element : elements) {
+      System.out.print(element+" ");
+    }
+  }
+  public T getFirstElem() {
+    return elements[0];
+  }
+}
+```
+Здесь <T> означает, что класс Test параметризован типом T. При создании экземпляра класса Test, тип T будет заменен на конкретный тип данных. Например:
+```java
+Test<String> test = new Test<>(new String[]{"Hello", "World"});
+test.printElems(); //Hello World
+
+Test<Integer> test = new Test<>(new Integer[]{1, 2, 3});
+test.printElems(); //1 2 3
+
+```
+Также, если вы заметили, в нашем классе есть метод, который возвращает первый элемент массива. Но ведь мы не знаем, какой тип данных будет у массива. Поэтому, чтобы избежать ошибок, мы можем указать, что метод должен возвращать объект типа T:
+```java
+test.getFirstElem(); //Hello
+```
+Но стоит отметить, что при указании типа T, мы не можем использовать примитивные типы. Например, следующий код не скомпилируется:
+```java
+Test<int> test = new Test<>(new int[]{1, 2, 3});
+```
+Поэтому, если вы хотите использовать примитивные типы, то вам нужно использовать их обертки:
+```java
+Test<Integer> test = new Test<>(new Integer[]{1, 2, 3});
+```
+Мы можем использовать несколько параметров типа. Например, можно создать класс, который будет хранить пару элементов любого типа:
+```java
+public class Pair<T, V> {
+  private T first;
+  private V second;
+  
+  public Pair(T first, V second) {
+    this.first = first;
+    this.second = second;
+  }
+  
+  public T getFirst() {
+    return first;
+  }
+  
+  public V getSecond() {
+    return second;
+  }
+}
+```
+Теперь, при создании экземпляра класса Pair, мы можем указать типы данных для параметров T и V:
+```java
+Pair<String, Integer> pair = new Pair<>("Hello", 1);
+System.out.println(pair.getFirst()); //Hello
+```
+#### Рассмотрим пример принимаемых параметров, которые являются наследниками определенного класса
+
+ Так как мы не можем указать несколько классов в качестве параметров типа, то нам нужно использовать ограничения. Для этого используется ключевое слово `extends`. Например, мы можем создать класс, который будет принимать в качестве параметров типа `Cat` и `Dog`, которые наследуются от класса `Animal`:
+```java
+// Родительский класс Animal
+public class Animal {
+  public void say() {
+    System.out.println("Hello");
+  }
+}
+
+// Классы Cat и Dog, которые наследуются от класса Animal
+public class Cat extends Animal {
+  @Override
+  public void say() {
+    System.out.println("Meow");
+  }
+}
+
+public class Dog extends Animal {
+  @Override
+  public void say() {
+    System.out.println("Woof");
+  }
+}
+
+// Класс Test, который принимает в качестве параметров типа Cat и Dog
+public class Test<T extends Animal> {
+  private T[] elements;
+  
+  public Test(T elements) {
+    this.elements = elements;
+  }
+  
+  public void printElems() {
+    for (T element : elements) {
+      element.say();
+    }
+  }
+}
+```
+Но, если мы попытаемся создать экземпляр класса Test, указав в качестве параметра типа класс `String`, то код не скомпилируется
 ## Wildcards
 * Инвариантность
 
