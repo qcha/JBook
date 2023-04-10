@@ -150,3 +150,17 @@
 * [Кодировки](../other/encoding.md)
 * [Логирование](../other/logging.md)
 * [Аннотации](../common/annotations.md)
+
+## Задачи к собеседованиям
+
+### Алгоритмы и структуры данных
+
+* [Список задач](../interview/algos/intro.md)
+
+### Java Core
+
+* [Список задач](../interview/core/intro.md)
+
+### SQL
+
+* [Список задач](../interview/sql/intro.md)
