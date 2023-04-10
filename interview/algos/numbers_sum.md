@@ -170,9 +170,9 @@
             if (arr[left] + arr[right] == k) {
                 return new int[]{arr[left], arr[right]};
             } else if (arr[left] + arr[right] < k) {
-                left += 1;
+                left++;
             } else {
-                right -= 1;
+                right--;
             }
         }
 
