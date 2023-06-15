@@ -17,17 +17,16 @@ class TreeNode<T> {
 
 ### Рекурсивное решение с помощью обхода в глубину
 
-Будем считать, что терминальной нодой считается нода, внутренний список нод которой пуст.\
+Будем считать, что терминальной нодой считается нода, внутренний список нод которой пуст (при этом, она содержит значение).\
 Создадим вспомогательный метод `fillListWithNodes`, который будет производить рекурсивное заполнение списка обходом в глубину.\
-Основным методом будет `getAllNodes`, который принимает корень дерева, создает пустой список, а затем вызывает вспомогательный метод.
+Основным методом будет `getAllNodes`, который принимает корень дерева, создает пустой список, который мы будем заполнять значениями нод, а затем вызывает вспомогательный метод, который производит рекурсивное заполнение.
 
 ```java
 public static <E> void fillListWithNodes(TreeNode<E> node, List<E> nodeList) {
-    if (node.nodes.isEmpty()) {
-        return;
-    }
-
-    nodeList.add(node.value);
+    // Добавляем значение текущей ноды в список
+    nodeList.add(node.value);    
+    
+    // Для всех детей текущей ноды запускаем рекурсию
     for (var childrenNode : node.nodes) {
         fillListWithNodes(childrenNode, nodeList);
     }
@@ -36,6 +35,36 @@ public static <E> void fillListWithNodes(TreeNode<E> node, List<E> nodeList) {
 public static <E> List<E> getAllNodes(TreeNode<E> node) {
     var nodeList = new ArrayList<E>();
     fillListWithNodes(node, nodeList);
+    return nodeList;
+}
+```
+
+Минусы: 
+* Рекурсивные решения часто проигрывают по памяти и эффективности итеративным
+
+### Итеративное решение с помощью обхода в глубину
+
+Условие все тоже, терминальной нодой считается нода, внутренний список нод которой пуст (при этом, она содержит значение).\
+В этот раз обойдемся одним методом `getAllNodes`, который создает список значений, а затем производит заполнение значениями итеративно.
+
+```java
+public static <E> List<E> getAllNodes(TreeNode<E> node) {
+    var nodeList = new ArrayList<E>();
+
+    Queue<TreeNode<E>> queue = new ArrayDeque<>();
+    queue.add(node);
+
+    while (!queue.isEmpty()) {
+        // Вытаскиваем первый элемент из очереди
+        var element = queue.poll();
+
+        // Добавляем значение в список
+        nodeList.add(element.value);
+
+        // Добавляем всех детей текущей ноды в очередь
+        queue.addAll(element.nodes);
+    }
+
     return nodeList;
 }
 ```
