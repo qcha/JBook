@@ -35,7 +35,11 @@ protected native Object clone() throws CloneNotSupportedException;
 
 ```java
 public class CloneTest implements Cloneable {
-    private final int i;
+    private int i;
+
+    public void setI(int i) {
+        this.i = i;
+    }
 
     public CloneTest(int i) {
         this.i = i;
@@ -50,11 +54,30 @@ public class CloneTest implements Cloneable {
         CloneTest cloneTest = (CloneTest) test.clone();
         System.out.println("Original : " + test + ", i = " + test.getI());
         System.out.println("Clone : " + cloneTest + ", i = " + cloneTest.getI());
+        cloneTest.setI(10);
+
+        System.out.println("Original : " + test + ", i = " + test.getI());
+        System.out.println("Clone : " + cloneTest + ", i = " + cloneTest.getI());
     }
 }
+
 ```
 
-Чтобы не делать постоянное приведение к нужному типу, можно переопределить наш метод и явно указать тип возвращаемого объекта.
+>Вывод:
+> 
+> Original : CloneTest@568db2f2, i = 2
+> 
+> Clone : CloneTest@7291c18f, i = 2 
+> 
+> Original : CloneTest@568db2f2, i = 2 
+> 
+> Clone : CloneTest@7291c18f, i = 10
+
+
+*Таким образом мы получили два разных объекта, где значение поля i было клонировано по значению.*
+Мы изменили поле у объекта-клона, при этом значение поля у оригинального объекта не изменилось.
+
+>Чтобы не делать постоянное приведение к нужному типу, можно переопределить наш метод и явно указать тип возвращаемого объекта.
 Это считается хорошим тоном и застрахует нас от ошибок.
 
 ## Подводные камни
@@ -62,6 +85,27 @@ public class CloneTest implements Cloneable {
 Рассмотрим чуть более сложный пример, содержащий ссылочный тип, и переопределим метод так, как мы говорили выше - укажем явно возвращаемый объект:
 
 ```java
+class Hobby {
+    private String hobbyName;
+
+    public String getHobbyName() {
+        return hobbyName;
+    }
+
+    public Hobby(String hobbyName) {
+        this.hobbyName = hobbyName;
+    }
+
+    public void setHobbyName(String hobbyName) {
+        this.hobbyName = hobbyName;
+    }
+
+    @Override
+    public String toString() {
+        return hobbyName;
+    }
+}
+
 public class PersonToClone implements Cloneable {
     private String name;
     private int age;
@@ -75,11 +119,11 @@ public class PersonToClone implements Cloneable {
 
     @Override
     public String toString() {
-        return "PersonToClone{" +
-                "name='" + name + '\'' +
-                ", age=" + age +
-                ", hobby=" + hobby +
-                '}';
+
+        return String.format("PersonToClone@%d{ " +
+                        "name=%s, age=%d, hobby=%s }",
+                this.hashCode(), this.name, this.age, this.hobby);
+
     }
 
     @Override
@@ -87,28 +131,19 @@ public class PersonToClone implements Cloneable {
         return (PersonToClone) super.clone();
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public Hobby getHobby() {
+        return hobby;
     }
 
-    public void setAge(int age) {
-        this.age = age;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public void setHobby(Hobby hobby) {
         this.hobby = hobby;
     }
-
-    public String getName() {
-        return name;
-    }
-
-    public int getAge() {
-        return age;
-    }
-
-    public Hobby getHobby() {
-        return hobby;
+    public static void main(String[] args) throws CloneNotSupportedException {
+       // уже скоро...
     }
 }
 ```
@@ -119,9 +154,67 @@ public class PersonToClone implements Cloneable {
 Т.е и клон, и первоначальный объект будут ссылаться на один и тот же объект `Hobby`.
 
 Что подводит нас к подводному камню, можно скзаать айсбергу, потопившему титаник: если первоначальный объект изменит `Hobby`, то эти изменения окажутся и у клона!
-В свою очередь, это работает и в обратную сторону - если клон вдруг изменит `Hobby`, то и у первоначального объекта оно изменится.
+В свою очередь это работает и в обратную сторону - если клон вдруг изменит `Hobby`, то и у первоначального объекта оно изменится.
 
-Чувствуете пропасть под ногами? Холодок уже пробежал?
+>Вернемся к нашему коду, и посмотрим как это работает на практике.
+
+```java
+
+public static void main(String[] args) throws CloneNotSupportedException {
+        PersonToClone original = new PersonToClone("Original", 20, new Hobby("Learn Java"));
+        PersonToClone clone = original.clone();
+
+        clone.setName("Clone");
+        System.out.println(original);
+        System.out.println(clone);
+}
+
+```
+
+Здесь мы создали объект и его копию, вызвав наш переопределенный метод clone()
+
+>Вывод:
+> 
+> PersonToClone@931919113{ name=Original, age=20, hobby=Learn Java }
+> 
+>PersonToClone@455896770{ name=Clone, age=20, hobby=Learn Java }
+
+Пока все идет отлично, добавим еще пару строк
+
+```java
+
+public static void main(String[] args) throws CloneNotSupportedException {
+        PersonToClone original = new PersonToClone("Original", 20, new Hobby("Learn Java"));
+        PersonToClone clone = original.clone();
+
+        clone.setName("Clone");
+        System.out.println(original);
+        System.out.println(clone);
+
+        // новые строки
+        clone.getHobby().setHobbyName("Learn C#");
+
+        System.out.println(original);
+        System.out.println(clone);
+}
+
+```
+
+>Вывод:
+> 
+> PersonToClone@931919113{ name=Original, age=20, hobby=Learn Java }
+> 
+> PersonToClone@455896770{ name=Clone, age=20, hobby=Learn Java }
+> 
+> PersonToClone@931919113{ name=Original, age=20, hobby=Learn C# } 
+> 
+> PersonToClone@455896770{ name=Clone, age=20, hobby=Learn C# }
+
+Мы получили ссылку на объект типа `Hobby`, и изменили у него поле названия. Помним, что из-за поверхностного копирования,
+у объекта-клона и объекта-оригинала одинаковая ссылка на один объект типа `Hobby`, поэтому наши действия привели к тому, что название хобби поменяется и у оригинального объекта,
+хотя вроде мы этого не планировали.
+
+*Чувствуете пропасть под ногами? Холодок уже пробежал?*
 
 ## Что делать
 
@@ -141,7 +234,7 @@ public class PersonToClone implements Cloneable {
 @Override
 protected PersonToCloneBetter clone() throws CloneNotSupportedException {
     PersonToCloneBetter pClone = (PersonToCloneBetter) super.clone();
-    pClone.setHobby(new Hobby(hobby.getName()));
+    pClone.setHobby(new Hobby(hobby.getHobbyName()));
 
     return pClone;
 }
@@ -169,7 +262,7 @@ public static PersonToClone newInstance(PersonToClone personToClone) {
     return new PersonToClone(
       personToClone.getName(),
       personToClone.getAge(),
-      new Hobby(personToClone.hobby.getName())
+      new Hobby(personToClone.hobby.getHobbyName())
     );
 }
 ```
