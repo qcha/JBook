@@ -76,6 +76,10 @@
 
 ![Gradle test example](../images/ci/gradle_test_example.png)
 
+В нашем же случае, данная задача будет выполнена в CI воркфлоу. Выглядеть внутри Github Actions это будет примерно так.
+
+![Github Actions 6](../images/ci/github_actions_6.png)
+
 Теперь нажмем кнопку `Commit changes...` и убедимся, что после того как произошел коммит в основную ветку наша задача выполнилась.
 
 ![Github Actions 5](../images/ci/github_actions_5.png)
