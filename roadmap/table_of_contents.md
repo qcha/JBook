@@ -137,8 +137,9 @@
 
 ### Алгоритмы сортировки
 
-* [Сортировка пузырьком](../algorithms/sorting/bubble.md)
-* [Сортировка простыми вставками](../algorithms/sorting/insertion.md)
+* [Сортировка пузырьком. Bubble Sort](../algorithms/sorting/bubble.md)
+* [Сортировка простыми вставками. Insertion Sort](../algorithms/sorting/insertion.md)
+* [Сортировка слиянием. Merge Sort](../algorithms/sorting/insertion.md)
 
 ## Многопоточное программирование
 

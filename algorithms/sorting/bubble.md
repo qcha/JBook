@@ -1,4 +1,4 @@
-# Сортировка пузырьком
+# Сортировка пузырьком (Bubble sort)
 
 ## Введение
 
@@ -73,3 +73,4 @@ public static void bubbleSort(int[] array) {
 
 1. [Java. Сортировка пузырьком.](https://www.youtube.com/watch?v=aXyMkR8LGEo)
 2. [Bubble Sort in Java](https://www.baeldung.com/java-bubble-sort)
+3. [Getting Sorted & Big O Notation - Computerphile](https://www.youtube.com/watch?v=kgBjXUE_Nwc)
