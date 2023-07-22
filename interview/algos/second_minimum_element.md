@@ -88,6 +88,7 @@ public static void secondMinSort(int[] arr) {
 Сортировка работает за O(N * log(N)), что следует из документации по `Arrays.sort`.
 
 Время работы: зависит от алгоритма сортировки, но в нашем случае O(N * log(N))
+
 Память: O(1)
 
 ### Проход по массиву
@@ -125,4 +126,5 @@ public static void secondMin(int[] arr) {
 ```
 
 Время работы: O(N)
+
 Память: O(1)
