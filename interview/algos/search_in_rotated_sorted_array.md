@@ -82,6 +82,10 @@ Output: -1
 
 Поиск точки излома похож на бинарный поиск, где точка выхода из рекурсии будет тогда, когда мы найдем соседний элемент, который нарушает сортированный порядок.
 
+Время работы: O(log(N))
+
+Память: O(1)
+
 ## Полезные ссылки
 
 * [LeetCode Search in Rotated Sorted Array](https://leetcode.com/problems/search-in-rotated-sorted-array/)
