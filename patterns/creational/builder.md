@@ -606,15 +606,15 @@ public class Person {
 }
 ```
 
-Подробнее об этом вот [тут](../../start/null_war.md#доверяйте-но-с-аннотациями).
+Подробнее об этом вот [тут](../../jcore/beginner/null_war.md#доверяйте-но-с-аннотациями).
 
 В библиотеке [apache commons](https://commons.apache.org/) широко используется этот паттерн, начиная с работы [конкатенации строк](https://commons.apache.org/proper/commons-lang/javadocs/api-3.1/org/apache/commons/lang3/builder/ToStringBuilder.html) и заканчивая работой с [hashCode](https://commons.apache.org/proper/commons-lang/javadocs/api-3.1/org/apache/commons/lang3/builder/HashCodeBuilder.html) и [equals](https://commons.apache.org/proper/commons-lang/javadocs/api-3.1/org/apache/commons/lang3/builder/EqualsBuilder.html), более того, это один из варинтов их генерации, предлагаемых [IntelliJ IDEA](https://www.jetbrains.com/ru-ru/idea/).
 
 > Напоминание:
 >
-> Зачем нужен [hashCode](../../object/hashcode.md)
+> Зачем нужен [hashCode](../../jcore/object/hashcode.md)
 >
-> Зачем нужен [equals](../../object/equals.md)
+> Зачем нужен [equals](../../jcore/object/equals.md)
 
 В этой библиотеке также предоставляется еще и [интерфейс](https://commons.apache.org/proper/commons-lang/javadocs/api-3.1/org/apache/commons/lang3/builder/Builder.html) для более простой работы с паттерном.
 

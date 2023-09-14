@@ -154,7 +154,7 @@ java Main
 
 ### Код стайл
 
-Говорим о важности [код-стайла](../../start/code_style.md).
+Говорим о важности [код-стайла](../../jcore/beginner/code_style.md).
 
 Явно проговариваем, что на этом будет акцент и надо внимательно относиться к коду.
 
@@ -175,7 +175,7 @@ java Main
 ## Полезные ссылки
 
 1. [Почему Java](../zero_to_hero/intro.md).
-2. [Код-стайл](../../start/code_style.md)
+2. [Код-стайл](../../jcore/beginner/code_style.md)
 3. [Управляющие конструкции](../zero_to_hero/first.md)
 4. [Ключевые слова Java](https://en.wikipedia.org/wiki/List_of_Java_keywords)
 5. [Java #1. Экосистема](https://www.youtube.com/watch?v=Bgs-8eJyzhg&list=PL4_hYwCyhAvblhTbPQmOF4b3kilWSpOjU)

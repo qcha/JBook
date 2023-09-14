@@ -12,12 +12,12 @@
 Для примера - вот небольшой проект с файлами для тестов, обратите внимание на расположение файлов:
 
 
-![](../images/demonstrate-resources-project-1.png)
+![](../images/build/resources/demonstrate-resources-project-1.png)
 
 Теперь - то, что мы видим после компиляции проекта:
 
 
-![](../images/demonstrate-resources-project-2.png)
+![](../images/build/resources/demonstrate-resources-project-2.png)
 
 Видим, что все ресурсы расположились рядом со скомпилированными классами - классы лежали в пакете `qcha.arfind.excel.qcha.arfind` и в скомпилированном виде они тоже лежат в этом пакете, ресурсы же(как видно из первого скриншота) лежали не в пакете, а прямо в *корне* папки `resources` - поэтому они расположились после компиляции именно так, как на втором скриншоте. Если бы в `resources` была воссоздана иерархия папок в том виде, в котором лежали классы - ресурсы бы оказались рядом со скомпилированными классами.
 
@@ -82,7 +82,7 @@ Example.class.getResource("test.txt")
 Выглядит это как-то так:
 
 
-![](../images/demonstrate-resources-project-3.png)
+![](../images/build/resources/demonstrate-resources-project-3.png)
 
 Посмотрим как можно получить данные ресурсы:
 ```java
