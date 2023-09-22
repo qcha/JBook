@@ -16,7 +16,13 @@
 ## Решение
 
 ```postgresql
+create table customers(
+    customer_id int not null,
+    item_id int not null,
+    quantity int not null
+);
+
 select customer_id, sum(quantity) from customers
 group by customer_id
-having quantity > 300
+having sum(quantity) > 300
 ```
