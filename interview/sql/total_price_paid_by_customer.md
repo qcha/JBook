@@ -22,7 +22,8 @@ create table customers(
     quantity int not null
 );
 
-select customer_id, sum(quantity) from customers
+select customer_id, sum(quantity) 
+from customers
 group by customer_id
 having sum(quantity) > 300
 ```
