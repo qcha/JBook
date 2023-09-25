@@ -12,7 +12,7 @@
 public enum Car{
     DODGE, LAND_ROVER, AUDI
 }
-``` 
+```
 
 Мы не можем создать никак новые инстансы класса `Car` и каждый из них существует в единственном экземпляре.
 
@@ -26,12 +26,12 @@ public enum Car{
 
 ```java
 class Singleton {
-private static Singleton instance = new Singleton();;
-private Singleton() {}
+  private static Singleton instance = new Singleton();
+  private Singleton() {}
 
-public static Singleton getInstance() {
-return instance;
-}
+  public static Singleton getInstance() {
+    return instance;
+  }
 }
 ```
 
@@ -44,17 +44,17 @@ public class StaticBlockSingleton {
     private StaticBlockSingleton() {
     }
 
-   static {
-		try {
-			instance = new StaticBlockSingleton();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
+  static {
+    try {
+      instance = new StaticBlockSingleton();
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+}
 
-	public static StaticBlockSingleton getInstance() {
-		return instance;
-	}
+  public static StaticBlockSingleton getInstance() {
+    return instance;
+  }
 }
 ```
 
@@ -74,6 +74,7 @@ class Singleton {
       if(instance == null) {
         instance = new Singleton();
       }
+
       return instance;
     }
 }
@@ -97,14 +98,15 @@ class Singleton {
 
 ```java
 class Singleton {
-private static Singleton instance;
-private Singleton() {}
+  private static Singleton instance;
+  private Singleton() {}
 
-public static synchronize Singleton getInstance() {
-  if(instance == null) {
-    instance = new Singleton();
-  }
-  return instance;
+  public static synchronize Singleton getInstance() {
+    if(instance == null) {
+      instance = new Singleton();
+    }
+
+    return instance;
   }
 }
 ```
@@ -150,6 +152,7 @@ public static synchronize Singleton getInstance() {
       }
     }
   }
+  
   return instance;
   }
 }
