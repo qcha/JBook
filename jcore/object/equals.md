@@ -373,7 +373,7 @@ a.equals(b) == true;
 b.equals(a) == false;
 ```
 
-При этом, если переопределить метод с помощью `getClass`, как это мы сделали ранее, то нарушается [Liskov substitution principle](../oop/SOLID.md):
+При этом, если переопределить метод с помощью `getClass`, как это мы сделали ранее, то нарушается [Liskov substitution principle](../../patterns/SOLID.md):
 
 > Объекты могут быть заменены их наследниками без изменения свойств программы.
 

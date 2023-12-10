@@ -297,7 +297,7 @@ for(int i = 0; i < a.length; i++) {
 6. [Полиморфизм простыми словами Sergey Ufocoder](https://www.youtube.com/watch?v=QDEuPc-TGS8)
 7. [Java Courses With Kovalevskyi Модуль 2. Урок 1. Введение в ООП.](https://www.youtube.com/watch?v=l_b9K7uQvAI&list=PLsQAG1V_t58AKvV5v4NVXxo68OyLdNX3j&index=7)
 
-Также стоит познакомиться с [SOLID](SOLID.md)
+Также стоит познакомиться с [SOLID](../../patterns/SOLID.md)
 
 Но не все так радужно, поэтому и недостатки стоит знать.
 

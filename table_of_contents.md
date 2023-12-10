@@ -26,7 +26,6 @@
 5. [Понятие абстрактного класса](jcore/oop/abstract_class.md)
 6. [Абстрактные классы и интерфейсы](jcore/oop/abstract_vs_interface.md)
 7. [Подробно о this и super в Java](jcore/oop/this_super.md)
-8. [SOLID](jcore/oop/SOLID.md)
 
 ## java.lang.Object
 
@@ -102,6 +101,10 @@
 ## Паттерны
 
 Паттерны в `Java` и их использование.
+
+### SOLID и общие паттерны
+
+* [SOLID](patterns/SOLID.md)
 
 ### Порождающие
 

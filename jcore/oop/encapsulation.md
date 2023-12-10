@@ -171,7 +171,7 @@ package org.apache.commons.io;
 Что довольно логично, раз класс-родитель предоставляет нам свой метод в качестве открытого, то и класс-потомок не должен ограничивать доступ к этому методу, так как иначе изменится интерфейс класса.
 Это сделано для того, чтобы гарантировать, что объект класса-наследника мы можем использовать везде, где можно было бы использовать объект супер-класса.
 
-Это отсылает нас к [SOLID](SOLID.md), а если быть точнее, то к `L` - The Liskov Substitution Principle.
+Это отсылает нас к [SOLID](../../patterns/SOLID.md), а если быть точнее, то к `L` - The Liskov Substitution Principle.
 
 > Класс наследник должен дополнять, а не изменять базовый.
 
@@ -525,4 +525,4 @@ public class TestChild extends TestParent {
 6. [Официальная документация](https://docs.oracle.com/javase/tutorial/java/javaOO/accesscontrol.html)
 7. [Java Courses With Kovalevskyi Модуль 2. Урок 4. Пакеты в Java](https://www.youtube.com/watch?v=a6KGNASOtK8&list=PLsQAG1V_t58AKvV5v4NVXxo68OyLdNX3j&index=10)
 
-Также стоит познакомиться с [SOLID](SOLID.md)
+Также стоит познакомиться с [SOLID](../../patterns/SOLID.md)
