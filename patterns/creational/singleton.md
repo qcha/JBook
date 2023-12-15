@@ -26,12 +26,12 @@ public enum Car{
 
 ```java
 class Singleton {
-private static Singleton instance = new Singleton();;
-private Singleton() {}
+	private static Singleton instance = new Singleton();;
+	private Singleton() {}
 
-public static Singleton getInstance() {
-return instance;
-}
+	public static Singleton getInstance() {
+		return instance;
+	}
 }
 ```
 
@@ -97,15 +97,15 @@ class Singleton {
 
 ```java
 class Singleton {
-private static Singleton instance;
-private Singleton() {}
+	private static Singleton instance;
+	private Singleton() {}
 
-public static synchronize Singleton getInstance() {
-  if(instance == null) {
-    instance = new Singleton();
-  }
-  return instance;
-  }
+	public static synchronize Singleton getInstance() {
+	  if(instance == null) {
+	    instance = new Singleton();
+	  }
+	  return instance;
+	  }
 }
 ```
 
@@ -139,19 +139,19 @@ public class Singleton{
 
 ```java
 class Singleton {
-private static Singleton instance;
-private Singleton() {}
-
-public static synchronize Singleton getInstance() {
-  if(instance == null) {
-    synchronized (Singleton.class) {
-      if (instance == null) {
-        instance = new Singleton();
-      }
-    }
-  }
-  return instance;
-  }
+	private static Singleton instance;
+	private Singleton() {}
+	
+	public static synchronize Singleton getInstance() {
+	  if(instance == null) {
+	    synchronized (Singleton.class) {
+	      if (instance == null) {
+	        instance = new Singleton();
+	      }
+	    }
+	  }
+	  return instance;
+	  }
 }
 ```
 
@@ -200,8 +200,7 @@ public class DoubleCheckedLockingSingleton {
 ```java
 public class BillPughSingleton {
 
-	private BillPughSingleton() {
-	}
+	private BillPughSingleton() {}
 
 	private static class SingletonHelper {
 		private static final BillPughSingleton INSTANCE = new BillPughSingleton();
