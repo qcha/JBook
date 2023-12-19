@@ -151,7 +151,7 @@ class Singleton {
 	    }
 	  }
 	  return instance;
-	  }
+	}
 }
 ```
 
