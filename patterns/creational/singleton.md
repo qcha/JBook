@@ -17,11 +17,11 @@
 
 ```java
 class Singleton {
-  private static Singleton instance = new Singleton();
-  private Singleton() {}
+  	private static Singleton instance = new Singleton();
+  	private Singleton() {}
 
-  public static Singleton getInstance() {
-    return instance;
+  	public static Singleton getInstance() {
+    	return instance;
   }
 }
 ```
@@ -33,10 +33,10 @@ class Singleton {
 
 ```java
 class Singleton {
-  private static Singleton instance;
-  private Singleton() {}
+	private static Singleton instance;
+	private Singleton() {}
 
-    public static Singleton getInstance() {
+	public static Singleton getInstance() {
       if(instance == null) {
         instance = new Singleton();
       }
@@ -54,16 +54,15 @@ class Singleton {
 
 ```java
 class Singleton {
-  private static Singleton instance;
-  private Singleton() {}
+	private static Singleton instance;
+	private Singleton() {}
 
-  public static synchronized Singleton getInstance() {
-    if(instance == null) {
-      instance = new Singleton();
-    }
-
-    return instance;
-  }
+	public static synchronized Singleton getInstance() {
+		if(instance == null) {
+			instance = new Singleton();
+		}
+		return instance;
+	}
 }
 ```
 
@@ -78,20 +77,19 @@ class Singleton {
 
 ```java
 class Singleton {
-private static Singleton instance;
-private Singleton() {}
-
-public static synchronized Singleton getInstance() {
-  if(instance == null) {
-    synchronized (Singleton.class) {
-      if (instance == null) {
-        instance = new Singleton();
-      }
-    }
-  }
-  
-  return instance;
-  }
+	private static Singleton instance;
+	private Singleton() {}
+	
+	public static synchronized Singleton getInstance() {
+	  if(instance == null) {
+	    synchronized (Singleton.class) {
+	      if (instance == null) {
+	        instance = new Singleton();
+	      }
+	    }
+	  }
+	  return instance;
+	}
 }
 ```
 
@@ -101,20 +99,20 @@ public static synchronized Singleton getInstance() {
 
 ```java
 public class Singleton {
-  private static volatile Singleton instance;
+	private static volatile Singleton instance;
 
-  public static Singleton getInstance() {
-    Singleton localInstance = instance;
+	public static Singleton getInstance() {
+    	Singleton localInstance = instance;
     
-    if (localInstance == null) {
-      synchronized (Singleton.class) {
-        localInstance = instance;
-        
-        if (localInstance == null) {
-          instance = localInstance = new Singleton();
-        }
-      }
-    }
+		if (localInstance == null) {
+			synchronized (Singleton.class) {
+				localInstance = instance;
+				
+				if (localInstance == null) {
+				instance = localInstance = new Singleton();
+				}
+			}
+		}
     
     return localInstance;
   }
@@ -124,6 +122,29 @@ public class Singleton {
 Однако, как писал Джошуа Блох, самый простой пример реализации паттерна, это:
 
 ```java
+public class BillPughSingleton {
+
+	private BillPughSingleton() {}
+
+	private static class SingletonHelper {
+		private static final BillPughSingleton INSTANCE = new BillPughSingleton();
+	}
+
+	public static BillPughSingleton getInstance() {
+		return SingletonHelper.INSTANCE;
+	}
+}
+```
+
+Реализация Билла Пью. Используется `Holder-класс`.
+Ленивая инициализация, нет проблем с производительностью, но не получится вне `static` использовать и обрабатывать ошибки будет тяжеловато.
+
+**Хорошо!**
+
+## Заключение и советы
+
+* Попытки номер два и три - отличный выбор!
+* Используйте также `final` для `Singleton` класса по умолчанию и используйте наследования от `Singleton` класса только в случае крайней необходимости, так как могут возникнуть проблемы.
 public enum Car{
     DODGE, LAND_ROVER, AUDI
 }
