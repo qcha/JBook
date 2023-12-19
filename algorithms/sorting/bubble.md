@@ -1,4 +1,4 @@
-# Сортировка пузырьком
+# Сортировка пузырьком (Bubble sort)
 
 ## Введение
 
@@ -27,23 +27,18 @@
 Для простоты пример будет работать с массивами `int`-ов.
 
 ```java
-    /**
-     * Simple bubble sort example.
-     * @param arr array with elements.
-     */
-    public static void bubbleSort(int[] arr) {
-        final int len = arr.length;
-
-        for (int i = 0; i < len - 1; i++) {
-            for (int j = 0; j < len - i - 1; j++) {
-                if (arr[j] > arr[j + 1]) {
-                    int tmp = arr[j];
-                    arr[j] = arr[j + 1];
-                    arr[j + 1] = tmp;
-                }
+public static void bubbleSort(int[] arr) {
+    final int len = arr.length;
+    for (int i = 0; i < len - 1; i++) {
+        for (int j = 0; j < len - i - 1; j++) {
+            if (arr[j] > arr[j + 1]) {
+                int tmp = arr[j];
+                arr[j] = arr[j + 1];
+                arr[j + 1] = tmp;
             }
         }
     }
+}
 ```
 
 Второй вариант реализации:
@@ -73,3 +68,9 @@ public static void bubbleSort(int[] array) {
 ## Заключение
 
 Сортировка пузырьком не применяется в реальной жизни из-за низкой производительности и служит только в учебных целях.
+
+## Полезные ссылки
+
+1. [Java. Сортировка пузырьком.](https://www.youtube.com/watch?v=aXyMkR8LGEo)
+2. [Bubble Sort in Java](https://www.baeldung.com/java-bubble-sort)
+3. [Getting Sorted & Big O Notation - Computerphile](https://www.youtube.com/watch?v=kgBjXUE_Nwc)

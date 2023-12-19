@@ -6,7 +6,7 @@
 - [Реализация](#реализация)
     - [Рекурсивно](#рекурсивно)
     - [Итеративно](#итеративно)
-    - [Через Generic-и](#через-generic-и)
+    - [Через Generic](#через-generic)
     - [В JDK](#в-jdk)
 - [Производительность](#производительность)
 - [Заключение](#заключение)
@@ -95,7 +95,7 @@ public class BinarySearch {
 }
 ```
 
-### Через Generic-и
+### Через Generic
 
 ```java
 import java.util.Comparator;
@@ -131,96 +131,12 @@ public class BinarySearch {
 
 ### В JDK
 
-Данная сортировка также представлена в стандартной библиотеке `Java` в `java.util.Collections`:
-
-```java
-    /**
-     * Searches the specified list for the specified object using the binary
-     * search algorithm.  The list must be sorted into ascending order
-     * according to the {@linkplain Comparable natural ordering} of its
-     * elements (as by the {@link #sort(List)} method) prior to making this
-     * call.  If it is not sorted, the results are undefined.  If the list
-     * contains multiple elements equal to the specified object, there is no
-     * guarantee which one will be found.
-     *
-     * <p>This method runs in log(n) time for a "random access" list (which
-     * provides near-constant-time positional access).  If the specified list
-     * does not implement the {@link RandomAccess} interface and is large,
-     * this method will do an iterator-based binary search that performs
-     * O(n) link traversals and O(log n) element comparisons.
-     *
-     * @param  <T> the class of the objects in the list
-     * @param  list the list to be searched.
-     * @param  key the key to be searched for.
-     * @return the index of the search key, if it is contained in the list;
-     *         otherwise, <tt>(-(<i>insertion point</i>) - 1)</tt>.  The
-     *         <i>insertion point</i> is defined as the point at which the
-     *         key would be inserted into the list: the index of the first
-     *         element greater than the key, or <tt>list.size()</tt> if all
-     *         elements in the list are less than the specified key.  Note
-     *         that this guarantees that the return value will be &gt;= 0 if
-     *         and only if the key is found.
-     * @throws ClassCastException if the list contains elements that are not
-     *         <i>mutually comparable</i> (for example, strings and
-     *         integers), or the search key is not mutually comparable
-     *         with the elements of the list.
-     */
-    public static <T>
-    int binarySearch(List<? extends Comparable<? super T>> list, T key) {
-        if (list instanceof RandomAccess || list.size()<BINARYSEARCH_THRESHOLD)
-            return Collections.indexedBinarySearch(list, key);
-        else
-            return Collections.iteratorBinarySearch(list, key);
-    }
-
-    private static <T>
-    int indexedBinarySearch(List<? extends Comparable<? super T>> list, T key) {
-        int low = 0;
-        int high = list.size()-1;
-
-        while (low <= high) {
-            int mid = (low + high) >>> 1;
-            Comparable<? super T> midVal = list.get(mid);
-            int cmp = midVal.compareTo(key);
-
-            if (cmp < 0)
-                low = mid + 1;
-            else if (cmp > 0)
-                high = mid - 1;
-            else
-                return mid; // key found
-        }
-        return -(low + 1);  // key not found
-    }
-
-    private static <T>
-    int iteratorBinarySearch(List<? extends Comparable<? super T>> list, T key)
-    {
-        int low = 0;
-        int high = list.size()-1;
-        ListIterator<? extends Comparable<? super T>> i = list.listIterator();
-
-        while (low <= high) {
-            int mid = (low + high) >>> 1;
-            Comparable<? super T> midVal = get(i, mid);
-            int cmp = midVal.compareTo(key);
-
-            if (cmp < 0)
-                low = mid + 1;
-            else if (cmp > 0)
-                high = mid - 1;
-            else
-                return mid; // key found
-        }
-        return -(low + 1);  // key not found
-    }
-```
-
+Данная сортировка также представлена в стандартной библиотеке `Java` в `java.util.Collections` через метод `binarySearch`.
 Также существует реализация, умеющая работать с массивами, она доступна в `java.util.Arrays` через метод `binarySearch`.
 
 ## Производительность
 
-Временная сложность: `O(log(n))`.
+Асимптотическая сложность: `O(log(n))`.
 
 ## Заключение
 
