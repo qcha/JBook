@@ -1,5 +1,7 @@
 # Является ли число палиндромом
 
+Задача с [LeetCode](https://leetcode.com/problems/palindrome-number/description/).
+
 ## Условие
 
 Определить: является ли переданное число палиндромом или нет.

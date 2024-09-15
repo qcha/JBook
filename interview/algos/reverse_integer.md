@@ -1,5 +1,7 @@
 # Развернуть число
 
+Задача с [LeetCode](https://leetcode.com/problems/reverse-integer/description/).
+
 ## Условие
 
 На вход подается число, необходимо развернуть его.
