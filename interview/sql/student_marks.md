@@ -1,13 +1,12 @@
 # Студенты и оценки
 
-
+Задача взята с [открытого собеседования](https://www.youtube.com/watch?v=yEMW2FRkhOo).
 
 ## Условие
 
-Имеются следующие таблицы:
+В таблице:
 
 ```sql
-
 create table register
 (
     student_id    integer,
@@ -15,49 +14,127 @@ create table register
 );
 ```
 
+Представлены студенты (идентификаторы) и их оценки.
+
+Создадим и заполним таблицу данными:
+
+```sql
+create table register(student_id integer, mark integer);
+
+# 11 троек и 2 пятерки
+insert into register(student_id, mark) values (1, 5);
+insert into register(student_id, mark) values (1, 3);
+insert into register(student_id, mark) values (1, 3);
+insert into register(student_id, mark) values (1, 3);
+insert into register(student_id, mark) values (1, 3);
+insert into register(student_id, mark) values (1, 3);
+insert into register(student_id, mark) values (1, 3);
+insert into register(student_id, mark) values (1, 3);
+insert into register(student_id, mark) values (1, 3);
+insert into register(student_id, mark) values (1, 3);
+insert into register(student_id, mark) values (1, 3);
+insert into register(student_id, mark) values (1, 3);
+insert into register(student_id, mark) values (1, 5);
+
+# 9 троект и 4 пятерки
+insert into register(student_id, mark) values (2, 5);
+insert into register(student_id, mark) values (2, 3);
+insert into register(student_id, mark) values (2, 3);
+insert into register(student_id, mark) values (2, 3);
+insert into register(student_id, mark) values (2, 3);
+insert into register(student_id, mark) values (2, 3);
+insert into register(student_id, mark) values (2, 3);
+insert into register(student_id, mark) values (2, 3);
+insert into register(student_id, mark) values (2, 3);
+insert into register(student_id, mark) values (2, 3);
+insert into register(student_id, mark) values (2, 5);
+insert into register(student_id, mark) values (2, 5);
+insert into register(student_id, mark) values (2, 5);
+
+
+# 7 пятерок и 6 четверок
+insert into register(student_id, mark) values (3, 5);
+insert into register(student_id, mark) values (3, 5);
+insert into register(student_id, mark) values (3, 4);
+insert into register(student_id, mark) values (3, 4);
+insert into register(student_id, mark) values (3, 4);
+insert into register(student_id, mark) values (3, 4);
+insert into register(student_id, mark) values (3, 5);
+insert into register(student_id, mark) values (3, 4);
+insert into register(student_id, mark) values (3, 5);
+insert into register(student_id, mark) values (3, 4);
+insert into register(student_id, mark) values (3, 5);
+insert into register(student_id, mark) values (3, 5);
+insert into register(student_id, mark) values (3, 5);
+
+
+# 8 троек и 5 четверок
+insert into register(student_id, mark) values (4, 4);
+insert into register(student_id, mark) values (4, 4);
+insert into register(student_id, mark) values (4, 4);
+insert into register(student_id, mark) values (4, 3);
+insert into register(student_id, mark) values (4, 3);
+insert into register(student_id, mark) values (4, 3);
+insert into register(student_id, mark) values (4, 3);
+insert into register(student_id, mark) values (4, 3);
+insert into register(student_id, mark) values (4, 3);
+insert into register(student_id, mark) values (4, 3);
+insert into register(student_id, mark) values (4, 3);
+insert into register(student_id, mark) values (4, 4);
+insert into register(student_id, mark) values (4, 4);
+
+# 8 четверок, 2 тройки и 3 пятерки
+insert into register(student_id, mark) values (5, 4);
+insert into register(student_id, mark) values (5, 4);
+insert into register(student_id, mark) values (5, 4);
+insert into register(student_id, mark) values (5, 4);
+insert into register(student_id, mark) values (5, 4);
+insert into register(student_id, mark) values (5, 4);
+insert into register(student_id, mark) values (5, 4);
+insert into register(student_id, mark) values (5, 4);
+insert into register(student_id, mark) values (5, 3);
+insert into register(student_id, mark) values (5, 3);
+insert into register(student_id, mark) values (5, 5);
+insert into register(student_id, mark) values (5, 5);
+insert into register(student_id, mark) values (5, 5);
+
+```
+
 Напишите запрос, который выведет количество пятерок у студентов, у которых количество троек меньше десяти.
 
 ## Решение
 
+Сгруппировав студентов по id необходимо отфильтровать всех, у кого троек больше 10. Основной подвох здесь в том, что если написать:
+
 ```sql
 select student_id
+from register
+where mark = 3
+group by student_id
+having count(mark) < 10
+```
+
+Это будет **ошибкой**!
+
+Ведь в таком случае будут отфильтрованы как те, у кого более 10 троек, так и те, у кого троек **нет вообще**. А это не подходит по условию!
+
+Здесь необходимо вспомнить про [условные выражения](https://postgrespro.ru/docs/postgresql/16/functions-conditional) в запросах:
+
+```sql
+select student_id, count(case when mark = 5 then 1 end)
+from register
+group by student_id
+having count(case when mark = 3 then 1 end) < 10
+```
+
+Либо сделать выборку через подзапрос (будет работать медленнее):
+
+```sql
+select student_id, cnt_5 
 from (
-    select student_id, count(case when mark=3 then 1 end) cnt3, count(case when mark=5 then 1 end) cnt5
-    from register
-    group by student_id
+  select student_id, count(case when mark = 3 then 1 end) as cnt_3, count(case when mark = 5 then 1 end) as cnt_5
+  from register
+  group by student_id
 ) tmp
-where cnt3 < 10
+where cnt_3 < 10
 ```
-
-Либо:
-
-```sql
-select t.student_id, count(case when t.mark = 5 then 1 end) as cnt5
-from register t 
-where (t.mark = 3 or t.mark = 5)
-group by t.student_id
-having count(case when t.mark = 3 then 1 end) < 10;
-```
-
-
-```sql
-SELECT student_id, SUM(count_of_5) 
-FROM (
-    SELECT student_id, COUNT(CASE WHEN mark=5 THEN 1 END) count_of_5 
-    FROM register 
-    GROUP BY student_ID 
-    HAVING COUNT(CASE WHEN mark=3 THEN 1 END) < 10
-    )
-```
-
-```sql
-SELECT register.student_id, COUNT(mark)
-FROM register LEFT JOIN (
-    SELECT student_id, COUNT(mark) AS third
-    FROM register 
-    WHERE (mark = 3) 
-    GROUP BY student_id 
-    HAVING third < 10) AS sub
-```
-
-
