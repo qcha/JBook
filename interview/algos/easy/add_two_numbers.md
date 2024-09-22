@@ -1,4 +1,4 @@
-# Сложение двух чисел
+# Сложение двух чисел представленных в виде списков
 
 Задача с [LeetCode](https://leetcode.com/problems/add-two-numbers/).
 
