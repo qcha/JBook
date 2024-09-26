@@ -24,8 +24,13 @@ create table customers(
 Сгруппировав по пользователям надо проссумировать количество приобретенных товаров, для этого можем воспользоваться агрегатной фукнцией `sum`.
 
 ```sql
-select customer_id, sum(quantity) 
-from customers
-group by customer_id
-having sum(quantity) > 300
+select 
+    customer_id,
+    sum(quantity) 
+from
+    customers
+group by
+    customer_id
+having
+    sum(quantity) > 300
 ```
