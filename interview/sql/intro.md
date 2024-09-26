@@ -29,6 +29,7 @@
 
 * [Сотрудники в отделе](./beginner/employments.md)
 * [Количество покупок покупателя](./beginner/total_price_paid_by_customer.md)
+* [Посты от знаменитостей](./beginner/posts_from_celebrities.md)
 
 ### Легкий уровень
 
