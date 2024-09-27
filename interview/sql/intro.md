@@ -37,7 +37,7 @@
 
 ### Средний уровень
 
-* [Авиаперелеты для бизнес класса](./flight_comfort_not_business.md)
+* [Авиаперелеты для бизнес класса](./medium/flight_comfort_not_business.md)
 * [Студенты и оценки](./medium/student_marks.md)
 
 ### Сложный уровень
