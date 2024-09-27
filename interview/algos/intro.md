@@ -39,6 +39,7 @@
 * [Объединить два отсортированных массива](./easy/merge.md)
 * [Второй по минимальности элемент в массиве](./easy/second_minimum_element.md)
 * [Поиск длины наибольшей подстроки, в которой все буквы одинаковы](./easy/max_length_of_same_char.md)
+* [Sliding window с подсчетом минимального элемента в окне](./medium/sliding_window_with_min_element.md)
 
 ### Средний уровень
 
