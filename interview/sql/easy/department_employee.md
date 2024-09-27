@@ -74,7 +74,7 @@ values
 ```sql
 select 
     dep.id,
-    count(case when emp.status != 'capable' then dep.id else null end),
+    count(case when emp.status != 'capable' then emp.id else null end),
     max(emp.rank), 
     avg(emp.salary)
 from 
