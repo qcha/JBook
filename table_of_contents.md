@@ -129,10 +129,10 @@
 
 #### Порождающие
 
-* [Builder](patterns/creational/builder.md)
-* [Factory Method](patterns/creational/factory_method.md)
-* [Abstract Factory](patterns/creational/abstract_factory.md)
-* [Singleton](patterns/creational/singleton.md)
+* [Builder](patterns/programming/creational/builder.md)
+* [Factory Method](patterns/programming/creational/factory_method.md)
+* [Abstract Factory](patterns/programming/creational/abstract_factory.md)
+* [Singleton](patterns/programming/creational/singleton.md)
 
 #### Поведенческие
 
@@ -162,6 +162,8 @@
 
 ## Задачи к собеседованиям
 
-* [Алгоритмы и структуры данных](interview/algos/intro.md)
-* [Core Programming](interview/core/intro.md)
+* [Алгоритмы и структуры данных](interview/algorithms/intro.md)
+* [Java Core задачи](interview/core/intro.md)
 * [SQL](interview/sql/intro.md)
+* [Design Interview](interview/design_interview/intro.md)
+* [Code Review](interview/code_review/intro.md)

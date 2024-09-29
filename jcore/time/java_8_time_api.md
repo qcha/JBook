@@ -156,3 +156,6 @@ LocalDate.now().format(DateTimeFormatter.ISO_DATE);
 LocalDate.now().format(DateTimeFormatter.ofPattern("MM/DD/yyyy"));
 //print 11/20/2016 
 ```
+
+// todo 
+    Новое `Time Api`. Входит в в состав `JDK`. Рекомендуется для использования.
