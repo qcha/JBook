@@ -48,7 +48,7 @@
 
 Такое поведение происходит при `at-least-once` доставке.
 
-![at-least-once](../images/architecture/delivery_semantics/at-least-once.jpg)
+![at-least-once](../../images/patterns/architecture/delivery_semantics/at-least-once.jpg)
 
 > Например, на [Apache Kafka](../kafka/intro.md) реализован механизм кольцевого буфера, когда сообщения хранятся некоторый промежуток времени и только потом удаляются.
 

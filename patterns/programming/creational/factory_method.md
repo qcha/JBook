@@ -162,7 +162,7 @@ if (дарим_подарок_рандомно) {
 
 Схематично паттерн выглядит следующим образом:
 
-![factory method](../../images/patterns/factory_method/factory_method_pattern.png)
+![factory method](../../../images/patterns/programming/creational/abstract_factory/abstract_factory_example.png)
 
 ## Применение
 
