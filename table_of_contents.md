@@ -1,8 +1,34 @@
 # Путеводитель по JBook
 
-## Java Core
+- [Путеводитель по JBook](#путеводитель-по-jbook)
+  - [Надо знать новичку](#надо-знать-новичку)
+  - [Объектно-ориентированное программирование](#объектно-ориентированное-программирование)
+    - [java.lang.Object](#javalangobject)
+    - [ООП в Java](#ооп-в-java)
+  - [Исключения в Java](#исключения-в-java)
+  - [Коллекции в Java](#коллекции-в-java)
+  - [Java Reflection](#java-reflection)
+  - [GC](#gc)
+  - [Загрузка классов](#загрузка-классов)
+  - [Ссылки в Java](#ссылки-в-java)
+  - [Логирование](#логирование)
+  - [Java Concurrency](#java-concurrency)
+  - [Системы сборки](#системы-сборки)
+  - [Паттерны](#паттерны)
+    - [Общие паттерны](#общие-паттерны)
+    - [Архитектурные и дизайн систем](#архитектурные-и-дизайн-систем)
+    - [Архитектура проектов и модулей](#архитектура-проектов-и-модулей)
+    - [Программирования](#программирования)
+      - [Порождающие](#порождающие)
+      - [Поведенческие](#поведенческие)
+      - [Структурные](#структурные)
+    - [Алгоритмы и Структуры данных](#алгоритмы-и-структуры-данных)
+      - [Алгоритмы поиска](#алгоритмы-поиска)
+      - [Алгоритмы сортировки](#алгоритмы-сортировки)
+    - [Общая информация](#общая-информация)
+    - [Подготовка к собеседованиям](#подготовка-к-собеседованиям)
 
-### Надо знать новичку
+## Надо знать новичку
 
 Советы и заметки для тех, кто только начинает работать с `Java`.
 
@@ -17,7 +43,11 @@
 8. [Подробно о Enum в Java](jcore/beginner/enum.md)
 9. [Comparable и Comparator](jcore/beginner/comparable_comparator.md)
 
-### java.lang.Object
+### Объектно-ориентированное программирование
+
+Заметки про `ООП`, зачем нужно, что включает в себя и как это использовать.
+
+#### java.lang.Object
 
 Раздел о `java.lang.Object` - корне иерархии классов в `Java`.
 
@@ -31,9 +61,7 @@
 6. [finalize](jcore/object/finalize.md)
 7. [getClass](jcore/object/getClass.md)
 
-### Объектно-ориентированное программирование
-
-Заметки про `ООП`, зачем нужно, что включает в себя и как это использовать.
+#### ООП в Java
 
 1. [Введение в ООП](jcore/oop/intro.md)
 2. [Инкапсуляция](jcore/oop/encapsulation.md)
@@ -58,25 +86,25 @@
 
 1. [Введение](jcore/collections/intro.md)
 2. [java.util.List](jcore/collections/list/intro.md)
-    * [java.util.ArrayList](jcore/collections/list/array_list.md)
-    * [java.util.LinkedList](jcore/collections/list/linked_list.md)
+    - [java.util.ArrayList](jcore/collections/list/array_list.md)
+    - [java.util.LinkedList](jcore/collections/list/linked_list.md)
 3. [java.util.Set](jcore/collections/set/intro.md)
-    * [java.util.HashSet](jcore/collections/set/hash_set.md)
-    * [java.util.LinkedHashSet](jcore/collections/set/linked_hash_set.md)
-    * [java.util.TreeSet](jcore/collections/set/tree_set.md)
+    - [java.util.HashSet](jcore/collections/set/hash_set.md)
+    - [java.util.LinkedHashSet](jcore/collections/set/linked_hash_set.md)
+    - [java.util.TreeSet](jcore/collections/set/tree_set.md)
 4. [java.util.Map](jcore/collections/map/intro.md)
-    * [java.util.HashMap](jcore/collections/map/hash_map.md)
-    * [java.util.LinkedHashMap](jcore/collections/map/linked_hash_map.md)
-    * [java.util.TreeMap](jcore/collections/map/tree_map.md)
+    - [java.util.HashMap](jcore/collections/map/hash_map.md)
+    - [java.util.LinkedHashMap](jcore/collections/map/linked_hash_map.md)
+    - [java.util.TreeMap](jcore/collections/map/tree_map.md)
 5. [Generics](jcore/collections/generics/generics.md)
 
 ### Java Reflection
 
-* [Аннотации](jcore/annotations.md)
+- [Аннотации](jcore/annotations.md)
 
 ### GC
 
-* [Garbage Collector](jcore/garbage_collector.md)
+- [Garbage Collector](jcore/garbage_collector.md)
 
 ### Загрузка классов
 
@@ -91,7 +119,7 @@
 
 ## Логирование
 
-* [Общая информация про логирование в Java](logging/logging.md)
+- [Общая информация про логирование в Java](logging/logging.md)
 
 ## Java Concurrency
 
@@ -109,7 +137,7 @@
 
 ### Общие паттерны
 
-* [SOLID](patterns/SOLID.md)
+- [SOLID](patterns/SOLID.md)
 
 ### Архитектурные и дизайн систем
 
@@ -129,10 +157,10 @@
 
 #### Порождающие
 
-* [Builder](patterns/programming/creational/builder.md)
-* [Factory Method](patterns/programming/creational/factory_method.md)
-* [Abstract Factory](patterns/programming/creational/abstract_factory.md)
-* [Singleton](patterns/programming/creational/singleton.md)
+- [Builder](patterns/programming/creational/builder.md)
+- [Factory Method](patterns/programming/creational/factory_method.md)
+- [Abstract Factory](patterns/programming/creational/abstract_factory.md)
+- [Singleton](patterns/programming/creational/singleton.md)
 
 #### Поведенческие
 
@@ -148,22 +176,22 @@
 
 ### Алгоритмы поиска
 
-* [Бинарный поиск](algorithms/search/binary.md)
+- [Бинарный поиск](algorithms/search/binary.md)
 
 ### Алгоритмы сортировки
 
-* [Сортировка пузырьком. Bubble Sort](algorithms/sorting/bubble.md)
-* [Сортировка простыми вставками. Insertion Sort](algorithms/sorting/insertion.md)
-* [Сортировка слиянием. Merge Sort](algorithms/sorting/insertion.md)
+- [Сортировка пузырьком. Bubble Sort](algorithms/sorting/bubble.md)
+- [Сортировка простыми вставками. Insertion Sort](algorithms/sorting/insertion.md)
+- [Сортировка слиянием. Merge Sort](algorithms/sorting/insertion.md)
 
 ## Общая информация
 
-* [Кодировки](other/encoding.md)
+- [Кодировки](other/encoding.md)
 
-## Задачи к собеседованиям
+## Подготовка к собеседованиям
 
-* [Алгоритмы и структуры данных](interview/algorithms/intro.md)
-* [Java Core задачи](interview/core/intro.md)
-* [SQL](interview/sql/intro.md)
-* [Design Interview](interview/design_interview/intro.md)
-* [Code Review](interview/code_review/intro.md)
+- [Алгоритмы и структуры данных](interview/algorithms/intro.md)
+- [Java Core задачи](interview/core/intro.md)
+- [SQL](interview/sql/intro.md)
+- [Design Interview](interview/design_interview/intro.md)
+- [Code Review](interview/code_review/intro.md)
