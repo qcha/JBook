@@ -184,14 +184,15 @@
 - [Сортировка простыми вставками. Insertion Sort](algorithms/sorting/insertion.md)
 - [Сортировка слиянием. Merge Sort](algorithms/sorting/insertion.md)
 
-## Общая информация
+## Общая информация и кругозор
 
 - [Кодировки](other/encoding.md)
 
 ## Подготовка к собеседованиям
 
-- [Алгоритмы и структуры данных](interview/algorithms/intro.md)
-- [Java Core задачи](interview/core/intro.md)
-- [SQL](interview/sql/intro.md)
-- [Design Interview](interview/design_interview/intro.md)
-- [Code Review](interview/code_review/intro.md)
+- [Секция 'Алгоритмы и структуры данных'](interview/algorithms/intro.md)
+- [Секция Core Programming](interview/core/intro.md)
+- [Секция SQL Interview](interview/sql/intro.md)
+- [Секция Design Interview](interview/design_interview/intro.md)
+- [Секция Code Review](interview/code_review/intro.md)
+- [Секция Live Coding](interview/live_coding/intro.md)

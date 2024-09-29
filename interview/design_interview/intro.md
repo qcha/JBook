@@ -1,4 +1,4 @@
-# Design Interview
+# Секция Design Interview
 
 ## Список задач
 
