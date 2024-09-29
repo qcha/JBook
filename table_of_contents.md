@@ -100,7 +100,7 @@
 
 ### Java Reflection
 
-- [Аннотации](jcore/annotations.md)
+- [Аннотации](jcore/reflection/annotations.md)
 
 ### GC
 

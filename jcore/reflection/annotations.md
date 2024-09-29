@@ -115,7 +115,7 @@ Intellij IDEA имеет инспекцию "Class extends annotation interface"
 
 Реализовывать аннотации разрешено, но редко (почти никогда) используется, поэтому эта возможность часто приводит к неправильной обработке аннотации, и IDEA ругается на это:
 
-![Intellij IDEA ругается на класс, реализующий аннотацию Wow](../images/jcore/annotations/class_implements_annotation.png)
+![Intellij IDEA ругается на класс, реализующий аннотацию Wow](../../images/jcore/reflection/annotations/class_implements_annotation.png)
 
 Примеры [use case-ов](https://stackoverflow.com/questions/3341930/use-cases-for-implementing-annotations), где может быть полезна реализация.
 
@@ -874,7 +874,7 @@ public class PauseExample {
 
 При этом, будьте аккуратны: если доводить использование аннотаций до абсурда, то может получиться и вовсе страшный монстр:
 
-![Передозировка аннотациями](../images/jcore/annotations/annotation_overdose.png)
+![Передозировка аннотациями](../../images/jcore/reflection/annotations/annotation_overdose.png)
 
 ## Полезные ссылки
 
