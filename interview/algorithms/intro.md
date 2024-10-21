@@ -36,7 +36,8 @@
 
 * [Количество повторов символов в строке](./easy/count_letters.md)
 * [Сложение двух чисел представленных в виде списков](./easy/add_two_numbers.md)
-* [Объединить два отсортированных массива](./easy/merge.md)
+* [Объединить два отсортированных массива](./easy/merge_two_sorted_arrays.md)
+* [Объединить два отсортированных односвязанных списка](./easy/merge_two_sorted_linked_lists.md)
 * [Второй по минимальности элемент в массиве](./easy/second_minimum_element.md)
 * [Поиск длины наибольшей подстроки, в которой все буквы одинаковы](./easy/max_length_of_same_char.md)
 * [Sliding window с подсчетом минимального элемента в окне](./medium/sliding_window_with_min_element.md)
