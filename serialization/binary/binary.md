@@ -1,5 +1,23 @@
 # Binary Serialization in Java
 
+- [Binary Serialization in Java](#binary-serialization-in-java)
+    - [Введение](#введение)
+    - [java.io.Serializable](#javaioserializable)
+        - [Наследование и java.io.Serializable](#наследование-и-javaioserializable)
+        - [Transient](#transient)
+        - [Serial Version UID](#serial-version-uid)
+    - [java.io.Externalizable](#javaioexternalizable)
+    - [Кастомизация java.io.Serializable](#кастомизация-javaioserializable)
+    - [Работа с Singleton](#работа-с-singleton)
+    - [The Serialization Proxy Pattern](#the-serialization-proxy-pattern)
+    - [java.io.Serial](#javaioserial)
+    - [Безопасность](#безопасность)
+        - [Проблемы](#проблемы)
+        - [Фильтры ObjectInputFilter](#фильтры-objectinputfilter)
+        - [Security Managers](#security-managers)
+    - [Заключение](#заключение)
+    - [Полезные ссылки](#полезные-ссылки)
+
 ## Введение
 
 Одним из серьезных преимуществ `Java` является поддержка сериализации объектов 'из коробки'.
