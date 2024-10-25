@@ -51,6 +51,7 @@
 * [Максимальная вместимость контейнера с водой](./medium/container_with_most_water.md)
 * [Является ли число палиндромом](./medium/palindromic_integer.md)
 * [Развернуть число](./medium/reverse_integer.md)
+* [MyStringBuilder](./medium/mystring_builder_perfomance.md)
 * [Поиск двух чисел из отсортированного массива, в сумме дающих заданное число](./medium/two_sum.md)
 * [Поиск индексов двух чисел из отсортированного массива, в сумме дающих заданное число](./medium/two_sum_indices.md)
 
