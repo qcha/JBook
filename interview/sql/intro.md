@@ -7,6 +7,9 @@
 
 **ВАЖНО**: при добавлении новых задач используйте Code Style Guide!
 
+**ВАЖНО**:
+Задачи проверяются и решаются на `PostgreSQL`, если не сказано обратного!
+
 ## Список задач
 
 * Новичок
@@ -30,6 +33,7 @@
 * [Сотрудники в отделе](./beginner/employments.md)
 * [Количество покупок покупателя](./beginner/total_price_paid_by_customer.md)
 * [Посты от знаменитостей](./beginner/posts_from_celebrities.md)
+* [Удаление дубликатов email-ов](./beginner/duplicate_email_remove.md)
 
 ### Легкий уровень
 
