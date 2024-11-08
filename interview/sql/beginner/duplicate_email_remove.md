@@ -1,6 +1,7 @@
 # Удалить дубликаты email-ов
 
 Задача с [LeetCode](https://leetcode.com/problems/delete-duplicate-emails/description/).
+Также встречается разобранной на YouTube: [Удаление дубликатов email | Практика по SQL](https://www.youtube.com/watch?v=nF-l3tZovKY).
 
 ## Условие
 
