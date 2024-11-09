@@ -35,6 +35,7 @@
 * [Посты от знаменитостей](./beginner/posts_from_celebrities.md)
 * [Удаление дубликатов email-ов](./beginner/duplicate_email_remove.md)
 * [Класс с более чем пятью студентами](./beginner/class_with_more_than_five_students.md)
+* [Объединение нескольких таблиц](./beginner/join_three_tables.md)
 
 ### Легкий уровень
 
