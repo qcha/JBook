@@ -34,6 +34,7 @@
 * [Количество покупок покупателя](./beginner/total_price_paid_by_customer.md)
 * [Посты от знаменитостей](./beginner/posts_from_celebrities.md)
 * [Удаление дубликатов email-ов](./beginner/duplicate_email_remove.md)
+* [Класс с более чем пятью студентами](./beginner/class_with_more_than_five_students.md)
 
 ### Легкий уровень
 
