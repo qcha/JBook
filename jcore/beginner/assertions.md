@@ -161,7 +161,7 @@ public class AssertionError extends Error {
 
 Вспоминаем гигантскую картинку из раздела про [исключения](../exceptions/exceptions.md):
 
-![exceptions](../../images/jcore/exceptions/exceptions.png)
+![exceptions](../../images/jcore/exceptions/intro/exceptions.png)
 
 И представляем иерархию. Понятно, что обработка исключений при использовании `assert` усложняется в разы.
 Просто потому, что отреагировать на такое специфическое исключение - сложно.
@@ -169,6 +169,7 @@ public class AssertionError extends Error {
 Из этого следует, что использовать `assert`-ы в проверках (например, на `null` или валидацию входных значений в метод) - плохая задумка, потому что:
 
 * Если передали неправильные аргументы, то существует `java.lang.IllegalArgumentException`:
+
     ```java
     /**
      * Thrown to indicate that a method has been passed an illegal or
@@ -181,7 +182,9 @@ public class AssertionError extends Error {
         // ...
     }
     ```
+
 * Если метод вызван не вовремя, например у `Iterator`'а вызвали метод `remove` без вызова `next`, то JDK на этот случай предлагает `java.lang.IllegalStateException`:
+
     ```java
     /**
     * Signals that a method has been invoked at an illegal or
