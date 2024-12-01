@@ -27,7 +27,7 @@
 * [здесь](https://openjdk.org/jeps/154)
 * [и вот тут](https://stackoverflow.com/questions/39078841/what-are-the-security-risks-in-the-serialization-of-a-lambda-expression)
 
-В свое время `Oracle` даже задумывалась о том, чтобы пределать механизм сериализации в последующих релизах, но воз и ныне тут, поэтому разберем существующий механизм подробнее.
+В свое время `Oracle` даже задумывалась о том, чтобы переделать механизм сериализации в последующих релизах, но воз и ныне тут, поэтому разберем существующий механизм подробнее.
 
 Возможность сериализовать объект - это некоторое поведение, а за поведение в `Java` отвечают интерфейсы.
 Поэтому в `Java` существует целых два интерфейса, связанных с сериализацией:
@@ -1292,3 +1292,6 @@ ois.setObjectInputFilter(filter);
 * [Transient vs Static](https://javabeginnerstutorial.com/core-java-tutorial/transient-vs-static-variable-java/)
 * [A Deep Dive into Java Serialization](https://medium.com/@AlexanderObregon/a-deep-dive-into-java-serialization-e514346ac2b2)
 * [The Serialization Proxy Pattern](https://nipafx.dev/java-serialization-proxy-pattern/)
+* [Java's Cyclic Object Graphs Challenges](https://www.youtube.com/watch?v=dNN8yTnA4fI)
+* [Serialization - A New Hope](https://www.youtube.com/watch?v=fbqAyRJoQO0)
+* [Сериализация в Java. Давайте разбираться](https://habr.com/ru/companies/pvs-studio/articles/860502/)
