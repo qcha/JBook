@@ -302,3 +302,4 @@ public class AuthCredentials {
 ## Полезные ссылки
 
 1. [Effective Java 2nd Edition, Item 10: Always override toString](https://www.amazon.com/dp/0321356683)
+2. [Baeldung Java toString() Method](https://www.baeldung.com/java-tostring)
