@@ -45,7 +45,7 @@ public class Test {
 >
 > Возможно, вас сейчас это напугало, но на самом деле достаточно просто понимать, что `native` означает лишь то, что мы вызываем код, который реализован не на `Java`.
 
-* [toString](toString.md)
+* [toString](to_string.md)
 * [clone](clone.md)
 * [hashCode](hashcode.md)
 * [equals](equals.md)

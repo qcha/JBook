@@ -38,7 +38,7 @@
 Все о главном классе в `Java` и его методах.
 
 1. [java.lang.Object](jcore/object/intro.md)
-2. [toString](jcore/object/toString.md)
+2. [toString](jcore/object/to_string.md)
 3. [equals](jcore/object/equals.md)
 4. [hashcode](jcore/object/hashcode.md)
 5. [clone](jcore/object/clone.md)
