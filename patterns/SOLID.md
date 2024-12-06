@@ -1,5 +1,19 @@
 # SOLID
 
+- [SOLID](#solid)
+    - [Введение](#введение)
+        - [Single Responsibility Principle - SRP](#single-responsibility-principle---srp)
+        - [Open/Closed Principle](#openclosed-principle)
+        - [Liskov Substitution Principle](#liskov-substitution-principle)
+        - [Interface Segregation Principle](#interface-segregation-principle)
+        - [Dependency Inversion](#dependency-inversion)
+    - [Дополнение](#дополнение)
+        - [KISS](#kiss)
+        - [DRY](#dry)
+        - [YAGNI](#yagni)
+        - [AHA](#aha)
+    - [Полезные ссылки](#полезные-ссылки)
+
 ## Введение
 
 Важным шагом к пониманию того, как писать правильный, аккуратный и чистый код является понимание принципов `SOLID`.
