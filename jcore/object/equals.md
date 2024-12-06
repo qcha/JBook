@@ -1,5 +1,20 @@
 # java.lang.Object#equals
 
+- [java.lang.Object#equals](#javalangobjectequals)
+    - [Введение](#введение)
+    - [Переопределение](#переопределение)
+        - [Требования](#требования)
+        - [Пример переопределения equals](#пример-переопределения-equals)
+        - [Наследование и equals](#наследование-и-equals)
+        - [getClass vs instanceOf](#getclass-vs-instanceof)
+    - [Частые ошибки](#частые-ошибки)
+        - [Нарушение согласованности](#нарушение-согласованности)
+        - [Overload vs Override](#overload-vs-override)
+        - [Массивы](#массивы)
+        - [NaN и Infinity](#nan-и-infinity)
+    - [Заключение](#заключение)
+    - [Полезные ссылки](#полезные-ссылки)
+
 ## Введение
 
 При операциях над объектами логично иметь инструмент для сравнения их между собой.
@@ -146,7 +161,7 @@ true
 
 * Для любой ненулевой ссылки `х` выражение `х.equals(null)` должно возвращать `false`.
 
-* При переопределении `equals` необходимо переопределить и [hashCode](hashcode.md).
+* При переопределении `equals` необходимо переопределить и [hashCode](./hashcode.md).
 
 ### Пример переопределения equals
 
@@ -523,7 +538,7 @@ false
 
 В документации к классу `Timestamp` есть предупреждение, предостерегающее от смешивания объектов классов `Date` и `Timestamp`. Такое поведение не является правильным и подражать ему не надо.
 
-## Что делать
+### getClass vs instanceOf
 
 Так что делать и когда использовать getClass, а когда instanceOf?
 
@@ -614,7 +629,7 @@ public class ColorPoint {
 
 Для логики работы с обычной точкой сделать метод, возвращающий точку, для работы с цветными точками использовать свое сравнение и не смешивающая классы.
 
-## Ошибки
+## Частые ошибки
 
 ### Нарушение согласованности
 
@@ -668,7 +683,7 @@ public boolean equals(Object obj)
 
 В итоге получается два метода: `equals(Object obj)` и `equals(Person obj)`.
 
-Про второй метод знаете только вы, поэтому во многих местах, завязанных на контракт с `equals(Object obj)` будет использоваться реализация по умолчанию, например, в `hash`-таблицах. А это приведет к трудноуловимым ошибкам.
+Про второй метод знаете только вы, поэтому во многих местах (например, в `hash`-таблицах), завязанных на контракт с `equals(Object obj)` будет использоваться реализация по умолчанию и это приведет к трудноуловимым ошибкам.
 
 Поэтому надо переопределять такие методы, а не перегружать их.
 
@@ -676,7 +691,7 @@ public boolean equals(Object obj)
 
 При этом надо отметить, что аннотация `@Override` предотвратит от такой ошибки и не даст скомпилировать код. Поэтому, когда переопределяете методы, не забывайте ставить эту аннотацию.
 
-### Массивы и equals
+### Массивы
 
 Массивы в `Java` - это объекты, а значит у них тоже есть `equals`.
 
@@ -696,7 +711,7 @@ false
 false
 ```
 
-Решением является использовать статический метод из стандартной библиотеки для сравнения массивов: `java.util.Arrays.equals(...)`:
+Решением является использование статического метода из стандартной библиотеки для сравнения массивов: `java.util.Arrays.equals(...)`:
 
 ```java
         int[] arr = {1, 2, 3, 4, 5};
@@ -757,7 +772,7 @@ false
 
     ```java
     public boolean equals(MyClass obj) {
-    // some logic
+        // some logic
     }
     ```
 
@@ -778,3 +793,4 @@ false
 2. [Java. Методы equals и hashCode.](https://www.youtube.com/watch?v=lWnzRILIEZ0)
 3. [Что выбрать: getClass vs instanceOf](https://stackoverflow.com/questions/4989818/instanceof-vs-getclass)
 4. [Liskov substitution principle vs Symmetric in equals](https://stackoverflow.com/questions/27581/what-issues-should-be-considered-when-overriding-equals-and-hashcode-in-java/32223#32223)
+5. [Effective Java 2nd Edition, Item 8: Obey the general contract when override equals](https://www.amazon.com/dp/0321356683)
