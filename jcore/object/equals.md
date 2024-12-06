@@ -2,22 +2,27 @@
 
 ## Введение
 
-В основном мы оперируем объектами, и логично было бы уметь как-то сравнивать их между собой.
+При операциях над объектами логично иметь инструмент для сравнения их между собой.
 
 В `Java` существует два вида сравнения:
 
 * По ссылке
+
+    В этом случае каждый экземпляр класса будет равен только самому себе.
+
 * По значению
 
-Сравнение по ссылке происходит тогда, когда вы используете оператор `==`.
+    В этом случае каждый экземпляр класса будет равен только при равенстве полей.
 
-Для демонстрации давайте посмотрим на следующий пример:
+Для сравнения по ссылке существует оператор `==`.
+
+Рассмотрим следующий пример:
 
 ```java
 public class Test {
     public static void main(String[] args) {
-        Car my = new Car();
-        Car your = new Car();
+        Car my = new Car(20);
+        Car your = new Car(40);
         Car link = my;
 
         System.out.println(my == your);
@@ -25,10 +30,16 @@ public class Test {
     }
 }
 
-class Car {}
+class Car {
+    private int price;
+
+    public Car(int price) {
+        this.price = price;
+    }
+}
 ```
 
-Ссылки `my` и `your` указывают на разные объекты, в то время как `link` ссылается на тот же объект, на который ссылается `my`.
+Ссылки `my` и `your` указывают на разные объекты (каждый из которых породили через `new`), в то время как `link` ссылается на тот же объект, на который ссылается `my`.
 
 Результат выполнения кода:
 
@@ -37,17 +48,19 @@ false
 true
 ```
 
-Из примера выше видно, что `==` сравнивает не свойства объектов, не состояние, а ссылки на объекты. Такой способ сравнения подходит, если мы сравниваем уникальные объекты, существующие в одном экземпляре.
+Из примера выше видно, что `==` сравнивает не состояние объекта, а ссылки.
 
-Но чаще всего это не то, что требуется, так как обычно при сравнении необходимо, чтобы сравнивались не ссылки, а `состояния` объектов.
-При этом, не всегда требуется, чтобы сравнивались все `свойства` объектов. Ведь логика сравнения может быть своя. Например, мы можем сказать, что две машины равны, если они одинаково стоят. Но при этом у машины есть еще другие свойства, такие как цвет, тип кузова и т.д.
+Но чаще всего в задачах необходимо сравнивать именно состояние объектов.
 
-Для этого и существует сравнение по значению, за которое отвечает метод `equals`.
+При этом не всегда требуется, чтобы сравнение происходило по абсолютно всем полям объектов, все зависит от логики сравнения. Например, мы можем сказать, что две машины равны, если они одинаково стоят. Но при этом у машины есть еще другие свойства: такие как цвет, тип кузова и т.д.
+
+Для этого и существует сравнение по значению за которое отвечает метод `equals`.
+
 Метод наследуется от класса `java.lang.Object`, а значит присутствует у каждого класса.
 
-Данный метод сравнивает два объекта и возвращает `true` в случае, если объекты равны, в противном случае будет возвращено `false`.
+Данный метод сравнивает два объекта и возвращает `true` в случае если объекты равны, иначе будет возвращено `false`.
 
-По умолчанию объявление метода в `java.lang.Object` выглядит так:
+Объявление метода выглядит как:
 
 ```java
     /**
@@ -101,38 +114,41 @@ true
     }
 ```
 
-Т.е по-умолчанию производится сравнение **по ссылке**.
+По-умолчанию, как видим, сравнение производится **по ссылке**.
 
-Поэтому данный метод всегда переопределяют для классов, объекты которого необходимо уметь сравнивать **по состоянию**.
+И поэтому данный метод обычно переопределяют.
 
-Так как же правильно определить `equals`?
+Но как правильно переопределить `equals` и какие подводные камни могут здесь быть? Давайте разбираться.
 
 ## Переопределение
 
+Для начала из `JavaDoc` соберем требования по контракту метода.
+
 ### Требования
 
-Требования из описания из `JavaDoc`:
+Итак, метод должен выполнять следующие требования:
 
-* Рефлективность
-    
-    Для любой ссылки на значение `х` выражение `х.equals(x)` должно возвращать `true`.
-    
-* Симметричность 
+* Рефлексивность
+
+    Для любой ненулевой ссылки на `х` выражение `х.equals(x)` должно возвращать `true`.
+
+* Симметричность
   
-  Для любых ссылок на значения `х` и `у` выражение `х.equals(y)` должно возвращать `tгue` тогда и только тогда, когда `y.equals(x)` возвращает `true`.
+    Для любых ненулевых ссылок на `х` и `у` выражение `х.equals(y)` должно возвращать `tгue` тогда и только тогда, когда `y.equals(x)` возвращает `true`.
   
 * Транзитивность
-    Для любых ссылок на значения `х`, `у` и `z`, если `x.equals(y)` возвращает `true` и `y.equals(z)` возвращает `true`, то и выражение `х.equals(z)` должно возвращать `true`.
+
+    Для любых ссылок на `х`, `у` и `z` выполняется условие: если `x.equals(y)` возвращает `true` и `y.equals(z)` возвращает `true`, то и выражение `х.equals(z)` должно возвращать `true`.
 
 * Непротиворечивость или Согласованность
-    
-    Для любых ссылок на значения `х` и `у`, если несколько раз вызвать `х.equals(y)`, постоянно будет возвращаться значение `true`, либо постоянно будет возвращаться значение `false` при условии, что никакая информация, используемая при сравнении объектов, не поменялась.
 
-* Для любой ненулевой ссылки на значение `х` выражение `х.equals(null)` должно возвращать `false`.
+    Для любых ссылок на `х` и `у` вызов `х.equals(y)` несколько раз, при условии, что никакая информация, используемая при сравнении объектов, не поменялась, то будет возвращаться одно и то же значение: либо `true`, либо `false`.
+
+* Для любой ненулевой ссылки `х` выражение `х.equals(null)` должно возвращать `false`.
 
 * При переопределении `equals` необходимо переопределить и [hashCode](hashcode.md).
 
-### Как переопределить equals
+### Пример переопределения equals
 
 Пример приведем с помощью многострадального класса `Person`:
 
@@ -151,10 +167,14 @@ public class Person {
         this.salary = salary;
         this.carKey = carKey;
     }
+
+    // ...
 }
 ```
 
-Итак, нам необходимо переопределить `equals`, напомним как выглядит сигнатура метода:
+Давайте попробуем переопределить `equals` для этого класса.
+
+Еще раз посмотрим на сигнатуру метода:
 
 ```java
 @Override
@@ -163,13 +183,13 @@ public boolean equals(Object obj) {
 }
 ```
 
-В качестве аргумента метода передается `java.lang.Object`, это ссылочный тип, а значит может быть передан `null`.
-Поэтому сначала необходимо проверить: а не является ли `obj` `null`-ом, чтобы обезопасить себя от `java.lang.NullPointerException`, если да, то возвращаем `false`.
+В качестве аргумента метода передается `java.lang.Object` - это ссылочный тип, а значит может быть передан `null`.
 
-После этого, хорошо бы сделать проверку, а не ссылается ли объект по ссылке `obj`, на наш текущий, на `this`?
-Ведь если так, то объекты равны и никаких дальнейших сравнений делать не надо.
+Поэтому для начала необходимо проверить: а не является ли переданная ссылка `null`-ом, и если да, то возвращаем `false`.
 
-Напишем все вышесказанное:
+Далее необходимо сделать проверку на то, что не ссылается ли объект по ссылке `obj` на себя самого? По сути - проверить рефлексивность.
+
+Добавим эти проверки:
 
 ```java
 @Override
@@ -186,8 +206,25 @@ public boolean equals(Object obj) {
 }
 ```
 
-Теперь ответим на вопрос: а может ли объект по ссылке `obj` другого класса? Может, ведь ссылка у нас `Object`!
-А значит, надо проверить: мы сравниваем объекты одного класса?
+Теперь ответим на вопрос: а может ли объект по ссылке `obj` быть объектом другого класса? Может.
+
+Значит надо проверить: одного ли типа (класса) объекты мы сравниваем?
+
+Для этого существует метод `getClass`.
+
+Как работает [getClass](./getClass.md)?
+Если коротко - то метод возвращает класс объекта.
+
+```java
+class Person {
+    // ...
+}
+
+Object p = new Person();
+System.out.println("Class is: " + p.getClass()); // -> Class is: Person
+```
+
+Итак, добавим необходимые проверки:
 
 ```java
 @Override
@@ -231,80 +268,104 @@ public boolean equals(Object obj) {
         if (number != person.number) return false;
         if (Double.compare(person.salary, salary) != 0) return false;
         if (name != null ? !name.equals(person.name) : person.name != null) return false;
+
         return carKey != null ? carKey.equals(person.carKey) : person.carKey == null;
     }
 ```
 
-В итоге после всего вышесказанного наш класс будет выглядеть так:
+### Наследование и equals
+
+В нашем примере выше был единственный класс, без наследников и родителей, поэтому переопределить `equals` не являлось проблемой.
+
+Но что если добавить наследников?
+
+Для этого давайте рассмотрим следующий пример:
 
 ```java
-public class Person {
-    private int age;
-    private int number;
-    private double salary;
-    private String name;
-    private CarKey carKey;
+public class Point {
+    private int x;
+    private int y;
 
-    public Person(int age, int number, String name, double salary, CarKey carKey) {
-        this.age = age;
-        this.number = number;
-        this.name = name;
-        this.salary = salary;
-        this.carKey = carKey;
+    public Point(int x, int y) {
+        this.x = x;
+        this.y = y;
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if (this == o) return true;
+    public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
 
-        Person person = (Person) o;
+        Point point = (Point) o;
 
-        if (age != person.age) return false;
-        if (number != person.number) return false;
-        if (Double.compare(person.salary, salary) != 0) return false;
-        if (name != null ? !name.equals(person.name) : person.name != null) return false;
-        return carKey != null ? carKey.equals(person.carKey) : person.carKey == null;
+        return x == point.x && Objects.equals(y, point.y);
     }
-  }
-```
-
-С `Java 7+` добавили вспомогательные классы и методы, используя которые можно переписать наш `equals` более коротко:
-
-```java
-@Override
-public boolean equals(Object obj) {
-    if (this == o) return true;
-    if (o == null || getClass() != o.getClass()) return false;
-
-    Person person = (Person) o;
-
-    if (age != person.age) return false;
-    if (number != person.number) return false;
-    if (Double.compare(person.salary, salary) != 0) return false;
-    if (!Objects.equals(name, person.name)) return false;
-    return Objects.equals(carKey, person.carKey);
 }
 ```
 
-Однако, в `Java` есть еще один способ проверить принадлежность к классу: через оператор `instanceOf`.
-
-### getClass vs instanceOf
-
-Как работает [getClass](getClass.md)?
-Если коротко - то метод возвращает класс объекта.
+Теперь создадим класс-наследник, подкласс привносит немного информации, оказывающей влияние на процедуру сравнения:
 
 ```java
-class Person {
-    // ...
-}
+public class CounteredPoint extends Point{
+    private  static AtomicInteger counter = new AtomicInteger();
 
-Object p = new Person();
-System.out.println("Class is: " + p.getClass()); // -> Class is: Person
+    public CounteredPoint(int x, int y) {
+        super(x, y);
+        counter.incrementAndGet();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        return super.equals(o);
+    }
+}
 ```
 
-Что делает оператор `instanceOf`?
-Оператор проверяет то, является ли объект инстансом конкретного класса или одним из его родителей.
+В обоих случаях переопределен метод `equals`, как это уже делали выше. У класса `CounteredPoint` переопределение вызывает родительский метод, так как новых свойств он не добавляет для сравнения.
+
+Предположим, что мы хотим написать метод определяющий, является ли точка целого числа частью единичной окружности:
+
+```java
+public class Main {
+    private static final List<Point> unitCircle;
+    static {
+        unitCircle = new ArrayList<>();
+        unitCircle.add(new Point( 1, 0));
+        unitCircle.add(new Point(0, 1));
+        unitCircle.add(new Point(-1, 0));
+        unitCircle.add(new Point( 0, -1));
+    }
+
+    public static boolean onUnitCircle(Point p) {
+        return unitCircle.contains(p);
+    }
+
+    public static void main(String[] args) {
+        Point point = new Point(1, 0);
+        CounteredPoint colorPoint = new CounteredPoint(1, 0);
+
+        System.out.println(onUnitCircle(point));
+        System.out.println(onUnitCircle(colorPoint));
+    }
+}
+```
+
+Запустим наш код и посмотрим вывод:
+
+```java
+true
+false
+```
+
+Несмотря на то, что обе точки по сути своей находятся в списке `unitCircle`, но colorPoint была не найдена.
+
+Получается, что текущая реализация нарушает [Liskov substitution principle](../../patterns/SOLID.md#liskov-substitution-principle):
+
+> Объекты могут быть заменены их наследниками без изменения свойств программы.
+
+Для того, чтобы этот принцип выполнялся нам необходимо 'научить' наш `equals` работать с потомками `Point`.
+
+Для того, чтобы проверить является ли объект инстансом конкретного класса или одним из его родителей существует оператор
+`instanceOf`:
 
 ```java
 class Person {
@@ -317,77 +378,169 @@ class Student extends Person {
 
 Person p = new Person();
 Student ps = new Student();
+
 System.out.println(ps instanceof Student); // -> true
 System.out.println(ps instanceof Person); // -> true
 ```
 
-В чем разница?
+В чем разница с `getClass`?
+
 При использовании `getClass` вы можете проверить **только** принадлежность к определенному классу и не более.
-При использовании `instanceOf` вы можете проверить как принадлежность к классу, так и к родительским классам.
+При использовании `instanceOf` вы можете проверить как принадлежность к определенному классу, так и к родительским классам.
 
-Когда что использовать?
-Зависит от ответа на вопрос: будет ли ваш класс участвовать в сравнении с родительскими классами?
-
-И как только появляется необходимость сравнения с родительскими классами, начинается проблема.
-Почему?
-
-#### Проблема
-
-Итак, рассмотрим следующий пример:
+Давайте переопределим `equals` с учетом вводных:
 
 ```java
-class A {
-    int field1;
-    
-    A(int field1) {
-      this.field1 = field1;
-    }
+class public class Point {
+    // ...
 
-    public boolean equals(Object other) {
-      return (other != null && other instanceof A && ((A) other).field1 == field1);
+    @Override
+    public boolean equals(Object o) {
+        if (!(o instanceof Point point)) return false;
+
+        return x == point.x && y == point.y;
     }
 }
-
-class B extends A {
-    int field2;
-    
-    B(int field1, int field2) {
-        super(field1);
-        this.field2 = field2;
-    }
-
-    public boolean equals(Object other) {
-        return (other != null && other instanceof B && ((B) other).field2 == field2 && super.equals(other));
-    }
-}    
 ```
 
-На первый взгляд, вроде бы все верно.
-Однако, такая реализация нарушает требование **симметричности**:
+Снова запустим наш код в `Main`:
 
 ```java
-A a = new A(1);
-B b = new B(1, 1);
-
-a.equals(b) == true;
-b.equals(a) == false;
+true
+true
 ```
 
-При этом, если переопределить метод с помощью `getClass`, как это мы сделали ранее, то нарушается [Liskov substitution principle](../../patterns/SOLID.md):
+Ура! Кажется, что вот оно - решение.
 
-> Объекты могут быть заменены их наследниками без изменения свойств программы.
+Не совсем.
 
-А это может привести к крайне неприятному поведению в `HashMap`-ах и прочих `hash`-структурах:
+Теперь создадим класс-наследник, который привносит немного информации, оказывающей влияние на процедуру сравнения:
 
-> The reason that I favor the instanceof approach is that when you use the getClass approach, you have the restriction that objects are only equal to other objects of the same class, the same run time type. 
-> If you extend a class and add a couple of innocuous methods to it, then check to see whether some object of the subclass is equal to an object of the super class, even if the objects are equal in all important aspects, you will get the surprising answer that they aren't equal. 
-> In fact, this violates a strict interpretation of the Liskov substitution principle, and can lead to very surprising behavior. 
-> In Java, it's particularly important because most of the collections (HashTable, etc.) are based on the equals method. 
+```java
+public class ColorPoint extends Point {
+
+    private final String color;
+
+    public ColorPoint(int x, int y, String color) {
+        super(x, y);
+        this.color = color;
+    }
+}
+```
+
+Здесь нам уже необходимо учесть уже цвет:
+
+```java
+@Override
+public final boolean equals(Object o) {
+    if (!(o instanceof ColorPoint that)) {
+        return false;
+    }
+
+    if (!super.equals(o)) {
+        return false;
+    }
+
+    return Objects.equals(color, that.color);
+}
+```
+
+Теперь запустим следующий код:
+
+```java
+    public static void main(String[] args) {
+        Point point = new Point(1, 0);
+        ColorPoint colorPoint = new ColorPoint(1, 0, "Green");
+
+        System.out.println(point.equals(colorPoint));
+        System.out.println(colorPoint.equals(point));
+    }
+```
+
+Получаем:
+
+```java
+true
+false
+```
+
+Получаем в итоге нарушение требования симметричности.
+
+Не подходит.
+
+Попробуем учесть эти 'смешанные' сравнения явно:
+
+```java
+    @Override
+    public final boolean equals(Object o) {
+        if (!(o instanceof Point)) {
+            return false;
+        }
+
+        // если это обычная точка
+        if (!(o instanceof ColorPoint that)) {
+            return super.equals(o);
+        }
+
+        // если это цветная точка, то учитываем цвет
+        return super.equals(o) && Objects.equals(color, that.color);
+    }
+```
+
+Снова запускаем наш проверочный код:
+
+```java
+true
+true
+```
+
+Ура? К сожалению, нет, так как нарушается требование транзитивности:
+
+```java
+    public static void main(String[] args) {
+        Point point = new Point(1, 0);
+        ColorPoint colorPoint = new ColorPoint(1, 0, "Green");
+        ColorPoint colorPoint2 = new ColorPoint(1, 0, "Blue");
+
+        System.out.println(point.equals(colorPoint));
+        System.out.println(point.equals(colorPoint2));
+        System.out.println(colorPoint.equals(colorPoint2));
+    }
+```
+
+Вывод:
+
+```java
+true
+true
+false
+```
+
+Вывод: Не существует способа расширить класс, добавив к нему новое поле (участвующее в сравнении), сохранив при этом соглашения для метода `equals`.
+
+Например, `java.sql.Timestamp` является подклассом класса `java.util.Date` и добавляет поле для наносекунд. Реализация метода
+`equals` в `Timestamp` нарушает правило симметрии, и это может привести к странному поведению программы, если объекты Timestamp и Date использовать в одной коллекции.
+
+В документации к классу `Timestamp` есть предупреждение, предостерегающее от смешивания объектов классов `Date` и `Timestamp`. Такое поведение не является правильным и подражать ему не надо.
+
+## Что делать
+
+Так что делать и когда использовать getClass, а когда instanceOf?
+
+Выбор `getClass` или `instanceOf` в качестве способа для проверки принадлежности класса надо делать под конкретную задачу, осознавая к чему может привести ваше решение.
+
+Если ваш класс будет участвовать в наследовании, то рассмтаривать надо вариант с `instanceOf`, так как `getClass` может привести к крайне неприятному поведению в `HashMap`-ах и прочих `hash`-структурах:
+
+> The reason that I favor the instanceof approach is that when you use the getClass approach, you have the restriction that objects are only equal to other objects of the same class, the same run time type.
+>
+> If you extend a class and add a couple of innocuous methods to it, then check to see whether some object of the subclass is equal to an object of the super class, even if the objects are equal in all important aspects, you will get the surprising answer that they aren't equal.
+>
+> In fact, this violates a strict interpretation of the Liskov substitution principle, and can lead to very surprising behavior.
+>
+> In Java, it's particularly important because most of the collections (HashTable, etc.) are based on the equals method.
 > If you put a member of the super class in a hash table as the key and then look it up using a subclass instance, you won't find it, because they are not equal.
 
-В итоге получается палка о двух концах, поэтому выбор `getClass` или `instanceOf` надо делать под конкретную задачу, осознавая к чему может привести ваше решение.
-
-Возможно, стоит вообще отказаться от наследования.
+В противном случае лучше выбирать `getClass`.
 
 Но в некоторых случаях, `instanceOf` вполне можно использовать и не переживать о нарушениях.
 Например, посмотрите как определен `equals` у `HashSet`:
@@ -429,11 +582,50 @@ b.equals(a) == false;
     }
 ```
 
-Здесь использован `instanceOf`, так как если все элементы одного множества содержатся в другом - множества считаются равными, независимо от того, это `HashSet` или `TreeSet`.
+Здесь использован `instanceOf`, так как если все элементы одного множества содержатся в другом, то множества считаются равными, независимо от того, что это за множества: `HashSet` или `TreeSet`.
 
-Забегая вперед скажу, что, хоть иногда и необходим явно `instanceOf`, в подавляющем большинстве случаев вы будете использовать `getClass` и горя не знать.
+А лучше вообще отказаться от наследования в пользу композиции.
+
+Гораздо более правильнее было бы поступить так, что объявить класс в виде:
+
+```java
+public class ColorPoint {
+    private final String color;
+    private final Point point;
+
+    public ColorPoint(int x, int y, String color) {
+        point = new Point(x, y);
+        this.color = color;
+    }
+
+    public Point asPoint() {
+        return point;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+
+        ColorPoint that = (ColorPoint) o;
+        return color.equals(that.color) && point.equals(that.point);
+    }
+}
+```
+
+Для логики работы с обычной точкой сделать метод, возвращающий точку, для работы с цветными точками использовать свое сравнение и не смешивающая классы.
 
 ## Ошибки
+
+### Нарушение согласованности
+
+Важно помнить требование согласованности.
+Грубо говоря, оно гласит: если два объекта равны, то они должны быть равны все время, пока один из них (или оба) не будет изменен.
+
+Не делайте в методе `equals` сравнение по непостоянным полям: данным, которые могут измениться без воздействия на объект (например по `ip` адресам).
+
+Иначе это может привести к трудноуловимым проблемам.
+
+### Overload vs Override
 
 Обратите внимание, что тип аргумента в методе - это `java.lang.Object`:
 
@@ -449,8 +641,7 @@ public boolean equals(Object obj)
     Person that = (Person) obj; // тот самый 'каст' obj к Person
 ```
 
-И часто у начинающих разработчиков возникает желание указать более конкретный аргумент в `equals`, 
-чтобы избавиться от этой проверки и приведения к `Person`, поэтому некоторые пишут так:
+И часто у начинающих разработчиков возникает желание указать более конкретный аргумент в `equals`, чтобы избавиться от этой проверки и приведения к `Person`, поэтому некоторые пишут так:
 
 ```java
     public boolean equals(Person obj) {
@@ -473,21 +664,23 @@ public boolean equals(Object obj)
     }
 ```
 
-Разумеется, делать так не стоит, если ваша цель `переопределить` метод. Потому что в случае выше вы не переопределили метод, вы его **перегрузили**.
+Такое делать **не надо**! Потому что в случае выше вы не переопределили (Override) метод, а **перегрузили** (Overload).
 
-В итоге у вас получается два метода: `equals(Object obj)` и `equals(Person obj)`.
-Про второй метод знаете только вы, ведь он не относится к `java.lang.Object`, поэтому везде будет также использоваться реализация по умолчанию `equals(Object obj)`, например, в `hash`-таблицах, кроме ситуаций, где вы явно свой метод не вызываете.
+В итоге получается два метода: `equals(Object obj)` и `equals(Person obj)`.
 
-Делать так не стоит, так как это вносит путаницу, работает такое сравнение только там, где вы его явно вызываете, а в коллекциях будет использоваться `equals(Object obj)`.
-Поэтому надо `переопределять` такие методы, а не `перегружать` их.
+Про второй метод знаете только вы, поэтому во многих местах, завязанных на контракт с `equals(Object obj)` будет использоваться реализация по умолчанию, например, в `hash`-таблицах. А это приведет к трудноуловимым ошибкам.
+
+Поэтому надо переопределять такие методы, а не перегружать их.
 
 Подробнее про [переопределение и перегрузку методов](../over-load-ride.md)
 
-> При этом надо отметить, что аннотация `@Override` предотвратит от такой ошибки не дав скомпилировать код, поэтому, когда переопределяете методы не забывайте ее ставить.
+При этом надо отметить, что аннотация `@Override` предотвратит от такой ошибки и не даст скомпилировать код. Поэтому, когда переопределяете методы, не забывайте ставить эту аннотацию.
 
-## Массивы и equals
+### Массивы и equals
 
-У массивов не переопределен `equals` и выполняется сравнение ссылок.
+Массивы в `Java` - это объекты, а значит у них тоже есть `equals`.
+
+Но у массивов этот метод не переопределен и выполняется сравнение ссылок.
 
 ```java
         int[] arr = {1, 2, 3, 4, 5};
@@ -503,7 +696,7 @@ false
 false
 ```
 
-Решением является использовать статический метод для сравнения массивов: `Arrays.equals(...)`.
+Решением является использовать статический метод из стандартной библиотеки для сравнения массивов: `java.util.Arrays.equals(...)`:
 
 ```java
         int[] arr = {1, 2, 3, 4, 5};
@@ -520,33 +713,64 @@ true
 false
 ```
 
+### NaN и Infinity
+
+Помните, что при работе с `java.lang.Float` и `java.lang.Double` существуют понятия `NaN` и `Infinity`:
+
+```java
+    /**
+     * A constant holding the positive infinity of type
+     * {@code float}. It is equal to the value returned by
+     * {@code Float.intBitsToFloat(0x7f800000)}.
+     */
+    public static final float POSITIVE_INFINITY = 1.0f / 0.0f;
+
+    /**
+     * A constant holding the negative infinity of type
+     * {@code float}. It is equal to the value returned by
+     * {@code Float.intBitsToFloat(0xff800000)}.
+     */
+    public static final float NEGATIVE_INFINITY = -1.0f / 0.0f;
+
+    /**
+     * A constant holding a Not-a-Number (NaN) value of type
+     * {@code float}.  It is equivalent to the value returned by
+     * {@code Float.intBitsToFloat(0x7fc00000)}.
+     */
+    public static final float NaN = 0.0f / 0.0f;
+
+```
+
+Чтобы правильно обработать сравнение с типами данных `java.lang.Float` и `java.lang.Double` используйте `Float.compare` и `Double.compare`.
+
 ## Заключение
 
-Для сравнения объектов по значению необходимо переопределять метод `equals`, при этом выполняя требования к методу: рефлективность, симметричность, транзитивность, согласованность.
-Всегда с `equals` переопределяйте еще и `hashCode`.
+Для сравнения объектов по значению необходимо переопределять метод `equals`, при этом выполняя требования к методу: рефлексивности, симметричности, транзитивности и согласованности.
 
-* Помните о разнице `instanceOf` и `getClass` и выбирайте использование под задачу.
-* При работе с `float` и `double` помните о том, что существуют `Float.NaN`, поэтому для сравнения таких типов используйте специальные методы `Float.compare` и `Double.compare`.
+* Помните о разнице `instanceOf` и `getClass`, а также о подводных камнях при выборе того или иного способа проверки.
+* При работе с `float` и `double` помните о том, что существуют `NaN`, поэтому для сравнения таких типов используйте специальные методы `Float.compare` и `Double.compare`.
 * Для простых полей, кроме `double` и `float` используйте обычное сравнение через `==`.
 * Не забывайте, что очередность сравнения влияет на производительность, поэтому сначала сравниваем поля, которые чаще других могут быть различны.
-* Не забывайте, что метод принимает `java.lang.Object`, поэтому изменение сигнатуры метода - это не переопределение и о таком методе будете знать только вы.
+* Не забывайте, что метод принимает `java.lang.Object`, поэтому изменение сигнатуры метода - это не переопределение, а перегрузка.
 
     Объявление `equals` в виде
+
     ```java
     public boolean equals(MyClass obj) {
     // some logic
     }
     ```
-    Является ошибкой, так как этот метод **не переопределяет**(override) `equals` у `java.lang.Object`, а **перегружает**(overload) его.
+
+    Является ошибкой.
 
     Подробнее про [переопределение и перегрузку методов](../over-load-ride.md)
 
-> Помните, что большинство IDE сейчас легко сгенерируют вам `equals`, чтобы вы не писали его вручную.
->
-> Также, существуют сторонние проекты, которые берут кодогенерацию на себя, например, проект [lombok](https://projectlombok.org/).
-> 
-> Существуют и сторонние библиотеки, помогающие в вычислении `equals`, например [apache commons](https://commons.apache.org/).
+Всегда с `equals` переопределяйте еще и [hashCode](./hashcode.md).
 
+Помните, что большинство IDE сейчас легко сгенерируют вам `equals`, чтобы вы не писали его вручную.
+
+Также, существуют сторонние проекты, которые берут кодогенерацию на себя, например, проект [lombok](https://projectlombok.org/).
+Существуют и сторонние библиотеки, помогающие в вычислении `equals`, например [apache commons](https://commons.apache.org/).
 
 ## Полезные ссылки
 
