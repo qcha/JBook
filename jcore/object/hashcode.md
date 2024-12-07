@@ -411,3 +411,4 @@ public class Test {
 3. [Разбираемся с hashCode() и equals()](https://habr.com/ru/post/168195/)
 4. [What role does hashCode play when comparing two objects](https://stackoverflow.com/questions/29949305/what-role-does-hashcode-play-when-comparing-two-objects)
 5. [Java equals() and hashCode() Contracts](https://www.baeldung.com/java-equals-hashcode-contracts)
+6. [Effective Java 2nd Edition, Item 9: Always override hashCode when you override equals](https://www.amazon.com/dp/0321356683)
