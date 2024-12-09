@@ -50,7 +50,7 @@ public class Test {
 * [hashCode](hashcode.md)
 * [equals](equals.md)
 * [finalize](finalize.md)
-* [getClass](getClass.md)
+* [getClass](get_class.md)
 * `wait(long timeout)`
 * `notify()`
 * `notifyAll()`

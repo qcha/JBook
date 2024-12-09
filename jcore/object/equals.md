@@ -227,7 +227,7 @@ public boolean equals(Object obj) {
 
 Для этого существует метод `getClass`.
 
-Как работает [getClass](./getClass.md)?
+Как работает [getClass](./get_class.md)?
 Если коротко - то метод возвращает класс объекта.
 
 ```java

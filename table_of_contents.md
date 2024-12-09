@@ -43,7 +43,7 @@
 4. [hashcode](jcore/object/hashcode.md)
 5. [clone](jcore/object/clone.md)
 6. [finalize](jcore/object/finalize.md)
-7. [getClass](jcore/object/getClass.md)
+7. [getClass](jcore/object/get_class.md)
 
 #### ООП в Java
 
