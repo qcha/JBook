@@ -228,30 +228,31 @@ public int hashCode() {
 Правила вычисления:
 
 * Присваиваем переменной-аккумулятору (например, result) ненулевое значение - базу.
+
 * Далее для каждого значимого поля в объекте вычисляем `hashCode`, по следующим правилам:
 
     1. Если поле `boolean`:
 
          ```java
-         (f ? 1 : 0)
+            (f ? 1 : 0)
          ```
 
     2. Если поле `byte`, `char`, `short` или `int`:
 
          ```java
-         (int) f
+            (int) f
          ```
 
     3. Если поле `long`:
 
         ```java
-        (int)(f ^ (f >>> 32))
+            (int)(f ^ (f >>> 32))
         ```
 
     4. Если поле `float`:
 
         ```java
-        Float.floatToIntBits(f);
+            Float.floatToIntBits(f);
         ```
 
     5. Если поле `double`:
