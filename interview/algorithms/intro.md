@@ -1,5 +1,7 @@
 # Секция 'Алгоритмы и структуры данных'
 
+В этой секции собраны задачи на алгоритмы, структуры данных. Это leetcode-подобные задачи.
+
 ## Список задач
 
 * Новичок
@@ -40,7 +42,7 @@
 * [Объединить два отсортированных односвязанных списка](./easy/merge_two_sorted_linked_lists.md)
 * [Второй по минимальности элемент в массиве](./easy/second_minimum_element.md)
 * [Поиск длины наибольшей подстроки, в которой все буквы одинаковы](./easy/max_length_of_same_char.md)
-* [Sliding window с подсчетом минимального элемента в окне](./medium/sliding_window_with_min_element.md)
+* [Print Z](./easy/print_z.md)
 
 ### Средний уровень
 
@@ -51,9 +53,9 @@
 * [Максимальная вместимость контейнера с водой](./medium/container_with_most_water.md)
 * [Является ли число палиндромом](./medium/palindromic_integer.md)
 * [Развернуть число](./medium/reverse_integer.md)
-* [MyStringBuilder](./medium/mystring_builder_perfomance.md)
 * [Поиск двух чисел из отсортированного массива, в сумме дающих заданное число](./medium/two_sum.md)
 * [Поиск индексов двух чисел из отсортированного массива, в сумме дающих заданное число](./medium/two_sum_indices.md)
+* [Sliding window с подсчетом минимального элемента в окне](./medium/sliding_window_with_min_element.md)
 
 ### Сложный уровень
 
