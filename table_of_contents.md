@@ -17,14 +17,16 @@
 Советы и заметки для тех, кто только начинает работать с `Java`.
 
 0. [Общие советы](jcore/beginner/common_advices.md)
-1. [Когда надо и когда не надо использовать `static`](jcore/beginner/static_java.md)
-2. [Как надо и как не надо писать код](jcore/beginner/code_style.md)
-3. [Ключевое слово final](jcore/beginner/final.md)
-4. [Война с null](jcore/beginner/null_war.md)
-5. [Что такое Optional](jcore/beginner/optional.md)
-6. [Проверки и assert](jcore/beginner/assertions.md)
-7. [Подробно о Enum в Java](jcore/beginner/enum.md)
-8. [Comparable и Comparator](jcore/beginner/comparable_comparator.md)
+1. [Как надо и как не надо писать код](jcore/beginner/code_style.md)
+2. [Когда надо и когда не надо использовать `static`](jcore/beginner/static_java.md)
+3. [Override/Overload в Java](jcore/beginner/over-load-ride.md)
+4. [Связывание методов](jcore/beginner/early_late_binding.md)
+5. [Ключевое слово final](jcore/beginner/final.md)
+6. [Война с null](jcore/beginner/null_war.md)
+7. [Что такое Optional](jcore/beginner/optional.md)
+8. [Проверки и assert](jcore/beginner/assertions.md)
+9. [Подробно о Enum в Java](jcore/beginner/enum.md)
+10. [Comparable и Comparator](jcore/beginner/comparable_comparator.md)
 
 ### Объектно-ориентированное программирование
 
