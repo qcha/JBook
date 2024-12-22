@@ -28,6 +28,7 @@
 
 ### Новичок
 
+* [Все ли скобки закрыты](./beginner/bracers_finished.md)
 * [Высота бинарного дерева](./beginner/binary_tree_depth.md)
 * [Максимальная сумма значений ветки дерева](./beginner/binary_tree_max_sum.md)
 * [Обход дерева и сбор всех нод в коллекцию](./beginner/collect_all_tree_nodes.md)
