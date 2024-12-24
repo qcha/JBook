@@ -24,7 +24,7 @@
 
 ### Легкий уровень
 
---
+* [Concurrent increment](./easy/concurrent_increment.md)
 
 ### Средний уровень
 
