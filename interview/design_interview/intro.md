@@ -28,7 +28,7 @@
 
 ### Средний уровень
 
---
+* [URL Shorter like TinyURL](./medium/url_shorter.md)
 
 ### Сложный уровень
 
