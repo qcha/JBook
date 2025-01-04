@@ -289,3 +289,4 @@ GET /${short_link}
 4. [Design a URL Shortener - System Design Interview](https://blog.algomaster.io/p/design-a-url-shortener)
 5. [Сокращение URL-адресов (bit.ly, TinyURL и т. д.) – System Deisgn](https://www.geeksforgeeks.org/system-design-url-shortening-service/)
 6. [Designing a URL Shortening Service like TinyURL](https://www.designgurus.io/course-play/grokking-the-system-design-interview/doc/designing-a-url-shortening-service-like-tinyurl)
+7. [System Design. Подготовка к сложному интервью. Chapter 8](https://www.litres.ru/book/aleks-suy/system-design-podgotovka-k-slozhnomu-intervu-67193183/)
