@@ -45,6 +45,7 @@
 * [Второй по минимальности элемент в массиве](./easy/second_minimum_element.md)
 * [Поиск длины наибольшей подстроки, в которой все буквы одинаковы](./easy/max_length_of_same_char.md)
 * [Print Z](./easy/print_z.md)
+* [Is Subsequence](./easy/is_subsequence.md)
 
 ### Средний уровень
 
