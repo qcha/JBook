@@ -45,6 +45,6 @@
 
 Недопустимо использовать это в платных сервисах или взимать какую-либо плату за обучение по этим материалам.
 
-Copyright 2016-2024 Aleksandr Kuchuk.
+Copyright 2016-2025 Aleksandr Kuchuk.
 
 All Rights Reserved.
