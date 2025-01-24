@@ -10,6 +10,7 @@
     - [Assert](#assert)
       - [Механизм `assert` отключён по умолчанию](#механизм-assert-отключён-по-умолчанию)
       - [Тип исключения](#тип-исключения)
+      - [Использование assert](#использование-assert)
     - [Explicit checks](#explicit-checks)
       - [Guava](#guava)
       - [Apache Commons](#apache-commons)
