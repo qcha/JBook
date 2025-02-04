@@ -37,6 +37,7 @@
 
 ### Легкий уровень
 
+* [Maximum Ascending Subarray Sum](./easy/max_ascending_subarray_sum.md)
 * [Сбалансированность скобок](./easy/balanced_braces.md)
 * [Количество повторов символов в строке](./easy/count_letters.md)
 * [Сложение двух чисел представленных в виде списков](./easy/add_two_numbers.md)
