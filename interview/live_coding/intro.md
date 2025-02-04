@@ -28,6 +28,7 @@
 
 * [Итератор на файл](./easy/iterator_file.md)
 * [Итератор с предикатом](./easy/iterator_with_predicate.md)
+* [Print in Order](./easy/print_in_order.md)
 
 ### Средний уровень
 
