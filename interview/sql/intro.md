@@ -38,6 +38,7 @@
 * [Объединение нескольких таблиц](./beginner/join_three_tables.md)
 * [Найти рекомендателя клиента](./beginner/customer_referees.md)
 * [Бонусы работников](./beginner/employee_bonus.md)
+* [Средний опыт сотрудников на проекте](./beginner/average_experience_in_project.md)
 
 ### Легкий уровень
 
