@@ -39,11 +39,12 @@
 * [Найти рекомендателя клиента](./beginner/customer_referees.md)
 * [Бонусы работников](./beginner/employee_bonus.md)
 * [Средний опыт сотрудников на проекте](./beginner/average_experience_in_project.md)
+* [Пользователь с наибольшим количеством заказов](./beginner/customer_with_max_orders.md)
+* [Население стран](./beginner/country_population.md)
 
 ### Легкий уровень
 
 * [Сотрудники в отделе (сложнее)](./easy/department_employee.md)
-* [Пользователь с наибольшим количеством заказов](./easy/customer_with_max_orders.md)
 
 ### Средний уровень
 
