@@ -45,7 +45,6 @@
 * [Объединить два отсортированных односвязанных списка](./easy/merge_two_sorted_linked_lists.md)
 * [Второй по минимальности элемент в массиве](./easy/second_minimum_element.md)
 * [Поиск длины наибольшей подстроки, в которой все буквы одинаковы](./easy/max_length_of_same_char.md)
-* [Print Z](./easy/print_z.md)
 * [Is Subsequence](./easy/is_subsequence.md)
 
 ### Средний уровень
@@ -60,6 +59,8 @@
 * [Поиск двух чисел из отсортированного массива, в сумме дающих заданное число](./medium/two_sum.md)
 * [Поиск индексов двух чисел из отсортированного массива, в сумме дающих заданное число](./medium/two_sum_indices.md)
 * [Sliding window с подсчетом минимального элемента в окне](./medium/sliding_window_with_min_element.md)
+* [Print Z](./medium/print_z.md)
+* [Custom Sort String](./medium/custom_sort_string.md)
 
 ### Сложный уровень
 
