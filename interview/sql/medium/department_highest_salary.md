@@ -166,3 +166,55 @@ where
             department_id = e.department_id
     )
 ```
+
+### RANK
+
+Третьим решением является использование оконных функций, в данном случае `RANK()`.
+
+Оконные функции (не по определению, но на практике чаще всего) применяются на партицированные данные.
+
+Поэтому, выведем все необходимые для результата поля, а также добавим новое с элиасом `rnk`, в котором функция `RANK()` применяется на партицию по отделу с отсортированными в убывающем порядке зарплатами.
+
+```sql
+select 
+    d.name as department,
+    e.name as employee,
+    e.salary as salary,
+    rank() over (partition by d.id order by e.salary desc) as rnk
+from
+  employee e
+join
+  department d
+on
+  d.id = e.departmentId;
+```
+
+Как результат, в поле `rnk` значение 1 будет присвоено только тем работникам,зарплаты которых соответствуют максимальному значению зарплат по отделу (причем неважно, один ли работник получает максимальную зарплату в отделе, или несколько; если их несколько - у каждого поле `rnk` получит значение 1).
+
+Остается только отфильтровать записи, где `rnk = 1`.
+
+Итоговый запрос:
+
+```sql
+with cte as (
+  select 
+      d.name as department,
+      e.name as employee,
+      e.salary as salary,
+      rank() over (partition by d.id order by e.salary desc) as rnk
+  from
+    employee e
+  join
+    department d
+  on
+    d.id = e.departmentId
+)
+select
+  department,
+  employee,
+  salary
+from
+  cte
+where
+  rnk = 1;
+```
