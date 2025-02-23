@@ -320,7 +320,7 @@ public class Point {
 Теперь создадим класс-наследник, подкласс привносит немного информации, оказывающей влияние на процедуру сравнения:
 
 ```java
-public class CounteredPoint extends Point{
+public class CounteredPoint extends Point {
     private  static AtomicInteger counter = new AtomicInteger();
 
     public CounteredPoint(int x, int y) {
@@ -356,10 +356,10 @@ public class Main {
 
     public static void main(String[] args) {
         Point point = new Point(1, 0);
-        CounteredPoint colorPoint = new CounteredPoint(1, 0);
+        CounteredPoint counteredPoint = new CounteredPoint(1, 0);
 
         System.out.println(onUnitCircle(point));
-        System.out.println(onUnitCircle(colorPoint));
+        System.out.println(onUnitCircle(counteredPoint));
     }
 }
 ```
@@ -371,7 +371,7 @@ true
 false
 ```
 
-Несмотря на то, что обе точки по сути своей находятся в списке `unitCircle`, но colorPoint была не найдена.
+Несмотря на то, что обе точки по сути своей находятся в списке `unitCircle`, но counteredPoint была не найдена.
 
 Получается, что текущая реализация нарушает [Liskov substitution principle](../../patterns/SOLID.md#liskov-substitution-principle):
 
