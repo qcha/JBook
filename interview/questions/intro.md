@@ -21,6 +21,7 @@
 ### Новичок
 
 * [Как можно создать объект в Java?](./beginner/how_to_create_object.md)
+* [Иерархия исключений](./beginner/exception_hierarchy.md)
 
 ### Легкий уровень
 
