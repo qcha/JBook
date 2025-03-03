@@ -134,6 +134,8 @@
 
 ## Решение
 
+### Асимптотика алгоритма (для задач на алгоритмы)
+
 ```
 
 Пример: [move_zeroes.md](./interview/algorithms/beginner/move_zeroes.md)
