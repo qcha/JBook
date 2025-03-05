@@ -47,6 +47,7 @@
 * [Поиск длины наибольшей подстроки, в которой все буквы одинаковы](./easy/max_length_of_same_char.md)
 * [Is Subsequence](./easy/is_subsequence.md)
 * [Середина односвязного списка](./easy/middle_of_linked_list.md)
+* [Palindrome Linked List](./easy/palindrome_linked_list.md)
 
 ### Средний уровень
 
