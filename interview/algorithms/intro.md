@@ -48,6 +48,7 @@
 * [Is Subsequence](./easy/is_subsequence.md)
 * [Середина односвязного списка](./easy/middle_of_linked_list.md)
 * [Palindrome Linked List](./easy/palindrome_linked_list.md)
+* [Valid Anagram](./easy/valid_anagram.md)
 
 ### Средний уровень
 
