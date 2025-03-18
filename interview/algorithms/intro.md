@@ -49,6 +49,7 @@
 * [Середина односвязного списка](./easy/middle_of_linked_list.md)
 * [Palindrome Linked List](./easy/palindrome_linked_list.md)
 * [Valid Anagram](./easy/valid_anagram.md)
+* [Reverse Linked List](./easy/reverse_linked_list.md)
 
 ### Средний уровень
 
