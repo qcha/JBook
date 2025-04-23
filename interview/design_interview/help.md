@@ -455,7 +455,7 @@ System Design Interview - это один из видов собеседован
 
 Рекомендую для начала посмотреть статью [Олега Стрекаловского - Приручая System Design Interview. Как его организовать и как к нему подготовиться](https://habr.com/ru/articles/698734/), где он дает ссылки на многие интересные собеседования (и дает оценку им).
 
-Я бы для подготовки посоветовал посмотреть прежде всего Евгений Афанасьева:
+Я бы для подготовки посоветовал посмотреть прежде всего Евгения Афанасьева:
 
 * [Евгений Афанасьев - System Design LeetCode / TeamLead Avito](https://www.youtube.com/watch?v=eRUHvOJsGwk)
 * [Евгений Афанасьев - System Design Youtube / TeamLead Avito](https://www.youtube.com/watch?v=L9Lt0KEPcDc)
