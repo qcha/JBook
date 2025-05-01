@@ -135,3 +135,31 @@ public class CloneTest implements Cloneable {
 Данный способ в современном мире используется редко, так как имеет множество подводных камней (как, например, deep clone и т.д.).
 
 Более подробно про [clone](../../../jcore/object/clone.md)
+
+### Unsafe
+
+С помощью `sun.misc.Unsafe` (или `jdk.internal.misc.Unsafe` в более новых версиях) можно создать объект в `Java` без вызова конструктора.
+
+```java
+import sun.misc.Unsafe;
+import java.lang.reflect.Field;
+
+public class Main {
+    static class MyClass {
+        private MyClass() {
+            System.out.println("Constructor called!");
+        }
+    }
+
+    public static void main(String[] args) throws Exception {
+        Field f = Unsafe.class.getDeclaredField("theUnsafe");
+        f.setAccessible(true);
+        Unsafe unsafe = (Unsafe) f.get(null);
+
+        MyClass obj = (MyClass) unsafe.allocateInstance(MyClass.class);
+        System.out.println("Object created without constructor: " + obj);
+    }
+}
+```
+
+Но надо помнить, что в последних версиях возможности Unsafe все больше ограничиваются.
