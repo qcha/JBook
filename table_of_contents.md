@@ -188,8 +188,8 @@
 
 ## Подготовка к собеседованиям
 
+- [Вопросы с собеседований](interview/questions/intro.md)
 - [Секция 'Алгоритмы и структуры данных'](interview/algorithms/intro.md)
-- [Секция Core Programming](interview/core/intro.md)
 - [Секция SQL Interview](interview/sql/intro.md)
 - [Секция Design Interview](interview/design_interview/intro.md)
 - [Секция Code Review](interview/code_review/intro.md)
