@@ -149,11 +149,12 @@
 
 #### Поведенческие
 
---
+- [Iterator](patterns/programming/behavioral/iterator.md)
+- [Strategy](patterns/programming/behavioral/strategy.md)
 
 #### Структурные
 
---
+- [Decorator](patterns/programming/structural/decorator.md)
 
 ## Сериализация
 
@@ -180,7 +181,9 @@
 
 - [Сортировка пузырьком. Bubble Sort](algorithms/sorting/bubble.md)
 - [Сортировка простыми вставками. Insertion Sort](algorithms/sorting/insertion.md)
-- [Сортировка слиянием. Merge Sort](algorithms/sorting/insertion.md)
+- [Сортировка слиянием. Merge Sort](algorithms/sorting/merge.md)
+- [Быстрая сортировка. Quick Sort](algorithms/sorting/quick.md)
+- [Сортировка выбором. Selection Sort](algorithms/sorting/selection.md)
 
 ## Общая информация и кругозор
 
