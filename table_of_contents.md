@@ -1,199 +1,61 @@
 # Путеводитель по JBook
 
-- [JCore](#jcore)
-- [Логирование](#логирование)
-- [Системы сборки](#системы-сборки)
-- [Паттерны](#паттерны)
-- [Сериализация](#сериализация)
-- [Web и все-все-все](#web-и-все-все-все)
-- [Алгоритмы и структуры данных](#алгоритмы-и-структуры-данных)
-- [Общая информация и кругозор](#общая-информация-и-кругозор)
-- [Подготовка к собеседованиям](#подготовка-к-собеседованиям)
+## 🧠 Алгоритмы и структуры данных
 
-## JCore
+- [Навигация по разделу](./algorithms/toc.md) - Table of Contents
+- [Алгоритмы поиска](./algorithms/toc.md#алгоритмы-поиска) - Раздел алгоритмов поиска
+- [Алгоритмы сортировки](./algorithms/toc.md#алгоритмы-сортировки) - Раздел алгоритмов сортировки
 
-### Надо знать новичку
+## ☕ Раздел 'Java Core'
 
-Советы и заметки для тех, кто только начинает работать с `Java`.
+- [Навигация по разделу](./jcore/toc.md) - Table of Contents
+- [Для начинающих](./jcore/toc.md#надо-знать-новичку) - Раздел для начинающих
+- [Объектно-ориентированное программирование в Java](./jcore/toc.md#объектно-ориентированное-программирование) - ООП в Java
+- [Исключения в Java](./jcore/toc.md#исключения-в-java) - Исключения в Java и как с ними работать
+- [Коллекции в Java](./jcore/toc.md#коллекции-в-java) - Все о коллекциях в Java
+- [Java Reflection](./jcore/toc.md#java-reflection) - Рефлексия
+- [Garbage Collectors](./jcore/toc.md#gc) - Сборщики мусора
+- [Class Loading](./jcore/toc.md#загрузка-классов) - Загрузка классов
+- [Ссылки в Java](./jcore/toc.md#ссылки-в-java) - Ссылки и работа с ними
+- [Java Concurrency](./jcore/toc.md#java-concurrency) - Многопоточность в Java
 
-0. [Общие советы](jcore/beginner/common_advices.md)
-1. [Как надо и как не надо писать код](jcore/beginner/code_style.md)
-2. [Когда надо и когда не надо использовать `static`](jcore/beginner/static_java.md)
-3. [Override/Overload в Java](jcore/beginner/over-load-ride.md)
-4. [Связывание методов](jcore/beginner/early_late_binding.md)
-5. [Ключевое слово final](jcore/beginner/final.md)
-6. [Война с null](jcore/beginner/null_war.md)
-7. [Что такое Optional](jcore/beginner/optional.md)
-8. [Проверки и assert](jcore/beginner/assertions.md)
-9. [Подробно о Enum в Java](jcore/beginner/enum.md)
-10. [Comparable и Comparator](jcore/beginner/comparable_comparator.md)
+## Раздел 'Логирование'
 
-### Объектно-ориентированное программирование
+- [Навигация по разделу](./logging/toc.md)
 
-Заметки про `ООП`, зачем нужно, что включает в себя и как это использовать.
+## Раздел 'Сериализация данных'
 
-#### java.lang.Object
+- [Навигация по разделу](./serialization/toc.md)
+- [Бинарная сериализация в Java](./serialization/binary/binary.md)
 
-Раздел о `java.lang.Object` - корне иерархии классов в `Java`.
+## 🧩 Раздел 'Паттерны разработки'
 
-Все о главном классе в `Java` и его методах.
+- [Навигация по разделу](./patterns/toc.md)
+- [Общие паттерны](./patterns/toc.md#общие-паттерны)
+- [Паттерны 'Архитектура и дизайн систем'](./patterns/toc.md#архитектура-и-дизайн-систем)
+- [Паттерны 'Архитектура проектов и модулей'](./patterns/toc.md#архитектура-проектов-и-модулей)
+- [Паттерны Программирования](./patterns/toc.md#программирования)
 
-1. [java.lang.Object](jcore/object/intro.md)
-2. [toString](jcore/object/to_string.md)
-3. [equals](jcore/object/equals.md)
-4. [hashcode](jcore/object/hashcode.md)
-5. [clone](jcore/object/clone.md)
-6. [finalize](jcore/object/finalize.md)
-7. [getClass](jcore/object/get_class.md)
+## 🛠️ Раздел 'Системы сборки в Java'
 
-#### ООП в Java
+- [Навигация по разделу](./build/toc.md)
 
-1. [Введение в ООП](jcore/oop/intro.md)
-2. [Инкапсуляция](jcore/oop/encapsulation.md)
-3. [Наследование](jcore/oop/inheritance.md)
-4. [Понятие интерфейса](jcore/oop/interface.md)
-5. [Понятие абстрактного класса](jcore/oop/abstract_class.md)
-6. [Абстрактные классы и интерфейсы](jcore/oop/abstract_vs_interface.md)
-7. [Подробно о this и super в Java](jcore/oop/this_super.md)
+## Раздел 'Web-разработка'
 
-### Исключения в Java
-
-Важнейшая тема при работе с ЯП `Java`.
-
-Исключения и все о работе с ними.
-
-1. [Исключения в Java](jcore/exceptions/exceptions.md)
-2. [Вопросы для проверки по теме исключений](jcore/exceptions/questions.md)
-
-### Коллекции в Java
-
-Все про коллекции в `Java` и `Generics`.
-
-1. [Введение](jcore/collections/intro.md)
-2. [java.util.List](jcore/collections/list/intro.md)
-    - [java.util.ArrayList](jcore/collections/list/array_list.md)
-    - [java.util.LinkedList](jcore/collections/list/linked_list.md)
-3. [java.util.Set](jcore/collections/set/intro.md)
-    - [java.util.HashSet](jcore/collections/set/hash_set.md)
-    - [java.util.LinkedHashSet](jcore/collections/set/linked_hash_set.md)
-    - [java.util.TreeSet](jcore/collections/set/tree_set.md)
-4. [java.util.Map](jcore/collections/map/intro.md)
-    - [java.util.HashMap](jcore/collections/map/hash_map.md)
-    - [java.util.LinkedHashMap](jcore/collections/map/linked_hash_map.md)
-    - [java.util.TreeMap](jcore/collections/map/tree_map.md)
-5. [Generics](jcore/collections/generics/generics.md)
-
-### Java Reflection
-
-- [Аннотации](jcore/reflection/annotations.md)
-
-### GC
-
-- [Garbage Collector](jcore/garbage_collector.md)
-
-### Загрузка классов
-
-Все про загрузчики, порядок инициализации полей при загрузке и т.д.
-
-1. [Загрузчики классов](jcore/class_loading.md)
-2. [Порядок инициализации полей класса](jcore/beginner/order_of_loading.md)
-
-### Ссылки в Java
-
-  1. [Ссылки в Java](jcore/reference.md)
-
-### Java Concurrency
-
-Многопоточность в `Java`.
-
-1. [Введение в Concurrency Java](jcore/concurrency/intro.md)
-
-## Логирование
-
-- [Общая информация про логирование в Java](logging/logging.md)
-
-## Системы сборки
-
-  Системы сборки в мире `Java`, структура и использования.
-
-  1. [Работа с ресурсами приложения](build/resources.md)
-
-## Паттерны
-
-### Общие паттерны
-
-- [SOLID](patterns/SOLID.md)
-
-### Архитектурные и дизайн систем
-
-Архитектурные паттерны про дизайн систем.
-
---
-
-### Архитектура проектов и модулей
-
-Организация кодовой базы на уровне модуля/проекта.
-
---
-
-### Программирования
-
-Паттерны программирования (GoF и подобные).
-
-#### Порождающие
-
-- [Builder](patterns/programming/creational/builder.md)
-- [Factory Method](patterns/programming/creational/factory_method.md)
-- [Abstract Factory](patterns/programming/creational/abstract_factory.md)
-- [Singleton](patterns/programming/creational/singleton.md)
-
-#### Поведенческие
-
-- [Iterator](patterns/programming/behavioral/iterator.md)
-- [Strategy](patterns/programming/behavioral/strategy.md)
-
-#### Структурные
-
-- [Decorator](patterns/programming/structural/decorator.md)
-
-## Сериализация
-
-Сериализация - что это и с чем ее едят в `Java`.
-
-- [Введение](serialization/intro.md)
-- [Binary Serialization in Java](serialization/binary/binary.md)
-
-## Web и все-все-все
-
-Все про web-разработку и все что с ней связано.
-
-- [Про HTTP 1.1](web/http/http_11.md)
-
-## Алгоритмы и структуры данных
-
-Все что касается алгоритмов и их реализаций на `Java`.
-
-### Алгоритмы поиска
-
-- [Бинарный поиск](algorithms/search/binary.md)
-
-### Алгоритмы сортировки
-
-- [Сортировка пузырьком. Bubble Sort](algorithms/sorting/bubble.md)
-- [Сортировка простыми вставками. Insertion Sort](algorithms/sorting/insertion.md)
-- [Сортировка слиянием. Merge Sort](algorithms/sorting/merge.md)
-- [Быстрая сортировка. Quick Sort](algorithms/sorting/quick.md)
-- [Сортировка выбором. Selection Sort](algorithms/sorting/selection.md)
+- [Навигация по разделу](./web/toc.md)
+- [Протоколы](./web/toc.md#протоколы)
 
 ## Общая информация и кругозор
 
-- [Кодировки](other/encoding.md)
+- [Навигация по разделу](./other/toc.md)
+- [Кодировки](./other/toc.md#кодировки)
 
-## Подготовка к собеседованиям
+## 🎓 Подготовка к собеседованиям
 
-- [Вопросы с собеседований](interview/questions/intro.md)
-- [Секция 'Алгоритмы и структуры данных'](interview/algorithms/intro.md)
-- [Секция SQL Interview](interview/sql/intro.md)
-- [Секция Design Interview](interview/design_interview/intro.md)
-- [Секция Code Review](interview/code_review/intro.md)
-- [Секция Live Coding](interview/live_coding/intro.md)
+- [Навигация по разделу](./interview/toc.md)
+- [Вопросы с собеседований](./questions/intro.md)
+- [Секция 'Алгоритмы и структуры данных'](./algorithms/intro.md)
+- [Секция SQL Interview](./sql/intro.md)
+- [Секция Design Interview](./design_interview/intro.md)
+- [Секция Code Review](./code_review/intro.md)
+- [Секция Live Coding](./live_coding/intro.md)
