@@ -53,9 +53,9 @@
 ## 🎓 Подготовка к собеседованиям
 
 - [Навигация по разделу](./interview/toc.md)
-- [Вопросы с собеседований](./questions/intro.md)
-- [Секция 'Алгоритмы и структуры данных'](./algorithms/intro.md)
-- [Секция SQL Interview](./sql/intro.md)
-- [Секция Design Interview](./design_interview/intro.md)
-- [Секция Code Review](./code_review/intro.md)
-- [Секция Live Coding](./live_coding/intro.md)
+- [Вопросы с собеседований](./interview/questions/intro.md)
+- [Секция 'Алгоритмы и структуры данных'](./interview/algorithms/intro.md)
+- [Секция SQL Interview](./interview/sql/intro.md)
+- [Секция Design Interview](./interview/design_interview/intro.md)
+- [Секция Code Review](./interview/code_review/intro.md)
+- [Секция Live Coding](./interview/live_coding/intro.md)
