@@ -1,4 +1,4 @@
-# 4Sum
+# Remove Element
 
 Задача с [LeetCode](https://leetcode.com/problems/remove-element/description/).
 
