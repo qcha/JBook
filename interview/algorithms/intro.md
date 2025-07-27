@@ -50,6 +50,7 @@
 * [Palindrome Linked List](./easy/palindrome_linked_list.md)
 * [Valid Anagram](./easy/valid_anagram.md)
 * [Reverse Linked List](./easy/reverse_linked_list.md)
+* [LeetCode 27. Remove Element](./easy/remove_element.md)
 
 ### Средний уровень
 
