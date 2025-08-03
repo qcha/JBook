@@ -51,6 +51,7 @@
 * [Valid Anagram](./easy/valid_anagram.md)
 * [Reverse Linked List](./easy/reverse_linked_list.md)
 * [LeetCode 27. Remove Element](./easy/remove_element.md)
+* [LeetCode 26. Remove Duplicates from Sorted Array](./easy/remove_duplicates_from_sorted_array.md)
 
 ### Средний уровень
 
