@@ -45,6 +45,7 @@
 ### Легкий уровень
 
 * [Сотрудники в отделе (сложнее)](./easy/department_employee.md)
+* [Индекс в where](./easy/index_where.md)
 
 ### Средний уровень
 
