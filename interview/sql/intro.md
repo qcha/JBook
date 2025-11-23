@@ -55,6 +55,7 @@
 * [Сотрудники с самыми большими зарплатами в отделах](./medium/department_highest_salary.md)
 * [Авиаперелеты для бизнес класса](./medium/flight_comfort_not_business.md)
 * [Студенты и оценки](./medium/student_marks.md)
+* [Заказы в маркетплейсе](./medium/marketplace_orders.md)
 
 ### Сложный уровень
 
