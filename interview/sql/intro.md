@@ -48,6 +48,7 @@
 * [Индекс в where](./easy/index_in_where.md)
 * [Index и select all](./easy/index_select_all.md)
 * [Leetcode 1407. Top Travellers](./easy/top_travellers.md)
+* [Общая стоимость курсов для студентов](./easy/courses_price.md)
 
 ### Средний уровень
 
