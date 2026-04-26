@@ -34,6 +34,7 @@
 * [Обход дерева и сбор всех нод в коллекцию](./beginner/collect_all_tree_nodes.md)
 * [Передвинуть нули в конец массива](./beginner/move_zeroes.md)
 * [Группировка слов, состоящих из одних и тех же букв](./beginner/group_words.md)
+* [Missing Number](./beginner/missing_number.md)
 
 ### Легкий уровень
 
