@@ -49,6 +49,9 @@
 * [Index и select all](./easy/index_select_all.md)
 * [Leetcode 1407. Top Travellers](./easy/top_travellers.md)
 * [Общая стоимость курсов для студентов](./easy/courses_price.md)
+* [Средний возраст покупателей часов smartwatch](./easy/customer_avg_age.md)
+* [Работающие склады по городам](./easy/warehouse_opened.md)
+* [Количество задач сотрудника](./easy/employee_tasks.md)
 
 ### Средний уровень
 
