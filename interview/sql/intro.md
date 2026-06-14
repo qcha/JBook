@@ -59,6 +59,7 @@
 * [Авиаперелеты для бизнес класса](./medium/flight_comfort_not_business.md)
 * [Студенты и оценки](./medium/student_marks.md)
 * [Заказы в маркетплейсе](./medium/marketplace_orders.md)
+* [Индексы на employee](./medium/employee_index.md)
 
 ### Сложный уровень
 
