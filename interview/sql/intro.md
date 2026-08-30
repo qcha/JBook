@@ -52,6 +52,7 @@
 * [Средний возраст покупателей часов smartwatch](./easy/customer_avg_age.md)
 * [Работающие склады по городам](./easy/warehouse_opened.md)
 * [Количество задач сотрудника](./easy/employee_tasks.md)
+* [Порядок выполнения SQL запроса](./easy/query_execution_order.md)
 
 ### Средний уровень
 
